@@ -2,21 +2,30 @@
 #include <string>
 #include <iostream>
 
+#include <vector>
+
+using namespace std;
+
 void Grid::setXY(int x, int y) {
 	dx = x * (GRID_WIDTH + 1) + 1;
 	dy = y * (GRID_HEIGHT + 1) + 1;
  
 }
 
-bool Grid::setPiece(Piece* iPiece) {
-	if (piece != nullptr) return false;
-	else {
-		piece = iPiece;
-		flag_refresh = true;
-		return true;
-	}
 
+bool Grid::setPiece(Piece* iPiece) {
+	pieces.push_back(iPiece);
+	flag_refresh = true;
+	return true;
 }
+
+/*
+void Grid::delPiece(Piece* ipiece) {
+	delete ipiece;
+	piece = nullptr;
+	flag_refresh = true;
+}
+*/
 
 void Grid::paint() {
 	flag_refresh = false;
@@ -41,9 +50,9 @@ void Grid::paint() {
 		PrintWithColor("+" + str + "+");
 	}
 
-	if (piece != nullptr) {
+	if (pieces.size() > 0) {
 		Goto_XY(dx + 1, dy + GRID_HEIGHT / 2 - 1);
-		piece->printPiece();
+		pieces[0]->printPiece();
 	}
 }
 

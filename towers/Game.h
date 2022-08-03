@@ -4,6 +4,8 @@
 #include "Store.h"
 #include "Piece.h"
 
+#include<list>
+
 class Game {
 	Board board;
 	Store store;
@@ -18,4 +20,5 @@ public:
 	Game();
 	void init();
 	void loop();
+	void movePieces();
 };

@@ -63,7 +63,6 @@ void Game::building() {
 Game::Game()
 {
 	HideCursor();
-	//printf("\e[?25l");
 	SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 

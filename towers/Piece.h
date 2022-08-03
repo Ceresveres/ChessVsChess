@@ -3,21 +3,25 @@
 #include <string>
 
 class Game;
-class Grid;
-
+class Board;
 class Piece {
 protected:
 	string name;
 	int x, y;
+	int counter = 0;
 	void init(const string& iname) {
 		name = iname;
 	}
 
-	friend class Grid;
+	//friend class Grid;
 
 public:
 	void setXY(int ix, int iy) { x = ix; y = iy; }
 	void printPiece();
+	bool move(Board& board);
+
+	friend class Game;
+	friend class Grid;
 };
 
 class Pawn :public Piece {

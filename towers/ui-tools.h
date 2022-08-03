@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int GRID_NUM_Y = 8;
+const int GRID_NUM_Y = 5;
 const int GRID_HEIGHT = 4;
 
 const int GRID_NUM_X = 8;
@@ -17,3 +17,5 @@ void SetWindowSize(int cols, int lines);
 void HideCursor();
 void Goto_XY(const int x, const int y);
 void PrintWithColor(const string& str, int colorID=FOREGROUND_RED);
+
+enum EnemyType {basic};
