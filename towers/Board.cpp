@@ -14,18 +14,25 @@ void Grid::setXY(int x, int y) {
 
 
 bool Grid::setPiece(Piece* iPiece) {
-	pieces.push_back(iPiece);
-	flag_refresh = true;
-	return true;
+	if (piece != nullptr) return false;
+	else {
+		piece = iPiece;
+		flag_refresh = true;
+		return true;
+	}
 }
 
-/*
+void Grid::addInvader(Invader* iInvader) {
+	invaders.push_back(iInvader);
+	flag_refresh = true;
+}
+
 void Grid::delPiece(Piece* ipiece) {
 	delete ipiece;
 	piece = nullptr;
 	flag_refresh = true;
 }
-*/
+
 
 void Grid::paint() {
 	flag_refresh = false;
@@ -50,9 +57,14 @@ void Grid::paint() {
 		PrintWithColor("+" + str + "+");
 	}
 
-	if (pieces.size() > 0) {
+	if (piece != nullptr) {
 		Goto_XY(dx + 1, dy + GRID_HEIGHT / 2 - 1);
-		pieces[0]->printPiece();
+		piece->printPiece();
+	}
+
+	if (invaders.size() != 0) {
+		Goto_XY(dx + 1, dy + GRID_HEIGHT / 2 - 2);
+		cout << "sup";
 	}
 }
 

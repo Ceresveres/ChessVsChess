@@ -5,6 +5,7 @@ void Piece::printPiece() {
 	PrintWithColor(name);
 }
 
+/*
 bool Piece::move(Board& board) {
 	counter += 10;
 	if (counter >= 10) {
@@ -16,3 +17,4 @@ bool Piece::move(Board& board) {
 		counter = 0;
 	}
 }
+*/

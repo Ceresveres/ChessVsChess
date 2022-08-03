@@ -68,11 +68,20 @@ Game::Game()
 
 void Game::loop() {
 	bool state = true;
+	addInvader();
 	while (state) {
 		building();
 		board.refresh();
 		Sleep(100);
 	}
+}
+
+void Game::addInvader() {
+	Invader* newInvader = nullptr;
+	newInvader = new Invader();
+	newInvader->setXY(5, 2);
+	board.grid[5][2].addInvader(newInvader);
+	invaders.push_back(newInvader);
 }
 
 void Game::init()

@@ -33,6 +33,9 @@
     <ClCompile Include="Store.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Invader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Store.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Invader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

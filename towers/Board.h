@@ -1,6 +1,7 @@
 #pragma once
 #include "ui-tools.h"
 #include "Piece.h"
+#include "Invader.h"
 
 #include <vector>
 
@@ -9,8 +10,8 @@ using namespace std;
 class Game;
 class Grid {
 	int dx, dy;
-	////Piece* piece = {};
-	vector<Piece*> pieces = {};
+	Piece* piece = {};
+	vector<Invader*> invaders = {};
 	bool selected;
 	bool flag_refresh;
 public:
@@ -18,7 +19,8 @@ public:
 	void setXY(int x, int y);
 	void paint();
 	bool setPiece(Piece* piece);
-	//void delPiece(Piece* ipiece);
+	void delPiece(Piece* ipiece);
+	void addInvader(Invader* iInvader);
 	void setSelected() { selected = true; flag_refresh = true; }
 	void setUnSelected() { selected = false; flag_refresh = true; }
 

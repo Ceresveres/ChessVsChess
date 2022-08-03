@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Invader.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Store.cpp" />
     <ClCompile Include="towers.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Invader.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="ui-tools.h" />
