@@ -8,6 +8,7 @@
 using namespace std;
 
 class Game;
+class Invader;
 class Grid {
 	int dx, dy;
 	Piece* piece = {};
@@ -18,9 +19,12 @@ public:
 	Grid() { selected = false; flag_refresh = false; }
 	void setXY(int x, int y);
 	void paint();
+	void judgeAttacking();
+	void attackPiece(int attack);
 	bool setPiece(Piece* piece);
-	void delPiece(Piece* ipiece);
+	void delPiece();
 	void addInvader(Invader* iInvader);
+	void delInvader(Invader* iInvader);
 	void setSelected() { selected = true; flag_refresh = true; }
 	void setUnSelected() { selected = false; flag_refresh = true; }
 
@@ -36,14 +40,15 @@ public:
 	void printBoard();
 	void refresh();
 	bool setPiece(int ix, int iy, char type);
+	bool travGrid(Game& game);
 
 	friend class Game;
-	friend class Enemy;
-	friend class Piece;
+	friend class Invader;
+//	friend class Piece;
 	friend class Pawn;
-	friend class Rook;
-	friend class Knight;
-	friend class Bishop;
-	friend class King;
-	friend class Queen;
+//	friend class Rook;
+//	friend class Knight;
+//	friend class Bishop;
+//	friend class King;
+//	friend class Queen;
 };

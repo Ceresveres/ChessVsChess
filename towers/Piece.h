@@ -3,12 +3,14 @@
 #include <string>
 
 class Game;
-class Board;
+class Grid;
 class Piece {
 protected:
 	string name;
 	int x, y;
 	int counter = 0;
+	int HP = 100;
+	bool isAttacking;
 	void init(const string& iname) {
 		name = iname;
 	}
@@ -18,7 +20,9 @@ protected:
 public:
 	void setXY(int ix, int iy) { x = ix; y = iy; }
 	void printPiece();
-	bool move(Board& board);
+	//void go(Game& game);
+	//bool move(Board& board);
+	virtual void go(Game& nowGame) {}
 
 	friend class Game;
 	friend class Grid;
@@ -29,9 +33,11 @@ public:
 	Pawn() {
 		init("PW");
 	}
+	void go(Game& game);
 
 };
 
+/*
 class Knight :public Piece {
 public:
 	Knight() {
@@ -71,3 +77,4 @@ public:
 	}
 
 };
+*/

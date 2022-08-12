@@ -39,19 +39,19 @@ void Game::building() {
 			board.setPiece(x, y, ch);
 			break;
 		case '2':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
 			break;
 		case '3':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
 			break;
 		case '4':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
 			break;
 		case '5':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
 			break;
 		case '6':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
 			break;
 		default:
 			break;
@@ -68,20 +68,45 @@ Game::Game()
 
 void Game::loop() {
 	bool state = true;
-	addInvader();
+	addInvader(5, 2);
 	while (state) {
 		building();
+		board.travGrid(*this);
+		if (moveInvader()) break;
+		clearInvader();
 		board.refresh();
 		Sleep(100);
 	}
 }
 
-void Game::addInvader() {
+void Game::addInvader(int x, int y) {
 	Invader* newInvader = nullptr;
 	newInvader = new Invader();
-	newInvader->setXY(5, 2);
-	board.grid[5][2].addInvader(newInvader);
+	newInvader->setXY(x, y);
+	board.grid[x][y].addInvader(newInvader);
 	invaders.push_back(newInvader);
+}
+
+bool Game::moveInvader()
+{
+	for (auto& var : invaders) {
+		if (var->move(board))
+			return true;
+	}
+	return false;
+}
+
+void Game::clearInvader() {
+	for (auto list = invaders.begin(); list != invaders.end();) {
+		if ((*list)->HP <= 0) {
+			board.grid[(*list)->x][(*list)->y].delInvader(*list);
+			delete (*list);
+			list = invaders.erase(list);
+		}
+		else {
+			list++;
+		}
+	}
 }
 
 void Game::init()

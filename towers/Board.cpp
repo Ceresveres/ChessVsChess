@@ -1,6 +1,7 @@
 #include "Board.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 #include <vector>
 
@@ -22,17 +23,46 @@ bool Grid::setPiece(Piece* iPiece) {
 	}
 }
 
+void Grid::delPiece() { 
+	delete piece; 
+	piece = nullptr; 
+	flag_refresh = true;
+}
+
 void Grid::addInvader(Invader* iInvader) {
 	invaders.push_back(iInvader);
 	flag_refresh = true;
 }
 
-void Grid::delPiece(Piece* ipiece) {
-	delete ipiece;
-	piece = nullptr;
+void Grid::delInvader(Invader* iInvader) {
+	invaders.erase(remove(invaders.begin(), invaders.end(), iInvader), invaders.end());
 	flag_refresh = true;
 }
 
+void Grid::attackPiece(int attack)
+{
+	if (piece != nullptr) {
+		piece->HP -= attack;
+		if (piece->HP <= 0) {
+			delPiece();
+		}
+		flag_refresh = true;
+	}
+}
+
+void Grid::judgeAttacking()
+{
+	if (piece != nullptr && invaders.size() != 0) {
+		for (auto& var : invaders) {
+			var->attacking = true;
+		}
+	}
+	else if (piece == nullptr && invaders.size() != 0) {
+		for (auto& var : invaders) {
+			var->attacking = false;
+		}
+	}
+}
 
 void Grid::paint() {
 	flag_refresh = false;
@@ -68,6 +98,19 @@ void Grid::paint() {
 	}
 }
 
+bool Board::travGrid(Game& game)
+{
+	for (int i = 0; i < GRID_NUM_X; i++) {
+		for (int j = 0; j < GRID_NUM_Y; j++) {
+			grid[i][j].judgeAttacking();
+			if (grid[i][j].piece != nullptr) {
+				grid[i][j].piece->go(game);
+			}
+		}
+	}
+	return true;
+}
+
 bool Board::setPiece(int ix, int iy, char type) {
 	Piece* newPiece = nullptr;
 	switch (type) {
@@ -75,19 +118,19 @@ bool Board::setPiece(int ix, int iy, char type) {
 		newPiece = new Pawn;
 		break;
 	case '2':
-		newPiece = new Rook;
+	//	newPiece = new Rook;
 		break;
 	case '3':
-		newPiece = new Knight;
+	//	newPiece = new Knight;
 		break;
 	case '4':
-		newPiece = new Bishop;
+	//	newPiece = new Bishop;
 		break;
 	case '5':
-		newPiece = new King;
+	//	newPiece = new King;
 		break;
 	case '6':
-		newPiece = new Queen;
+	//	newPiece = new Queen;
 		break;
 	}
 	newPiece->setXY(ix, iy);
