@@ -39,10 +39,10 @@ void Game::building() {
 			board.setPiece(x, y, ch);
 			break;
 		case '2':
-			//board.setPiece(x, y, ch);
+			board.setPiece(x, y, ch);
 			break;
 		case '3':
-			//board.setPiece(x, y, ch);
+			board.setPiece(x, y, ch);
 			break;
 		case '4':
 			//board.setPiece(x, y, ch);
@@ -74,7 +74,9 @@ void Game::loop() {
 		board.travGrid(*this);
 		if (moveInvader()) break;
 		clearInvader();
+		moveBullet();
 		board.refresh();
+		printBullet();
 		Sleep(100);
 	}
 }
@@ -85,6 +87,33 @@ void Game::addInvader(int x, int y) {
 	newInvader->setXY(x, y);
 	board.grid[x][y].addInvader(newInvader);
 	invaders.push_back(newInvader);
+}
+
+void Game::addBullet(Bullet* p) {
+	bullets.push_back(p);
+}
+
+void Game::printBullet() {
+	for (auto const& var: bullets) {
+		var->print();
+	}
+}
+
+void Game::moveBullet() {
+	for (auto const& var : bullets) {
+		var->move(board);
+	}
+	
+	for (auto list = bullets.begin(); list != bullets.end(); ) {
+		if ((*list)->hit) {
+			//delete list element
+			delete *list;
+			list = bullets.erase(list);
+		}
+		else {
+			list++;
+		}
+	}
 }
 
 bool Game::moveInvader()

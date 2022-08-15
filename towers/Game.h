@@ -23,15 +23,20 @@ class Game {
 	void building();
 	void openFocus();
 	bool moveInvader();
-
+	void printBullet();
+	void moveBullet();
+	void addInvader(int x, int y);
+	void clearInvader();
 
 public:
 	Game();
 	void init();
 	void loop();
-	void addInvader(int x, int y);
-	void clearInvader();
+	void addBullet(Bullet* p);
+
 	//void movePieces();
 
 	friend class Pawn;
+	friend class Rook;
+	friend class Knight;
 };

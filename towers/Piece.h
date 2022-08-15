@@ -8,8 +8,8 @@ class Piece {
 protected:
 	string name;
 	int x, y;
-	int counter = 0;
 	int HP = 100;
+	int speed = 12;
 	bool isAttacking;
 	void init(const string& iname) {
 		name = iname;
@@ -29,31 +29,44 @@ public:
 };
 
 class Pawn :public Piece {
+	int counter = 0;
+	int speed = 12;
+	int attack = 20;
 public:
 	Pawn() {
 		init("PW");
 	}
 	void go(Game& game);
-
 };
 
-/*
-class Knight :public Piece {
-public:
-	Knight() {
-		init("NT");
-	}
-
-}; 
-
 class Rook :public Piece {
+	int counter = 0;
+	int speed = 6;
+	int attack = 12;
 public:
 	Rook() {
 		init("Ro");
 	}
-
+	void go(Game& game);
 };
 
+
+class Knight :public Piece {
+	int counter = 0;
+	int attack = 50;
+	int speed;
+public:
+	Knight() {
+		init("NT");
+		//counter = 0;
+		speed = 6;
+	}
+	void go(Game& game);
+}; 
+
+
+
+/*
 class Bishop :public Piece {
 public:
 	Bishop() {

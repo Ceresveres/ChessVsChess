@@ -118,10 +118,10 @@ bool Board::setPiece(int ix, int iy, char type) {
 		newPiece = new Pawn;
 		break;
 	case '2':
-	//	newPiece = new Rook;
+		newPiece = new Rook;
 		break;
 	case '3':
-	//	newPiece = new Knight;
+		newPiece = new Knight;
 		break;
 	case '4':
 	//	newPiece = new Bishop;

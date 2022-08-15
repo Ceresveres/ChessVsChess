@@ -6,8 +6,20 @@
 using namespace std;
 
 bool Invader::move(Board& board) {
+	if (slow) {
+		slowCounter++;
+		if (slowCounter >= 10) {
+			slow = false;
+		}
+	}
 	if (!attacking) {
-		counter += 10;
+		if (slow) {
+			counter += 1;
+		}
+		else {
+			counter += 10;
+		}
+		
 		if (counter >= 10 * speed) {
 			board.grid[x][y].delInvader(this);
 			x--;

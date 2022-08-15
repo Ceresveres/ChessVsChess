@@ -11,21 +11,33 @@ void Piece::printPiece() {
 
 void Pawn::go(Game & curgame) {
 	bool isAttacking = false;
-	/*
+	
 	for (int i = x; i < GRID_NUM_X; i++) {
 		if (curgame.board.grid[i][y].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
-	*/
 	
+	/*
 	for (int i = x; i < x+1; i++) {
 		if (curgame.board.grid[i][y].invaders.size() != 0) {
 //			std::cout << "attack";
 			isAttacking = true; break;
 		}
 	}
-	
+	*/
+
+	if (isAttacking) {
+		counter++;
+		if (counter >= speed) {
+			counter = 0;
+			Bullet* p = new Bullet();
+			p->setXY(x, y);
+			curgame.addBullet(p);
+		}
+
+	}
+/*
 	if (isAttacking) {
 		for (int i = x; i < GRID_NUM_X; i++) {
 			for (auto var : curgame.board.grid[i][y].invaders) {
@@ -33,8 +45,44 @@ void Pawn::go(Game & curgame) {
 			}
 		}
 	}
+*/
 }
 
+void Rook::go(Game& curgame) {
+	bool isAttacking = false;
+	for (int i = x; i < GRID_NUM_X; i++) {
+		if (curgame.board.grid[i][y].invaders.size() != 0) {
+			isAttacking = true; break;
+		}
+	}
+	if (isAttacking) {
+		counter++;
+		if (counter >= speed) {
+			counter = 0;
+			Bullet* p = new Bullet();
+			p->setXY(x, y);
+			curgame.addBullet(p);
+		}
+	}
+}
+
+void Knight::go(Game& curgame) {
+	bool isAttacking = false;
+	for (int i = x; i < GRID_NUM_X; i++) {
+		if (curgame.board.grid[i][y].invaders.size() != 0) {
+			isAttacking = true; break;
+		}
+	}
+	if (isAttacking) {
+		counter++;
+		if (counter >= speed) {
+			counter = 0;
+			Bullet* p = new SlowBullet;
+			p->setXY(x, y);
+			curgame.addBullet(p);
+		}
+	}
+}
 
 /*
 bool Piece::move(Board& board) {

@@ -2,6 +2,7 @@
 #include "ui-tools.h"
 #include "Piece.h"
 #include "Invader.h"
+#include "Bullet.h"
 
 #include <vector>
 
@@ -9,12 +10,14 @@ using namespace std;
 
 class Game;
 class Invader;
+class Bullet;
 class Grid {
 	int dx, dy;
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
 	bool selected;
 	bool flag_refresh;
+	void setRefresh() { flag_refresh = true; }
 public:
 	Grid() { selected = false; flag_refresh = false; }
 	void setXY(int x, int y);
@@ -29,8 +32,11 @@ public:
 	void setUnSelected() { selected = false; flag_refresh = true; }
 
 	friend class Board;
+	friend class Bullet;
 	friend class Piece;
 	friend class Pawn;
+	friend class Knight;
+	friend class Rook;
 };
 
 class Board {
@@ -44,10 +50,11 @@ public:
 
 	friend class Game;
 	friend class Invader;
+	friend class Bullet;
 //	friend class Piece;
 	friend class Pawn;
-//	friend class Rook;
-//	friend class Knight;
+	friend class Rook;
+	friend class Knight;
 //	friend class Bishop;
 //	friend class King;
 //	friend class Queen;
