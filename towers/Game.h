@@ -20,23 +20,33 @@ class Game {
 
 	int x, y;
 
-	void building();
+	int makeCounter = 0;
+	int makeSpeed = 30;
+
 	void openFocus();
+	void building();
+	void makeInvaders();
+	void addInvader(int x, int y, int type);
 	bool moveInvader();
+	void clearInvader();
+	
 	void printBullet();
 	void moveBullet();
-	void addInvader(int x, int y);
-	void clearInvader();
+	
+	
 
 public:
-	Game();
+	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
+		: x(x), y(y), makeCounter(makeCounter), makeSpeed(makeSpeed) {
+		HideCursor();
+		SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	}
 	void init();
 	void loop();
 	void addBullet(Bullet* p);
 
-	//void movePieces();
-
 	friend class Pawn;
 	friend class Rook;
 	friend class Knight;
+	friend class Bishop;
 };

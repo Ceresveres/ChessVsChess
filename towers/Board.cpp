@@ -13,7 +13,6 @@ void Grid::setXY(int x, int y) {
  
 }
 
-
 bool Grid::setPiece(Piece* iPiece) {
 	if (piece != nullptr) return false;
 	else {
@@ -34,20 +33,14 @@ void Grid::addInvader(Invader* iInvader) {
 	flag_refresh = true;
 }
 
-void Grid::delInvader(Invader* iInvader) {
-	invaders.erase(remove(invaders.begin(), invaders.end(), iInvader), invaders.end());
+void Grid::damageInvader(Invader* iInvader, int damage) {
+	iInvader->hit(damage);
 	flag_refresh = true;
 }
 
-void Grid::attackPiece(int attack)
-{
-	if (piece != nullptr) {
-		piece->HP -= attack;
-		if (piece->HP <= 0) {
-			delPiece();
-		}
-		flag_refresh = true;
-	}
+void Grid::delInvader(Invader* iInvader) {
+	invaders.erase(remove(invaders.begin(), invaders.end(), iInvader), invaders.end());
+	flag_refresh = true;
 }
 
 void Grid::judgeAttacking()
@@ -61,6 +54,17 @@ void Grid::judgeAttacking()
 		for (auto& var : invaders) {
 			var->attacking = false;
 		}
+	}
+}
+
+void Grid::attackPiece(int attack)
+{
+	if (piece != nullptr) {
+		piece->HP -= attack;
+		if (piece->HP <= 0) {
+			delPiece();
+		}
+		flag_refresh = true;
 	}
 }
 
@@ -87,14 +91,28 @@ void Grid::paint() {
 		PrintWithColor("+" + str + "+");
 	}
 
-	if (piece != nullptr) {
-		Goto_XY(dx + 1, dy + GRID_HEIGHT / 2 - 1);
+	if (piece != nullptr && invaders.size() == 0) {
+		Goto_XY(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2 );
 		piece->printPiece();
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+		piece->printLife();
 	}
-
-	if (invaders.size() != 0) {
-		Goto_XY(dx + 1, dy + GRID_HEIGHT / 2 - 2);
-		cout << "sup";
+	else if (piece != nullptr && invaders.size() == 1) {
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 2);
+		piece->printLife();
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 1);
+		piece->printPiece();
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
+		PrintWithColor("X");
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+		invaders[0]->printName();
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 2);
+		invaders[0]->printLife();
+	} else if (piece == nullptr && invaders.size() != 0) {
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
+		invaders[0]->printName();
+		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+		invaders[0]->printLife();
 	}
 }
 
@@ -124,7 +142,7 @@ bool Board::setPiece(int ix, int iy, char type) {
 		newPiece = new Knight;
 		break;
 	case '4':
-	//	newPiece = new Bishop;
+		newPiece = new Bishop;
 		break;
 	case '5':
 	//	newPiece = new King;
@@ -159,8 +177,6 @@ void Board::printBoard() {
 	string str(WINDOW_WIDTH, '#');
 	Goto_XY(0, (GRID_HEIGHT + 1) * GRID_NUM_Y);
 	PrintWithColor(str);
-	
-	
 }
 
 void Board::refresh() {

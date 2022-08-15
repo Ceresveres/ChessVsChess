@@ -2,33 +2,29 @@
 #include "Board.h"
 #include "ui-tools.h"
 
-
-Bullet::Bullet()
-{
-	attack = 10;
-	hit = false;
-}
-
 void Bullet::setXY(int ix, int iy) {
 	dx = ix;
 	dy = iy;
-	x = (dx +1) * (GRID_WIDTH + 1) - (GRID_WIDTH/2);
-	y = (dy + 1) * (GRID_HEIGHT);
+	//(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2)
+	//x = (dx + 1) * (GRID_WIDTH + 1) - (GRID_WIDTH/2);
+	//y = (dy) * (GRID_HEIGHT + 1) + GRID_HEIGHT/2;
+	x = dx * (GRID_WIDTH+1) + (GRID_WIDTH / 2);
+	y = dy * (GRID_HEIGHT + 1) + 1 + (GRID_HEIGHT/2);
+}
+
+void Bullet::print() {
+	Goto_XY(x, y);
+	PrintWithColor("*");
 }
 
 void Bullet::move(Board &board) {
-	//if (board.grid[dx][dy].invaders.size() > 0) {
-	//	board.grid[dx][dy].setRefresh();
-
-	//}
 	board.grid[dx][dy].setRefresh();
 	if (x % (GRID_WIDTH + 1) == 0) {
 		Goto_XY(x, y);
 		PrintWithColor("#");
 	}
 	x += 2;
-	dx = x / (GRID_WIDTH+1);
-	if (dx > GRID_NUM_X) {
+	if (dx >= GRID_NUM_X) {
 		hit = true;
 		return;
 	}
@@ -42,6 +38,7 @@ void Bullet::move(Board &board) {
 		hit = true;
 		return;
 	}
+	dx = x / (GRID_WIDTH + 1);
 }
 
 void Bullet::hitInvader(vector<Invader*>& invader) {
@@ -62,7 +59,14 @@ void SlowBullet::print() {
 	PrintWithColor("$", FOREGROUND_BLUE);
 }
 
-void Bullet::print() {
+void FireBullet::hitInvader(vector<Invader*>& invader) {
+	for (auto var : invader) {
+		var->hit(attack);
+		var->setBurn();
+	}
+}
+
+void FireBullet::print() {
 	Goto_XY(x, y);
-	PrintWithColor("*");
+	PrintWithColor(">", FOREGROUND_RED | FOREGROUND_BLUE);
 }

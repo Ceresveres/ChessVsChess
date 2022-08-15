@@ -5,16 +5,48 @@
 #include <iostream>
 using namespace std;
 
+void Invader::printName() {
+	if (attacking) {
+		PrintWithColor(name, FOREGROUND_GREEN);
+	} else if (burn) {
+		PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
+	} else if (slow) {
+		PrintWithColor(name, FOREGROUND_BLUE);
+	} else {
+		PrintWithColor(name);
+	}
+}
+
+void Invader::printLife() {
+	PrintWithColor(to_string(HP));
+}
+
+void Invader::hit(int damage) {
+	HP -= damage;
+	if (HP < 0) HP = 0;
+}
+
 bool Invader::move(Board& board) {
 	if (slow) {
 		slowCounter++;
-		if (slowCounter >= 10) {
+		if (slowCounter >= slowTime) {
 			slow = false;
 		}
 	}
+	
+	if (burn) {
+		burnCounter++; 
+		if ((burnCounter % burnTick) == 0) {
+			board.grid[x][y].damageInvader(this, burnDamage);
+		}
+		if (burnCounter >= burnTime ) {
+			burn = false;
+		}
+	}
+	
 	if (!attacking) {
 		if (slow) {
-			counter += 1;
+			counter += 5;
 		}
 		else {
 			counter += 10;
@@ -29,7 +61,15 @@ bool Invader::move(Board& board) {
 		}
 	}
 	else {
-		board.grid[x][y].attackPiece(attack);
+		attackCounter++;
+		if (attackCounter >= attackSpeed) {
+			if (slow) { 
+				board.grid[x][y].attackPiece(attack / 2); 
+			} else { 
+				board.grid[x][y].attackPiece(attack); 
+			}
+			attackCounter = 0;
+		}
 	}
 	return false;
 }

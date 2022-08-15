@@ -1,6 +1,28 @@
 #include "Game.h"
 #include <conio.h>
 
+void Game::init()
+{
+	board.init();
+	openFocus();
+}
+
+void Game::loop() {
+	bool state = true;
+	addInvader(7, 2, HEAVY);
+	while (state) {
+		building();
+		board.travGrid(*this);
+		if (moveInvader()) break;
+		//makeInvaders();
+		clearInvader();
+		moveBullet();
+		board.refresh();
+		printBullet();
+		Sleep(SLEEP_TIME);
+	}
+}
+
 void Game::openFocus() {
 	board.grid[x][y].setSelected();
 }
@@ -45,7 +67,7 @@ void Game::building() {
 			board.setPiece(x, y, ch);
 			break;
 		case '4':
-			//board.setPiece(x, y, ch);
+			board.setPiece(x, y, ch);
 			break;
 		case '5':
 			//board.setPiece(x, y, ch);
@@ -59,60 +81,34 @@ void Game::building() {
 	}
 }
 
-
-Game::Game()
-{
-	HideCursor();
-	SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-}
-
-void Game::loop() {
-	bool state = true;
-	addInvader(5, 2);
-	while (state) {
-		building();
-		board.travGrid(*this);
-		if (moveInvader()) break;
-		clearInvader();
-		moveBullet();
-		board.refresh();
-		printBullet();
-		Sleep(100);
+void Game::makeInvaders() {
+	makeCounter++;
+	if (makeCounter >= makeSpeed) {
+		;
+		addInvader(GRID_NUM_X - 1, RANDOM(GRID_NUM_Y), RANDOM(3));
+		makeCounter = 0;
 	}
 }
 
-void Game::addInvader(int x, int y) {
+void Game::addInvader(int x, int y, int type) {
+	if (x < 0 || x >= GRID_NUM_X || y < 0 || y >= GRID_NUM_Y) return;
 	Invader* newInvader = nullptr;
-	newInvader = new Invader();
-	newInvader->setXY(x, y);
-	board.grid[x][y].addInvader(newInvader);
-	invaders.push_back(newInvader);
-}
-
-void Game::addBullet(Bullet* p) {
-	bullets.push_back(p);
-}
-
-void Game::printBullet() {
-	for (auto const& var: bullets) {
-		var->print();
+	switch (type) {
+	case BASIC:
+		newInvader = new Invader();
+		break;
+	case JUMPER:
+		newInvader = new Jumper();
+		break;
+	case HEAVY:
+		newInvader = new Heavy();
+	default:
+		break;
 	}
-}
-
-void Game::moveBullet() {
-	for (auto const& var : bullets) {
-		var->move(board);
-	}
-	
-	for (auto list = bullets.begin(); list != bullets.end(); ) {
-		if ((*list)->hit) {
-			//delete list element
-			delete *list;
-			list = bullets.erase(list);
-		}
-		else {
-			list++;
-		}
+	if (newInvader != nullptr) {
+		newInvader->setXY(x, y);
+		board.grid[x][y].addInvader(newInvader);
+		invaders.push_back(newInvader);
 	}
 }
 
@@ -138,8 +134,28 @@ void Game::clearInvader() {
 	}
 }
 
-void Game::init()
-{
-	board.init();
-	x = y = 0;
+void Game::addBullet(Bullet* p) {
+	bullets.push_back(p);
+}
+
+void Game::printBullet() {
+	for (auto const& var: bullets) {
+		var->print();
+	}
+}
+
+void Game::moveBullet() {
+	for (auto const& var : bullets) {
+		var->move(board);
+	}
+	
+	for (auto list = bullets.begin(); list != bullets.end(); ) {
+		if ((*list)->hit) {
+			delete *list;
+			list = bullets.erase(list);
+		}
+		else {
+			list++;
+		}
+	}
 }

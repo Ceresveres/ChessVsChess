@@ -8,22 +8,61 @@ class Game;
 class Board;
 class Invader {
 protected:
-	string name;
-	int x, y;
-	int counter = 0;
-	int speed = 100;
+	string name{};
+	int x{}, y{};
+	
+	int counter{0};
+
+	int attackCounter{ 0 };
+	
+	int speed{};
+	
 	bool slow = false;
-	int slowCounter = 0;
-	bool attacking;
+	int slowCounter{ 0 };
+	int slowTime{ 20 };
+
+	bool burn = false;
+	int burnDamage{ 11 };
+	int burnCounter{ 0 };
+	int burnTick{ 3 };
+	int burnTime{ 30 };
+	
+	bool attacking = false;
 	int attack = 10;
+	int attackSpeed{};
 	int HP = 100;
+	virtual void printName();
+	virtual void printLife();
 public:
+	Invader(const string& name = "Basic", int speed = 10, int HP = 100, int attackSpeed = 3)
+		: name{ name }, speed{ speed }, HP{ HP }, attackSpeed{ attackSpeed } {}
+	
 	void setXY(int ix, int iy) { x = ix; y = iy; }
-	virtual bool move(Board& board);
-	virtual void hit(int attack) { HP -= attack; }
-	virtual void setSlow() {
-		slow = true; slowCounter = 0;
-	};
+	
+	virtual void hit(int damage);
+	virtual bool move(Board& board);	
+	
+	virtual void setSlow() { slow = true; slowCounter = 0; };
+
+	virtual void setBurn() { burn = true; burnCounter = 0; };
+
+	
 	friend class Game;
 	friend class Grid;
+};
+
+class Jumper :public Invader {
+public:
+	Jumper(string name = "Jump", int speed = 10, int HP = 80)
+		: Invader{ name, speed, HP } {
+		this->attack = 20;
+	}
+};
+
+class Heavy :public Invader {
+public:
+	Heavy(string name = "Hevy", int speed = 50, int HP = 300, int attackSpeed = 6)
+		: Invader{ name, speed, HP } {
+		this->attack = 50;
+	}
 };

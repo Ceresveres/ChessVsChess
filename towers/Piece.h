@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "ui-tools.h"
 #include <string>
 
@@ -6,22 +6,24 @@ class Game;
 class Grid;
 class Piece {
 protected:
-	string name;
-	int x, y;
+	string name{};
+	int x{}, y{};
+	int counter;
+	int speed;
 	int HP = 100;
-	int speed = 12;
-	bool isAttacking;
-	void init(const string& iname) {
-		name = iname;
-	}
-
-	//friend class Grid;
-
+	bool isAttacking = false;
+	//void init(const string& iname) {
+	//	name = iname;
+	//}
+	
 public:
+	Piece(const string& name, int speed = 0)
+		: name{ name }, speed{ speed }, counter{ speed } {}
+	
 	void setXY(int ix, int iy) { x = ix; y = iy; }
-	void printPiece();
-	//void go(Game& game);
-	//bool move(Board& board);
+	
+	virtual void printPiece();
+	virtual void printLife();
 	virtual void go(Game& nowGame) {}
 
 	friend class Game;
@@ -29,42 +31,37 @@ public:
 };
 
 class Pawn :public Piece {
-	int counter = 0;
-	int speed = 12;
-	int attack = 20;
 public:
-	Pawn() {
-		init("PW");
+	Pawn(string name = "PW", int speed = 12)
+		: Piece{ name, speed } {
+		this->HP = 200;
 	}
 	void go(Game& game);
 };
 
 class Rook :public Piece {
-	int counter = 0;
-	int speed = 6;
-	int attack = 12;
 public:
-	Rook() {
-		init("Ro");
-	}
+	Rook(string name = "Ro", int speed = 6)
+		: Piece{ name, speed } {}
 	void go(Game& game);
 };
 
 
 class Knight :public Piece {
-	int counter = 0;
-	int attack = 50;
-	int speed;
 public:
-	Knight() {
-		init("NT");
-		//counter = 0;
-		speed = 6;
-	}
+	Knight(string name = "NT", int speed = 1200 )
+		: Piece{ name, speed } {}
+	void printPiece();
 	void go(Game& game);
 }; 
 
-
+class Bishop :public Piece {
+public:
+	Bishop(string name = "Bp", int speed = 600)
+		: Piece{ name, speed } {}
+	void printPiece();
+	void go(Game& game);
+};
 
 /*
 class Bishop :public Piece {
