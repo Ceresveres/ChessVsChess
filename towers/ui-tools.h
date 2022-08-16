@@ -21,4 +21,4 @@ void Goto_XY(const int x, const int y);
 void PrintWithColor(const string& str, int colorID= FOREGROUND_INTENSITY);
 inline int RANDOM(int x) { return rand() % x; }
 
-enum EnemyType {BASIC, JUMPER, HEAVY};
+enum EnemyType {BASIC, JUMPER, HEAVY, SHIELD};

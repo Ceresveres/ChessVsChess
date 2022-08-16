@@ -9,7 +9,7 @@ void Game::init()
 
 void Game::loop() {
 	bool state = true;
-	addInvader(7, 2, HEAVY);
+	addInvader(7, 2, JUMPER);
 	while (state) {
 		building();
 		board.travGrid(*this);
@@ -85,7 +85,7 @@ void Game::makeInvaders() {
 	makeCounter++;
 	if (makeCounter >= makeSpeed) {
 		;
-		addInvader(GRID_NUM_X - 1, RANDOM(GRID_NUM_Y), RANDOM(3));
+		addInvader(GRID_NUM_X - 1, RANDOM(GRID_NUM_Y), RANDOM(SHIELD+1));
 		makeCounter = 0;
 	}
 }
@@ -102,6 +102,10 @@ void Game::addInvader(int x, int y, int type) {
 		break;
 	case HEAVY:
 		newInvader = new Heavy();
+		break;
+	case SHIELD:
+		newInvader = new Shield();
+		break;
 	default:
 		break;
 	}

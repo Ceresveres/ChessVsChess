@@ -73,3 +73,56 @@ bool Invader::move(Board& board) {
 	}
 	return false;
 }
+
+bool Jumper::move(Board &board) {
+	if (hasJump && attacking) {
+		board.grid[x][y].delInvader(this);
+		x--;
+		if (x < 0) return true;
+		board.grid[x][y].addInvader(this);
+		counter = 0;
+		hasJump = false; attacking = false;
+		return false;
+	}
+	else {
+		return Invader::move(board);
+	}
+}
+
+void Shield::hit(int damage) {
+	HP -= damage;
+	if (hasShield && HP <= shield) {
+		boostAttributes();
+	}
+	else {
+		if (HP < 0) HP = 0;
+	}
+}
+
+void Shield::setSlow() {
+	if (hasShield) return;
+	else Invader::setSlow();
+}
+
+void Shield::setBurn() {
+	if (hasShield) return;
+	else Invader::setBurn();
+}
+
+void Shield::printName() {
+	if (attacking) {
+		PrintWithColor(name, FOREGROUND_GREEN);
+	}
+	else if (hasShield) {
+		PrintWithColor(name, FOREGROUND_BLUE | FOREGROUND_GREEN);
+	}
+	else if (burn) {
+		PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
+	}
+	else if (slow) {
+		PrintWithColor(name, FOREGROUND_BLUE);
+	}
+	else {
+		PrintWithColor(name);
+	}
+}

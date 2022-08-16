@@ -61,6 +61,7 @@ public:
 
 	friend class Game;
 	friend class Invader;
+	friend class Jumper;
 	friend class Bullet;
 	friend class Pawn;
 	friend class Rook;

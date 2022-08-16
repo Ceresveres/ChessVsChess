@@ -6,16 +6,12 @@ class Game;
 class Grid;
 class Piece {
 protected:
-	string name{};
+	string name;
 	int x{}, y{};
 	int counter;
 	int speed;
 	int HP = 100;
 	bool isAttacking = false;
-	//void init(const string& iname) {
-	//	name = iname;
-	//}
-	
 public:
 	Piece(const string& name, int speed = 0)
 		: name{ name }, speed{ speed }, counter{ speed } {}
@@ -64,14 +60,6 @@ public:
 };
 
 /*
-class Bishop :public Piece {
-public:
-	Bishop() {
-		init("Bp");
-	}
-
-};
-
 class King :public Piece {
 public:
 	King() {

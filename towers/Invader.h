@@ -52,11 +52,13 @@ public:
 };
 
 class Jumper :public Invader {
+	bool hasJump{ true };
 public:
 	Jumper(string name = "Jump", int speed = 10, int HP = 80)
 		: Invader{ name, speed, HP } {
 		this->attack = 20;
 	}
+	bool move(Board& board);
 };
 
 class Heavy :public Invader {
@@ -65,4 +67,19 @@ public:
 		: Invader{ name, speed, HP } {
 		this->attack = 50;
 	}
+};
+
+class Shield :public Invader {
+	int shield{};
+	bool hasShield{ true };
+	void boostAttributes() { this->speed = this->speed / 2; this->attackSpeed = this->attackSpeed / 2; this->hasShield = false; }
+public:
+	Shield(string name = "Shld", int speed = 20, int HP = 250, int attackSpeed = 10)
+		: Invader{ name, speed, HP } {
+		this->shield = 150;
+	}
+	void setSlow();
+	void setBurn();
+	void hit(int damage);
+	void printName();
 };
