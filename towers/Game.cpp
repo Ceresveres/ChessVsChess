@@ -4,6 +4,7 @@
 void Game::init()
 {
 	board.init();
+	store.init();
 	openFocus();
 }
 

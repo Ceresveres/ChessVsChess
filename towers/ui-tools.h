@@ -13,6 +13,8 @@ const int GRID_WIDTH = 10;
 const int WINDOW_WIDTH = GRID_NUM_X * (GRID_WIDTH + 1) + 1;
 const int WINDOW_HEIGHT = GRID_NUM_Y * (GRID_HEIGHT + 1) + 20;
 
+const int PIECE_CARD_WIDTH = WINDOW_WIDTH / 4;
+
 const int SLEEP_TIME = 100;
 
 void SetWindowSize(int cols, int lines);
