@@ -59,19 +59,24 @@ void Game::building() {
 			board.grid[x][y].setSelected();
 			break;
 		case '1':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
+			store.buy(1, x, y, board);
 			break;
 		case '2':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
+			store.buy(2, x, y, board);
 			break;
 		case '3':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
+			store.buy(3, x, y, board);
 			break;
 		case '4':
-			board.setPiece(x, y, ch);
+			//board.setPiece(x, y, ch);
+			store.buy(4, x, y, board);
 			break;
 		case '5':
 			//board.setPiece(x, y, ch);
+			store.buy(5, x, y, board);
 			break;
 		case '6':
 			//board.setPiece(x, y, ch);
@@ -85,7 +90,6 @@ void Game::building() {
 void Game::makeInvaders() {
 	makeCounter++;
 	if (makeCounter >= makeSpeed) {
-		;
 		addInvader(GRID_NUM_X - 1, RANDOM(GRID_NUM_Y), RANDOM(SHIELD+1));
 		makeCounter = 0;
 	}
@@ -130,6 +134,7 @@ void Game::clearInvader() {
 	for (auto list = invaders.begin(); list != invaders.end();) {
 		if ((*list)->HP <= 0) {
 			board.grid[(*list)->x][(*list)->y].delInvader(*list);
+			store.addMoney((*list)->reward);
 			delete (*list);
 			list = invaders.erase(list);
 		}

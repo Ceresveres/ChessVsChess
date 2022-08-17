@@ -49,4 +49,5 @@ public:
 	friend class Rook;
 	friend class Knight;
 	friend class Bishop;
+	friend class Peasant;
 };

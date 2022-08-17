@@ -24,3 +24,4 @@ void PrintWithColor(const string& str, int colorID= FOREGROUND_INTENSITY);
 inline int RANDOM(int x) { return rand() % x; }
 
 enum EnemyType {BASIC, JUMPER, HEAVY, SHIELD};
+enum PieceType {PAWN, ROOK, KNIGHT, BISHOP, PEASANT, MAX};

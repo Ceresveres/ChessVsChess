@@ -12,6 +12,10 @@ void Piece::printLife() {
 	PrintWithColor(to_string(HP));
 }
 
+void Piece::go(Game& curgam) {
+	cout << "You can't go there!" << endl;
+}
+
 void Pawn::go(Game & curgame) {
 	bool isAttacking = false;
 	
@@ -93,4 +97,16 @@ void Bishop::go(Game& curgame) {
 			curgame.addBullet(p);
 		}
 	}
+}
+
+void Peasant::go(Game& curgame) {
+	counter++;
+	if (counter >= speed) {
+		counter = 0;
+		curgame.store.addMoney(25);
+	}
+}
+
+void Peasant::printPiece() {
+	PrintWithColor(name, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 }

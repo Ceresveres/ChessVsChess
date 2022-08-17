@@ -48,6 +48,7 @@ public:
 	friend class Knight;
 	friend class Rook;
 	friend class Bishop;
+	friend class Peasant;
 };
 
 class Board {
@@ -56,7 +57,7 @@ public:
 	void init();
 	void printBoard();
 	void refresh();
-	bool setPiece(int ix, int iy, char type);
+	bool setPiece(int ix, int iy, int type);
 	bool travGrid(Game& game);
 
 	friend class Game;
@@ -67,4 +68,5 @@ public:
 	friend class Rook;
 	friend class Knight;
 	friend class Bishop;
+	friend class Peasant;
 };

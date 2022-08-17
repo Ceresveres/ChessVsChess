@@ -20,7 +20,7 @@ public:
 	
 	virtual void printPiece();
 	virtual void printLife();
-	virtual void go(Game& nowGame) {}
+	virtual void go(Game& nowGame);
 
 	friend class Game;
 	friend class Grid;
@@ -55,6 +55,16 @@ class Bishop :public Piece {
 public:
 	Bishop(string name = "Bp", int speed = 600)
 		: Piece{ name, speed } {}
+	void printPiece();
+	void go(Game& game);
+};
+
+class Peasant :public Piece {
+public:
+	Peasant(string name = "PP", int speed = 30)
+		: Piece{ name, speed } {
+		this->counter = 0;
+	}
 	void printPiece();
 	void go(Game& game);
 };

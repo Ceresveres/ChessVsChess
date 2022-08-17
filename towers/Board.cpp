@@ -129,25 +129,25 @@ bool Board::travGrid(Game& game)
 	return true;
 }
 
-bool Board::setPiece(int ix, int iy, char type) {
+bool Board::setPiece(int ix, int iy, int type) {
 	Piece* newPiece = nullptr;
 	switch (type) {
-	case '1':
+	case 1:
 		newPiece = new Pawn;
 		break;
-	case '2':
+	case 2:
 		newPiece = new Rook;
 		break;
-	case '3':
+	case 3:
 		newPiece = new Knight;
 		break;
-	case '4':
+	case 4:
 		newPiece = new Bishop;
 		break;
-	case '5':
-	//	newPiece = new King;
+	case 5:
+		newPiece = new Peasant;
 		break;
-	case '6':
+	case 6:
 	//	newPiece = new Queen;
 		break;
 	}

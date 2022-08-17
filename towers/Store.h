@@ -5,12 +5,13 @@
 class Game;
 class Store;
 class Board;
-
 class PieceCard {
 	int index{};
 	int cost{};
 	string name{};
 	bool flag;
+
+	friend class Store;
 public:
 	PieceCard(int index = 0, const string& name = "blank", int cost=0)
 		: index{ index }, name{ name }, cost{ cost }, flag{ false } {}
@@ -20,15 +21,21 @@ public:
 };
 
 class Store {
-	PieceCard* pieces[SHIELD+1];
+	PieceCard* pieces[MAX];
+	int money{100};
+	void refreshMoney();
 public:
 	Store() {
-		pieces[0] = new PieceCard(0, "Pawn", 50);
-		pieces[1] = new PieceCard(1, "Rook", 100);
-		pieces[2] = new PieceCard(2, "Knight", 125);
-		pieces[3] = new PieceCard(3, "Bishop", 125);
+		pieces[0] = new PieceCard(1, "Pawn", 50);
+		pieces[1] = new PieceCard(2, "Rook", 100);
+		pieces[2] = new PieceCard(3, "Knight", 125);
+		pieces[3] = new PieceCard(4, "Bishop", 125);
+		pieces[4] = new PieceCard(5, "Peasant", 25);
 	}
 	void init();
+	virtual void addMoney(int reward) { money += reward; refreshMoney(); }
+
+	bool buy(int choice, int x, int y, Board& board);
 
 	friend class Game;
 };
