@@ -22,7 +22,7 @@ public:
 
 class Store {
 	PieceCard* pieces[MAX];
-	int money{100};
+	int money{1000};
 	void refreshMoney();
 public:
 	Store() {

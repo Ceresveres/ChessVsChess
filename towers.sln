@@ -7,16 +7,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "towers", "towers\towers.vcx
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug.DLL|x64 = Debug.DLL|x64
+		Debug.DLL|x86 = Debug.DLL|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release.DLL|x64 = Release.DLL|x64
+		Release.DLL|x86 = Release.DLL|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug.DLL|x64.ActiveCfg = Debug|x64
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug.DLL|x64.Build.0 = Debug|x64
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug.DLL|x86.ActiveCfg = Debug|Win32
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug.DLL|x86.Build.0 = Debug|Win32
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug|x64.ActiveCfg = Debug|x64
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug|x64.Build.0 = Debug|x64
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug|x86.ActiveCfg = Debug|Win32
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Debug|x86.Build.0 = Debug|Win32
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release.DLL|x64.ActiveCfg = Release|x64
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release.DLL|x64.Build.0 = Release|x64
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release.DLL|x86.ActiveCfg = Release|Win32
+		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release.DLL|x86.Build.0 = Release|Win32
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release|x64.ActiveCfg = Release|x64
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release|x64.Build.0 = Release|x64
 		{BEC66FD7-EF41-41B6-80D7-B3BB214B8084}.Release|x86.ActiveCfg = Release|Win32

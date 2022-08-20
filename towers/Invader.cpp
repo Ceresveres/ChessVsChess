@@ -6,12 +6,14 @@
 using namespace std;
 
 void Invader::printName() {
+	DrawText(name.c_str(), x * GRID_WIDTH + (GRID_WIDTH / 2), y * GRID_HEIGHT + (GRID_HEIGHT / 2), 20, DARKGRAY);
+	DrawTexture(texture, x * GRID_WIDTH + (GRID_WIDTH / 2) - texture.width / 2, y * GRID_HEIGHT + (GRID_HEIGHT / 2) - texture.height / 2, WHITE);
 	if (attacking) {
-		PrintWithColor(name, FOREGROUND_GREEN);
+		PrintWithColor(name, 4);
 	} else if (burn) {
-		PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
+		PrintWithColor(name, 4);
 	} else if (slow) {
-		PrintWithColor(name, FOREGROUND_BLUE);
+		PrintWithColor(name, 4);
 	} else {
 		PrintWithColor(name);
 	}
@@ -111,16 +113,16 @@ void Shield::setBurn() {
 
 void Shield::printName() {
 	if (attacking) {
-		PrintWithColor(name, FOREGROUND_GREEN);
+		PrintWithColor(name, 4);
 	}
 	else if (hasShield) {
-		PrintWithColor(name, FOREGROUND_BLUE | FOREGROUND_GREEN);
+		PrintWithColor(name, 4);
 	}
 	else if (burn) {
-		PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
+		PrintWithColor(name, 4);
 	}
 	else if (slow) {
-		PrintWithColor(name, FOREGROUND_BLUE);
+		PrintWithColor(name, 4);
 	}
 	else {
 		PrintWithColor(name);

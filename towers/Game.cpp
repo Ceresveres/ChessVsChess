@@ -5,23 +5,58 @@ void Game::init()
 {
 	board.init();
 	store.init();
-	openFocus();
+	SetTargetFPS(FPS);
+	//openFocus();
 }
 
-void Game::loop() {
-	bool state = true;
+//void Game::loop() {
+//	bool state = true;
+//	addInvader(7, 2, JUMPER);
+//	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "raylib [core] example - basic window");
+//
+//	while (!WindowShouldClose()) {
+//		building();
+//		board.travGrid(*this);
+//		BeginDrawing();
+//
+//		ClearBackground(RAYWHITE);
+//
+//		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+//
+//		EndDrawing();
+//		if (moveInvader()) break;
+//		//makeInvaders();
+//		clearInvader();
+//		moveBullet();
+//		board.refresh();
+//		printBullet();
+//		//Sleep(SLEEP_TIME);
+//	}
+//	CloseWindow();
+//}
+
+void Game::loop()
+{
+	//SetTargetFPS(60);
 	addInvader(7, 2, JUMPER);
-	while (state) {
+
+	while (!WindowShouldClose())
+	{
+		BeginDrawing();
 		building();
 		board.travGrid(*this);
+		board.printBoard();
+		board.refresh();
 		if (moveInvader()) break;
-		//makeInvaders();
 		clearInvader();
 		moveBullet();
-		board.refresh();
 		printBullet();
-		Sleep(SLEEP_TIME);
+		//DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+		EndDrawing();
 	}
+
+	CloseWindow();
+
 }
 
 void Game::openFocus() {
@@ -29,35 +64,13 @@ void Game::openFocus() {
 }
 
 void Game::building() {
-	char ch;
-	if (_kbhit()) {
-		ch = _getch();
-		switch (ch) {
-		case -32:
-			board.grid[x][y].setUnSelected();
-			ch = _getch();
-			switch (ch) {
-			case 72:
-				if (y > 0)
-					y--;
-				break;
-			case 75:
-				if (x > 0)
-					x--;
-				break;
-			case 77:
-				if (x < GRID_NUM_X - 1)
-					x++;
-				break;
-			case 80:
-				if (y < GRID_NUM_Y - 1)
-					y++;
-				break;
-			default:
-				break;
-			}
-			board.grid[x][y].setSelected();
-			break;
+	board.grid[x][y].setUnSelected();
+	if (IsKeyPressed(KEY_RIGHT) && x < GRID_NUM_X-1) x++; 
+	else if (IsKeyPressed(KEY_LEFT) && x > 0) x--;
+	else if (IsKeyPressed(KEY_UP) && y > 0) y--;
+	else if (IsKeyPressed(KEY_DOWN) && y < GRID_NUM_Y - 1) y++;
+	char ch = GetCharPressed();
+	switch(ch) {
 		case '1':
 			//board.setPiece(x, y, ch);
 			store.buy(1, x, y, board);
@@ -84,8 +97,68 @@ void Game::building() {
 		default:
 			break;
 		}
-	}
+	board.grid[x][y].setSelected();
+
 }
+
+//void Game::building() {
+//	char ch;
+//	if (_kbhit()) {
+//		ch = _getch();
+//		switch (ch) {
+//		case -32:
+//			board.grid[x][y].setUnSelected();
+//			ch = _getch();
+//			switch (ch) {
+//			case 72:
+//				if (y > 0)
+//					y--;
+//				break;
+//			case 75:
+//				if (x > 0)
+//					x--;
+//				break;
+//			case 77:
+//				if (x < GRID_NUM_X - 1)
+//					x++;
+//				break;
+//			case 80:
+//				if (y < GRID_NUM_Y - 1)
+//					y++;
+//				break;
+//			default:
+//				break;
+//			}
+//			board.grid[x][y].setSelected();
+//			break;
+//		case '1':
+//			//board.setPiece(x, y, ch);
+//			store.buy(1, x, y, board);
+//			break;
+//		case '2':
+//			//board.setPiece(x, y, ch);
+//			store.buy(2, x, y, board);
+//			break;
+//		case '3':
+//			//board.setPiece(x, y, ch);
+//			store.buy(3, x, y, board);
+//			break;
+//		case '4':
+//			//board.setPiece(x, y, ch);
+//			store.buy(4, x, y, board);
+//			break;
+//		case '5':
+//			//board.setPiece(x, y, ch);
+//			store.buy(5, x, y, board);
+//			break;
+//		case '6':
+//			//board.setPiece(x, y, ch);
+//			break;
+//		default:
+//			break;
+//		}
+//	}
+//}
 
 void Game::makeInvaders() {
 	makeCounter++;

@@ -63,4 +63,29 @@
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="raylib.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="raylib.lib">
+      <Filter>Source Files</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\WPawn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\WBishop.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\WKnight.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\WRook.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\BPawn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

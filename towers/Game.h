@@ -38,8 +38,11 @@ class Game {
 public:
 	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
 		: x(x), y(y), makeCounter(makeCounter), makeSpeed(makeSpeed) {
-		HideCursor();
-		SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		HHideCursor();
+		SSetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "raylib [core] example - basic window");
+
+		//InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "raylib [core] example - basic window");
 	}
 	void init();
 	void loop();

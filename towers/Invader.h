@@ -31,15 +31,23 @@ protected:
 	int burnTick{ 3 };
 	int burnTime{ 30 };
 	
+	Image image{};
+	Texture2D texture{};
+
 	bool attacking = false;
 
 	virtual void printName();
 	virtual void printLife();
 public:
-	Invader(const string& name = "Basic", int speed = 10, int HP = 100, int attack = 10, int reward = 50)
-		: name{ name }, speed{ speed }, HP{ HP }, attack{ attack }, reward{ reward } {}
+	Invader(const string& name = "Basic", int speed = 10, int HP = 100, int attack = 10, int reward = 50, string link = "BPawn.png")
+		: name{ name }, speed{ (speed * FPS) / 3 }, HP{ HP }, attack{ attack }, reward{ reward } {
+		Image image{ LoadImage(("Textures/" + link).c_str()) };
+		ImageResize(&image, GRID_WIDTH / 2, GRID_HEIGHT / 2);
+		texture = LoadTextureFromImage(image);
+		UnloadImage(image); 
+	}
 	
-	void setXY(int ix, int iy) { x = ix; y = iy; }
+	void setXY(int ix, int iy) { x = ix; y = iy; };
 	
 	virtual void hit(int damage);
 	virtual bool move(Board& board);	

@@ -8,12 +8,13 @@ void Bullet::setXY(int ix, int iy) {
 	//(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2)
 	//x = (dx + 1) * (GRID_WIDTH + 1) - (GRID_WIDTH/2);
 	//y = (dy) * (GRID_HEIGHT + 1) + GRID_HEIGHT/2;
-	x = dx * (GRID_WIDTH+1) + (GRID_WIDTH / 2);
-	y = dy * (GRID_HEIGHT + 1) + 1 + (GRID_HEIGHT/2);
+	x = dx * (GRID_WIDTH);
+	y = dy * (GRID_HEIGHT);
 }
 
 void Bullet::print() {
 	Goto_XY(x, y);
+	DrawCircle(x + GRID_WIDTH / 2, y + GRID_HEIGHT / 2, GRID_WIDTH / 10, WHITE);
 	PrintWithColor("*");
 }
 
@@ -23,7 +24,7 @@ void Bullet::move(Board &board) {
 		Goto_XY(x, y);
 		PrintWithColor("#");
 	}
-	x += 2;
+	x += GRID_WIDTH/10;
 	if (dx >= GRID_NUM_X) {
 		hit = true;
 		return;
@@ -56,7 +57,7 @@ void SlowBullet::hitInvader(vector<Invader*>& invader) {
 
 void SlowBullet::print() {
 	Goto_XY(x, y);
-	PrintWithColor("$", FOREGROUND_BLUE);
+	PrintWithColor("$", 4);
 }
 
 void FireBullet::hitInvader(vector<Invader*>& invader) {
@@ -68,5 +69,5 @@ void FireBullet::hitInvader(vector<Invader*>& invader) {
 
 void FireBullet::print() {
 	Goto_XY(x, y);
-	PrintWithColor(">", FOREGROUND_RED | FOREGROUND_BLUE);
+	PrintWithColor(">", 4);
 }

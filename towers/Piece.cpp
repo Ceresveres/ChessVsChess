@@ -5,7 +5,12 @@
 #include <iostream>
 
 void Piece::printPiece() {
-	PrintWithColor(name);
+	DrawText(name.c_str(), dx - MeasureText(name.c_str(), 20/2), dy-GRID_HEIGHT/2+10, 20, BLUE);
+	DrawTexture(texture,dx - texture.width / 2, dy - texture.height / 2, WHITE);
+	//DrawTextureRec(texture, rec, position, WHITE);
+	//DrawTexturePro(texture, rec, (Rectangle){0.0 0.0, GRID_WIDTH, GRID_HEIGHT}, position, 0, WHITE);
+	//DrawPixel(x * GRID_WIDTH + (GRID_WIDTH / 2), y * GRID_HEIGHT + (GRID_HEIGHT / 2), RED);
+	//PrintWithColor(name);
 }
 
 void Piece::printLife() {
@@ -55,9 +60,9 @@ void Rook::go(Game& curgame) {
 	}
 }
 
-void Knight::printPiece() {
-	PrintWithColor(name, FOREGROUND_BLUE);
-}
+//void Knight::printPiece() {
+//	PrintWithColor(name, 4);
+//}
 
 void Knight::go(Game& curgame) {
 	bool isAttacking = false;
@@ -77,9 +82,9 @@ void Knight::go(Game& curgame) {
 	}
 }
 
-void Bishop::printPiece() {
-	PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
-}
+//void Bishop::printPiece() {
+//	PrintWithColor(name, 4);
+//}
 
 void Bishop::go(Game& curgame) {
 	bool isAttacking = false;
@@ -107,6 +112,6 @@ void Peasant::go(Game& curgame) {
 	}
 }
 
-void Peasant::printPiece() {
-	PrintWithColor(name, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-}
+//void Peasant::printPiece() {
+//	PrintWithColor(name, 4);
+//}
