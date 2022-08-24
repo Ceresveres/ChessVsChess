@@ -6,6 +6,8 @@
 #include "Piece.h"
 #include "Bullet.h"
 #include "Invader.h"
+#include <SDL.h>
+#include <stdio.h>
 
 #include<list>
 using namespace std;
