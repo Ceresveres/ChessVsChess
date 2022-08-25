@@ -21,10 +21,10 @@ public:
 };
 
 class Store {
+private:
 	PieceCard* pieces[MAX];
 	int money{100};
 	void refreshMoney();
-public:
 	Store() {
 		pieces[0] = new PieceCard(1, "Pawn", 50);
 		pieces[1] = new PieceCard(2, "Rook", 100);
@@ -33,9 +33,10 @@ public:
 		pieces[4] = new PieceCard(5, "Peasant", 25);
 	}
 	void init();
+public:
+	static Store* GetInstance();
+	
 	virtual void addMoney(int reward) { money += reward; refreshMoney(); }
 
-	bool buy(int choice, int x, int y, Board& board);
-
-	friend class Game;
+	bool buy(int choice, int x, int y, Board* board);
 };

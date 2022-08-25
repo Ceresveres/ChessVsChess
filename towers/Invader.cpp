@@ -26,7 +26,7 @@ void Invader::hit(int damage) {
 	if (HP < 0) HP = 0;
 }
 
-bool Invader::move(Board& board) {
+bool Invader::move(Board* board) {
 	if (slow) {
 		slowCounter++;
 		if (slowCounter >= slowTime) {
@@ -37,7 +37,7 @@ bool Invader::move(Board& board) {
 	if (burn) {
 		burnCounter++; 
 		if ((burnCounter % burnTick) == 0) {
-			board.grid[x][y].damageInvader(this, burnDamage);
+			board->grid[x][y].damageInvader(this, burnDamage);
 		}
 		if (burnCounter >= burnTime ) {
 			burn = false;
@@ -53,10 +53,10 @@ bool Invader::move(Board& board) {
 		}
 		
 		if (counter >= 10 * speed) {
-			board.grid[x][y].delInvader(this);
+			board->grid[x][y].delInvader(this);
 			x--;
 			if (x < 0) return true;
-			board.grid[x][y].addInvader(this);
+			board->grid[x][y].addInvader(this);
 			counter = 0;
 		}
 	}
@@ -64,9 +64,9 @@ bool Invader::move(Board& board) {
 		attackCounter++;
 		if (attackCounter >= attackSpeed) {
 			if (slow) { 
-				board.grid[x][y].attackPiece(attack / 2); 
+				board->grid[x][y].attackPiece(attack / 2); 
 			} else { 
-				board.grid[x][y].attackPiece(attack); 
+				board->grid[x][y].attackPiece(attack); 
 			}
 			attackCounter = 0;
 		}
@@ -74,12 +74,12 @@ bool Invader::move(Board& board) {
 	return false;
 }
 
-bool Jumper::move(Board &board) {
+bool Jumper::move(Board *board) {
 	if (hasJump && attacking) {
-		board.grid[x][y].delInvader(this);
+		board->grid[x][y].delInvader(this);
 		x--;
 		if (x < 0) return true;
-		board.grid[x][y].addInvader(this);
+		board->grid[x][y].addInvader(this);
 		counter = 0;
 		hasJump = false; attacking = false;
 		return false;

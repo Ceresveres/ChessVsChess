@@ -16,7 +16,7 @@ public:
 	void setXY(int dx, int dy);
 	virtual void print();
 	bool hit;
-	void move(Board& board);
+	void move(Board* board);
 	virtual void hitInvader(vector<Invader*>& invader);
 	
 	friend class Grid;

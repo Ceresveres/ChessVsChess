@@ -42,7 +42,7 @@ public:
 	void setXY(int ix, int iy) { x = ix; y = iy; }
 	
 	virtual void hit(int damage);
-	virtual bool move(Board& board);	
+	virtual bool move(Board* board);	
 		
 	virtual void setSlow() { slow = true; slowCounter = 0; };
 
@@ -59,7 +59,7 @@ public:
 	Jumper(string name = "Jump", int speed = 10, int HP = 80, int attack = 20, int reward = 10)
 		: Invader{ name, speed, HP, attack, reward } {
 	}
-	bool move(Board& board);
+	bool move(Board* board);
 };
 
 class Heavy :public Invader {

@@ -17,8 +17,8 @@ void Bullet::print() {
 	PrintWithColor("*");
 }
 
-void Bullet::move(Board &board) {
-	board.grid[dx][dy].setRefresh();
+void Bullet::move(Board *board) {
+	board->grid[dx][dy].setRefresh();
 	if (x % (GRID_WIDTH + 1) == 0) {
 		Goto_XY(x, y);
 		PrintWithColor("#");
@@ -28,9 +28,9 @@ void Bullet::move(Board &board) {
 		hit = true;
 		return;
 	}
-	if (board.grid[dx][dy].invaders.size() > 0) {
-		hitInvader(board.grid[dx][dy].invaders);
-		board.grid[dx][dy].setRefresh();
+	if (board->grid[dx][dy].invaders.size() > 0) {
+		hitInvader(board->grid[dx][dy].invaders);
+		board->grid[dx][dy].setRefresh();
 		if (x % (GRID_WIDTH + 1) == 0) {
 			Goto_XY(x, y);
 			PrintWithColor("#");

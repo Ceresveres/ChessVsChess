@@ -20,7 +20,7 @@ void Pawn::go(Game & curgame) {
 	bool isAttacking = false;
 	
 	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board.grid[i][y].invaders.size() != 0) {
+		if (curgame.board->grid[i][y].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -40,7 +40,7 @@ void Pawn::go(Game & curgame) {
 void Rook::go(Game& curgame) {
 	bool isAttacking = false;
 	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board.grid[i][y].invaders.size() != 0) {
+		if (curgame.board->grid[i][y].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -62,7 +62,7 @@ void Knight::printPiece() {
 void Knight::go(Game& curgame) {
 	bool isAttacking = false;
 	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board.grid[i][y].invaders.size() != 0) {
+		if (curgame.board->grid[i][y].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -84,7 +84,7 @@ void Bishop::printPiece() {
 void Bishop::go(Game& curgame) {
 	bool isAttacking = false;
 	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board.grid[i][y].invaders.size() != 0) {
+		if (curgame.board->grid[i][y].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -103,7 +103,7 @@ void Peasant::go(Game& curgame) {
 	counter++;
 	if (counter >= speed) {
 		counter = 0;
-		curgame.store.addMoney(25);
+		curgame.store->addMoney(25);
 	}
 }
 

@@ -5,8 +5,8 @@
 
 void Game::init()
 {
-	board.init();
-	store.init();
+	//board.init();
+	//store.init();
 	openFocus();
 }
 
@@ -27,14 +27,15 @@ void Game::init()
 //}
 
 void Game::loop() {
-	SDL_Window* window = SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	SDL_Renderer* rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	window = SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
 	SDL_Event e;
 	bool end = false;
-	//board.printBoard(rend);
+	addInvader(7, 2, JUMPER);
 	while (!end) 
 	{
-		board.printBoard(rend);
+		board->printBoard(*rend);
 		while (SDL_PollEvent(&e))
 		{
 			if (e.type == SDL_QUIT)
@@ -44,7 +45,7 @@ void Game::loop() {
 			}
 		}
 
-		board.printBoard(rend);
+		board->printBoard(*rend);
 
 
 		SDL_RenderPresent(rend);
@@ -59,7 +60,7 @@ void Game::loop() {
 }
 
 void Game::openFocus() {
-	board.grid[x][y].setSelected();
+	board->grid[x][y].setSelected();
 }
 
 void Game::building() {
@@ -68,7 +69,7 @@ void Game::building() {
 		ch = _getch();
 		switch (ch) {
 		case -32:
-			board.grid[x][y].setUnSelected();
+			board->grid[x][y].setUnSelected();
 			ch = _getch();
 			switch (ch) {
 			case 72:
@@ -90,27 +91,27 @@ void Game::building() {
 			default:
 				break;
 			}
-			board.grid[x][y].setSelected();
+			board->grid[x][y].setSelected();
 			break;
 		case '1':
 			//board.setPiece(x, y, ch);
-			store.buy(1, x, y, board);
+			store->buy(1, x, y, board);
 			break;
 		case '2':
 			//board.setPiece(x, y, ch);
-			store.buy(2, x, y, board);
+			store->buy(2, x, y, board);
 			break;
 		case '3':
 			//board.setPiece(x, y, ch);
-			store.buy(3, x, y, board);
+			store->buy(3, x, y, board);
 			break;
 		case '4':
 			//board.setPiece(x, y, ch);
-			store.buy(4, x, y, board);
+			store->buy(4, x, y, board);
 			break;
 		case '5':
 			//board.setPiece(x, y, ch);
-			store.buy(5, x, y, board);
+			store->buy(5, x, y, board);
 			break;
 		case '6':
 			//board.setPiece(x, y, ch);
@@ -150,7 +151,7 @@ void Game::addInvader(int x, int y, int type) {
 	}
 	if (newInvader != nullptr) {
 		newInvader->setXY(x, y);
-		board.grid[x][y].addInvader(newInvader);
+		board->grid[x][y].addInvader(newInvader);
 		invaders.push_back(newInvader);
 	}
 }
@@ -167,8 +168,8 @@ bool Game::moveInvader()
 void Game::clearInvader() {
 	for (auto list = invaders.begin(); list != invaders.end();) {
 		if ((*list)->HP <= 0) {
-			board.grid[(*list)->x][(*list)->y].delInvader(*list);
-			store.addMoney((*list)->reward);
+			board->grid[(*list)->x][(*list)->y].delInvader(*list);
+			store->addMoney((*list)->reward);
 			delete (*list);
 			list = invaders.erase(list);
 		}

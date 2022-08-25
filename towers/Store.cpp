@@ -3,6 +3,7 @@
 #include <iostream>
 
 using namespace std;
+static Store* store_ = nullptr;
 
 void PieceCard::print() {
 	int dx = (index-1) * PIECE_CARD_WIDTH;
@@ -21,15 +22,22 @@ void Store::init() {
 	string str(WINDOW_WIDTH, '-');
 	PrintWithColor(str);
 	refreshMoney();
-	
+	Store* GetInstance();
 	for (auto& var : pieces) {
 		var->print();
 	}
 }
+Store *Store::GetInstance() {
 
-bool Store::buy(int choice, int x, int y, Board &board) {
+	if (store_ == nullptr) {
+		store_ = new Store();
+	}
+	return store_;
+}
+
+bool Store::buy(int choice, int x, int y, Board *board) {
 	if (money >= pieces[choice - 1]->cost) {
-		if (board.setPiece(x, y, choice)) {
+		if (board->setPiece(x, y, choice)) {
 			money -= pieces[choice - 1]->cost;
 			refreshMoney();
 			return true;

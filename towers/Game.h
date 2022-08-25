@@ -13,8 +13,11 @@
 using namespace std;
 
 class Game {
-	Board board;
-	Store store;
+	Board* board = Board::GetInstance();
+	Store* store = Store::GetInstance();
+
+	SDL_Renderer* rend = NULL;
+	SDL_Window* window = NULL;
 
 	list<Invader*> invaders = {};
 

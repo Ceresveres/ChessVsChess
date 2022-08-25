@@ -9,11 +9,11 @@
 #include <SDL_render.h>
 
 using namespace std;
+static Board* board_ = nullptr;
 
 void Grid::setXY(int x, int y) {
 	dx = x * (GRID_WIDTH + 1) + 1;
-	dy = y * (GRID_HEIGHT + 1) + 1;
- 
+	dy = y * (GRID_HEIGHT + 1) + 1; 
 }
 
 bool Grid::setPiece(Piece* iPiece) {
@@ -164,7 +164,7 @@ bool Board::setPiece(int ix, int iy, int type) {
 	}
 }
 
-void Board::printBoard(SDL_Renderer * renderer) {
+void Board::printBoard(SDL_Renderer& rend) {
 	//for (int i = 0; i < GRID_NUM_Y; i++) {
 	//	string str(WINDOW_WIDTH, '#');
 	//	Goto_XY(0, i *(GRID_HEIGHT+1));
@@ -187,12 +187,12 @@ void Board::printBoard(SDL_Renderer * renderer) {
 		for (int j = 0; j < GRID_NUM_Y; j++) {
 			SDL_Rect gridRect = { i * (BOX_WIDTH),  j* (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
 			if ((i + j) % 2 == 0) {
-				SDL_SetRenderDrawColor(renderer, 0, 143, 50, 255);
-				SDL_RenderFillRect(renderer, &gridRect);
+				SDL_SetRenderDrawColor(&rend, 0, 143, 50, 255);
+				SDL_RenderFillRect(&rend, &gridRect);
 			}
 			else {
-				SDL_SetRenderDrawColor(renderer, 86, 201, 50, 255);
-				SDL_RenderFillRect(renderer, &gridRect);
+				SDL_SetRenderDrawColor(&rend, 86, 201, 50, 255);
+				SDL_RenderFillRect(&rend, &gridRect);
 			}
 			if (grid[i][j].flag_refresh) {
 				grid[i][j].paint();
@@ -211,9 +211,18 @@ void Board::refresh() {
 	}
 }
 
-void Board::init() {
+Board* Board::GetInstance() {
+
+	if (board_ == nullptr) {
+		board_ = new Board();
+	}
+	return board_;
+}
+
+void Board::init(SDL_Renderer& rend) {
 	//system("cls");
 	//printBoard();
+	m_renderer = &rend;
 	for(int i = 0; i < GRID_NUM_X; i++) {
 		for (int j = 0; j < GRID_NUM_Y; j++) {
 			grid[i][j].setXY(i, j);

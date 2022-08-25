@@ -20,6 +20,8 @@ class Grid {
 	
 	bool selected{};
 	bool flag_refresh{};
+
+	//SDL_Renderer* m_renderer = NULL;
 	
 	void setRefresh() { flag_refresh = true; }
 public:
@@ -28,6 +30,7 @@ public:
 	
 	void setXY(int x, int y);
 	void paint();
+	//void init(SDL_Renderer& rend);
 	
 	void judgeAttacking();
 	void attackPiece(int attack);
@@ -53,16 +56,18 @@ public:
 };
 
 class Board {
-	Grid grid[GRID_NUM_X][GRID_NUM_Y];
+	
+	SDL_Renderer* m_renderer = NULL;
 public:
-	void init();
+	void init(SDL_Renderer& rend);
 	//void printBoard();
-	void printBoard(SDL_Renderer* renderer);
+	Grid grid[GRID_NUM_X][GRID_NUM_Y];
+	void printBoard(SDL_Renderer& rend);
 	void refresh();
 	bool setPiece(int ix, int iy, int type);
 	bool travGrid(Game& game);
+	static Board* GetInstance();
 
-	friend class Game;
 	friend class Invader;
 	friend class Jumper;
 	friend class Bullet;
