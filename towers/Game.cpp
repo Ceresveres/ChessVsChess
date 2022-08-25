@@ -1,5 +1,7 @@
 #include "Game.h"
 #include <conio.h>
+#include <SDL.h>
+#include <SDL_render.h>
 
 void Game::init()
 {
@@ -8,20 +10,52 @@ void Game::init()
 	openFocus();
 }
 
+//void Game::loop() {
+//	bool state = true;
+//	addInvader(7, 2, JUMPER);
+//	while (state) {
+//		building();
+//		board.travGrid(*this);
+//		if (moveInvader()) break;
+//		//makeInvaders();
+//		clearInvader();
+//		moveBullet();
+//		board.refresh();
+//		printBullet();
+//		Sleep(SLEEP_TIME);
+//	}
+//}
+
 void Game::loop() {
-	bool state = true;
-	addInvader(7, 2, JUMPER);
-	while (state) {
-		building();
-		board.travGrid(*this);
-		if (moveInvader()) break;
-		//makeInvaders();
-		clearInvader();
-		moveBullet();
-		board.refresh();
-		printBullet();
-		Sleep(SLEEP_TIME);
+	SDL_Window* window = SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	SDL_Renderer* rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Event e;
+	bool end = false;
+	//board.printBoard(rend);
+	while (!end) 
+	{
+		board.printBoard(rend);
+		while (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+			{
+				end = true;
+				break;
+			}
+		}
+
+		board.printBoard(rend);
+
+
+		SDL_RenderPresent(rend);
 	}
+
+	SDL_DestroyRenderer(rend);
+	SDL_DestroyWindow(window);
+
+	_CrtDumpMemoryLeaks();
+	SDL_Quit();
+
 }
 
 void Game::openFocus() {

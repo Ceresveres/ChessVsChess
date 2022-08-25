@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "Invader.h"
 #include "Bullet.h"
+#include <SDL_render.h>
 
 #include <vector>
 
@@ -55,7 +56,8 @@ class Board {
 	Grid grid[GRID_NUM_X][GRID_NUM_Y];
 public:
 	void init();
-	void printBoard();
+	//void printBoard();
+	void printBoard(SDL_Renderer* renderer);
 	void refresh();
 	bool setPiece(int ix, int iy, int type);
 	bool travGrid(Game& game);

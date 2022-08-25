@@ -4,6 +4,9 @@
 #include <algorithm>
 
 #include <vector>
+#include <SDL_video.h>
+#include <SDL_rect.h>
+#include <SDL_render.h>
 
 using namespace std;
 
@@ -161,22 +164,41 @@ bool Board::setPiece(int ix, int iy, int type) {
 	}
 }
 
-void Board::printBoard() {
-	for (int i = 0; i < GRID_NUM_Y; i++) {
-		string str(WINDOW_WIDTH, '#');
-		Goto_XY(0, i *(GRID_HEIGHT+1));
-		PrintWithColor(str);
-		for (int j = 1; j <= GRID_HEIGHT; j++) {
-			for (int k = 0; k <= GRID_NUM_X; k++) {
-				Goto_XY(k * (GRID_WIDTH+1), i*(GRID_HEIGHT+1) + j);
-				PrintWithColor("#");
+void Board::printBoard(SDL_Renderer * renderer) {
+	//for (int i = 0; i < GRID_NUM_Y; i++) {
+	//	string str(WINDOW_WIDTH, '#');
+	//	Goto_XY(0, i *(GRID_HEIGHT+1));
+	//	PrintWithColor(str);
+	//	for (int j = 1; j <= GRID_HEIGHT; j++) {
+	//		for (int k = 0; k <= GRID_NUM_X; k++) {
+	//			Goto_XY(k * (GRID_WIDTH+1), i*(GRID_HEIGHT+1) + j);
+	//			PrintWithColor("#");
+	//		}
+	//	}
+	//}
+	//
+	//string str(WINDOW_WIDTH, '#');
+	//Goto_XY(0, (GRID_HEIGHT + 1) * GRID_NUM_Y);
+	//PrintWithColor(str);
+	//int countOfRects = (GRID_NUM_X + GRID_NUM_Y) / 2;
+	//SDL_Rect fillRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+	//SDL_SetRenderDrawColor(&renderer, 0xFF, 0xFF, 0x00, 0xFF);
+	for (int i = 0; i < GRID_NUM_X; i++) {
+		for (int j = 0; j < GRID_NUM_Y; j++) {
+			SDL_Rect gridRect = { i * (BOX_WIDTH),  j* (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
+			if ((i + j) % 2 == 0) {
+				SDL_SetRenderDrawColor(renderer, 0, 143, 50, 255);
+				SDL_RenderFillRect(renderer, &gridRect);
+			}
+			else {
+				SDL_SetRenderDrawColor(renderer, 86, 201, 50, 255);
+				SDL_RenderFillRect(renderer, &gridRect);
+			}
+			if (grid[i][j].flag_refresh) {
+				grid[i][j].paint();
 			}
 		}
 	}
-	
-	string str(WINDOW_WIDTH, '#');
-	Goto_XY(0, (GRID_HEIGHT + 1) * GRID_NUM_Y);
-	PrintWithColor(str);
 }
 
 void Board::refresh() {
@@ -190,8 +212,8 @@ void Board::refresh() {
 }
 
 void Board::init() {
-	system("cls");
-	printBoard();
+	//system("cls");
+	//printBoard();
 	for(int i = 0; i < GRID_NUM_X; i++) {
 		for (int j = 0; j < GRID_NUM_Y; j++) {
 			grid[i][j].setXY(i, j);
