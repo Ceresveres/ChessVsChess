@@ -50,7 +50,8 @@ void Bullet::hitInvader(vector<Invader*>& invader) {
 void SlowBullet::hitInvader(vector<Invader*>& invader) {
 	for (auto var : invader) {
 		var->hit(attack);
-		var->setSlow();
+		//var->setSlow();
+		var->applyEffect(bulletElement);
 	}
 }
 
@@ -62,7 +63,7 @@ void SlowBullet::print() {
 void FireBullet::hitInvader(vector<Invader*>& invader) {
 	for (auto var : invader) {
 		var->hit(attack);
-		var->setBurn();
+		var->applyEffect(bulletElement);
 	}
 }
 

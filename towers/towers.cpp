@@ -5,9 +5,8 @@
 
 int main(int argc, char* args[])
 {
-    Game myGame;
-    myGame.init();
-    myGame.loop();
+    Game* myGame = Game::GetInstance();
+    myGame->loop();
     return 0;
 }
 

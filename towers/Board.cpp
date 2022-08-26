@@ -32,6 +32,8 @@ void Grid::delPiece() {
 }
 
 void Grid::addInvader(Invader* iInvader) {
+	iInvader->applyEffect(1);
+	iInvader->applyEffect(2);
 	invaders.push_back(iInvader);
 	flag_refresh = true;
 }
@@ -211,18 +213,14 @@ void Board::refresh() {
 	}
 }
 
-Board* Board::GetInstance() {
-
+Board* Board::GetInstance(SDL_Renderer& renderer) {
 	if (board_ == nullptr) {
-		board_ = new Board();
+		board_ = new Board(renderer);
 	}
 	return board_;
 }
 
-void Board::init(SDL_Renderer& rend) {
-	//system("cls");
-	//printBoard();
-	m_renderer = &rend;
+void Board::init() {
 	for(int i = 0; i < GRID_NUM_X; i++) {
 		for (int j = 0; j < GRID_NUM_Y; j++) {
 			grid[i][j].setXY(i, j);

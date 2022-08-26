@@ -58,15 +58,17 @@ public:
 class Board {
 	
 	SDL_Renderer* m_renderer = NULL;
+	void init();
+	Board(SDL_Renderer& rend)
+		: m_renderer{ &rend } {init(); }
 public:
-	void init(SDL_Renderer& rend);
 	//void printBoard();
 	Grid grid[GRID_NUM_X][GRID_NUM_Y];
 	void printBoard(SDL_Renderer& rend);
 	void refresh();
 	bool setPiece(int ix, int iy, int type);
 	bool travGrid(Game& game);
-	static Board* GetInstance();
+	static Board* GetInstance(SDL_Renderer& renderer);
 
 	friend class Invader;
 	friend class Jumper;

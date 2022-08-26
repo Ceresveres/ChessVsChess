@@ -13,11 +13,11 @@
 using namespace std;
 
 class Game {
-	Board* board = Board::GetInstance();
-	Store* store = Store::GetInstance();
+	SDL_Window* window { SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
+	SDL_Renderer* rend { SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED) };
 
-	SDL_Renderer* rend = NULL;
-	SDL_Window* window = NULL;
+	Board* board { Board::GetInstance(*rend) };
+	Store* store { Store::GetInstance(*rend) };
 
 	list<Invader*> invaders = {};
 
@@ -37,16 +37,21 @@ class Game {
 	
 	void printBullet();
 	void moveBullet();
-	
-	
+	void initializeSDL();
+
+	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
+		: x(x), y(y), makeCounter(makeCounter), makeSpeed(makeSpeed)
+		//window{ SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) },
+		//rend { SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED) },
+		//board { Board::GetInstance(*rend) }, store { Store::GetInstance() }
+	{
+		//initializeSDL();
+
+	}	
 
 public:
-	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
-		: x(x), y(y), makeCounter(makeCounter), makeSpeed(makeSpeed) {
-		HideCursor();
-		SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	}
-	void init();
+
+	static Game* GetInstance();
 	void loop();
 	void addBullet(Bullet* p);
 

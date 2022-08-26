@@ -1,8 +1,36 @@
 #pragma once
 #include "ui-tools.h"
 #include <string>
+#include <vector>
 
 using namespace std;
+
+class Invader;
+class Modifier;
+class Effect {
+	void initEffect(int type);
+	
+	int damage{ 0 };
+	int duration{ 30 };
+	int type;
+	int tick{ 1 };
+public:
+	Modifier* modifier = nullptr;
+	enum { BURN = 1, SLOW = 2, MAXEFFECTS };
+	Effect(int i)
+		: type{ i } {initEffect(i); };
+	int triggerEffect(Invader& invader);
+};
+
+class Invader;
+class Modifier {
+	enum { SPEED, HP, ATTACK };
+public:
+	int type{};
+	int val{};
+	Modifier(int i, int increment)
+		: type{ i }, val{ increment } { };
+};
 
 class Game;
 class Board;
@@ -19,18 +47,20 @@ protected:
 	int attackSpeed{ 4 };
 	int attackCounter{ 0 };
 
+	int step{ 10 };
 	int counter{0};
-	
-	bool slow = false;
-	int slowCounter{ 0 };
-	int slowTime{ 20 };
+	//
+	//bool slow = false;
+	//int slowCounter{ 0 };
+	//int slowTime{ 20 };
 
-	bool burn = false;
-	int burnDamage{ 11 };
-	int burnCounter{ 0 };
-	int burnTick{ 3 };
-	int burnTime{ 30 };
-	
+	//bool burn = false;
+	//int burnDamage{ 11 };
+	//int burnCounter{ 0 };
+	//int burnTick{ 3 };
+	//int burnTime{ 30 };
+	enum { SHIELD, BURN=1, SLOW=2, MAXEFFECTS };
+	vector<Effect*> effects_ {};
 	bool attacking = false;
 
 	virtual void printName();
@@ -42,11 +72,15 @@ public:
 	void setXY(int ix, int iy) { x = ix; y = iy; }
 	
 	virtual void hit(int damage);
-	virtual bool move(Board* board);	
+	virtual bool move(Board* board);
+	virtual void go(Board* board);
 		
-	virtual void setSlow() { slow = true; slowCounter = 0; };
+	//virtual void setSlow() { slow = true; slowCounter = 0; };
+	virtual void removeEffect(Effect* effect);
+	virtual void applyEffect(int type) { effects_.push_back(new Effect(type)); };
+	virtual void applyModifier(int type) { };
 
-	virtual void setBurn() { burn = true; burnCounter = 0; };
+	virtual void setBurn(int i) { effects_.push_back(new Effect(BURN)); };
 
 	
 	friend class Game;
@@ -65,9 +99,7 @@ public:
 class Heavy :public Invader {
 public:
 	Heavy(string name = "Hevy", int speed = 50, int HP = 300, int attack = 50, int reward = 60)
-		: Invader{ name, speed, HP, attack, reward } {
-		this->attackSpeed = 6;
-	}
+		: Invader{ name, speed, HP, attack, reward } {}
 };
 
 class Shield :public Invader {
@@ -79,7 +111,7 @@ public:
 		: Invader{ name, speed, HP, attack, reward }, shield { shield } {		
 	}
 	void setSlow();
-	void setBurn();
+	//void setBurn();
 	void hit(int damage);
 	void printName();
 };

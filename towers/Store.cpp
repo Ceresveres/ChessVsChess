@@ -5,32 +5,35 @@
 using namespace std;
 static Store* store_ = nullptr;
 
-void PieceCard::print() {
-	int dx = (index-1) * PIECE_CARD_WIDTH;
-	int dy = (GRID_HEIGHT + 1) * GRID_NUM_Y + 3;
-
-	string str( "  " + to_string(index) + ". " + name + "  -  $" + to_string(cost));
-	
-	Goto_XY(dx, dy);
-	PrintWithColor(str);
+void PieceCard::print(SDL_Renderer& rend) {
+	SDL_Rect pieceCardRect = { (index-1) * (PIECE_CARD_WIDTH),  SCREEN_HEIGHT - PIECE_CARD_HEIGHT, PIECE_CARD_WIDTH, PIECE_CARD_HEIGHT };
+	SDL_SetRenderDrawColor(&rend, (index+4)*20, 0, index * 20, 255);
+	SDL_RenderFillRect(&rend, &pieceCardRect);
 }
 
-void Store::init() {
-	Goto_XY(2, (GRID_HEIGHT + 1) * GRID_NUM_Y + 1);
-	PrintWithColor("Store");
-	Goto_XY(0, (GRID_HEIGHT + 1) * GRID_NUM_Y + 2);
-	string str(WINDOW_WIDTH, '-');
-	PrintWithColor(str);
-	refreshMoney();
-	Store* GetInstance();
+void Store::printStore(SDL_Renderer& rend) {
 	for (auto& var : pieces) {
-		var->print();
+		var->print(rend);
 	}
 }
-Store *Store::GetInstance() {
+
+
+//void Store::init() {
+//	Goto_XY(2, (GRID_HEIGHT + 1) * GRID_NUM_Y + 1);
+//	PrintWithColor("Store");
+//	Goto_XY(0, (GRID_HEIGHT + 1) * GRID_NUM_Y + 2);
+//	string str(WINDOW_WIDTH, '-');
+//	PrintWithColor(str);
+//	refreshMoney();
+//	Store* GetInstance();
+//	//for (auto& var : pieces) {
+//	//	var->print();
+//	//}
+//}
+Store *Store::GetInstance(SDL_Renderer& rend) {
 
 	if (store_ == nullptr) {
-		store_ = new Store();
+		store_ = new Store(rend);
 	}
 	return store_;
 }

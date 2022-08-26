@@ -1,6 +1,7 @@
 #pragma once
 #include "ui-tools.h"
 #include<string>
+#include <SDL_render.h>
 
 class Game;
 class Store;
@@ -17,24 +18,26 @@ public:
 		: index{ index }, name{ name }, cost{ cost }, flag{ false } {}
 
 	void setSelect() { flag = true; }
-	void print();
+	void print(SDL_Renderer& rend);
 };
 
 class Store {
 private:
-	PieceCard* pieces[MAX];
+	SDL_Renderer* m_renderer = NULL;
+	PieceCard* pieces[MAXPIECECOUNT];
 	int money{100};
 	void refreshMoney();
-	Store() {
+	Store(SDL_Renderer& rend)
+		: m_renderer{ &rend } {
 		pieces[0] = new PieceCard(1, "Pawn", 50);
 		pieces[1] = new PieceCard(2, "Rook", 100);
 		pieces[2] = new PieceCard(3, "Knight", 125);
 		pieces[3] = new PieceCard(4, "Bishop", 125);
 		pieces[4] = new PieceCard(5, "Peasant", 25);
 	}
-	void init();
 public:
-	static Store* GetInstance();
+	static Store* GetInstance(SDL_Renderer& rend);
+	void printStore(SDL_Renderer& rend);
 	
 	virtual void addMoney(int reward) { money += reward; refreshMoney(); }
 

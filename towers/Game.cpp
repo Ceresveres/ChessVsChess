@@ -3,11 +3,13 @@
 #include <SDL.h>
 #include <SDL_render.h>
 
-void Game::init()
-{
-	//board.init();
-	//store.init();
-	openFocus();
+static Game* game_ = nullptr;
+
+Game* Game::GetInstance() {
+	if (game_ == nullptr) {
+		game_ = new Game();
+	}
+	return game_;
 }
 
 //void Game::loop() {
@@ -26,16 +28,19 @@ void Game::init()
 //	}
 //}
 
-void Game::loop() {
+void Game::initializeSDL() {
 	window = SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+}
 
+void Game::loop() {
 	SDL_Event e;
 	bool end = false;
 	addInvader(7, 2, JUMPER);
 	while (!end) 
 	{
 		board->printBoard(*rend);
+		store->printStore(*rend);
 		while (SDL_PollEvent(&e))
 		{
 			if (e.type == SDL_QUIT)
@@ -46,6 +51,7 @@ void Game::loop() {
 		}
 
 		board->printBoard(*rend);
+		if (moveInvader()) break;
 
 
 		SDL_RenderPresent(rend);
@@ -159,8 +165,9 @@ void Game::addInvader(int x, int y, int type) {
 bool Game::moveInvader()
 {
 	for (auto& var : invaders) {
-		if (var->move(board))
-			return true;
+		var->go(board);
+		//if (var->go(board))
+		//	return true;
 	}
 	return false;
 }
