@@ -2,6 +2,7 @@
 #include "ui-tools.h"
 #include <string>
 #include <vector>
+#include <SDL_render.h>
 
 using namespace std;
 
@@ -63,7 +64,7 @@ protected:
 	vector<Effect*> effects_ {};
 	bool attacking = false;
 
-	virtual void printName();
+	
 	virtual void printLife();
 public:
 	Invader(const string& name = "Basic", int speed = 10, int HP = 100, int attack = 10, int reward = 50)
@@ -73,7 +74,8 @@ public:
 	
 	virtual void hit(int damage);
 	virtual bool move(Board* board);
-	virtual void go(Board* board);
+	virtual bool go(Board* board);
+	virtual void printName(SDL_Renderer& renderer);
 		
 	//virtual void setSlow() { slow = true; slowCounter = 0; };
 	virtual void removeEffect(Effect* effect);

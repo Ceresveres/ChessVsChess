@@ -37,9 +37,10 @@ void Game::loop() {
 	SDL_Event e;
 	bool end = false;
 	addInvader(7, 2, JUMPER);
+	board->printBoard(*rend);
 	while (!end) 
 	{
-		board->printBoard(*rend);
+		
 		store->printStore(*rend);
 		while (SDL_PollEvent(&e))
 		{
@@ -49,8 +50,8 @@ void Game::loop() {
 				break;
 			}
 		}
-
-		board->printBoard(*rend);
+		Sleep(100);
+		board->refresh(*rend);
 		if (moveInvader()) break;
 
 
@@ -165,9 +166,9 @@ void Game::addInvader(int x, int y, int type) {
 bool Game::moveInvader()
 {
 	for (auto& var : invaders) {
-		var->go(board);
-		//if (var->go(board))
-		//	return true;
+		//var->go(board);
+		if (var->go(board))
+			return true;
 	}
 	return false;
 }

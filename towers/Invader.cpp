@@ -39,7 +39,7 @@ void Invader::removeEffect(Effect* effect) {
 
 
 
-void Invader::go(Board* board) {
+bool Invader::go(Board* board) {
 	vector<Modifier*> modifiers{};
 	for (int i = effects_.size()-1; i >= 0; i--) {
 		if (effects_[i]->modifier != nullptr) {
@@ -54,31 +54,24 @@ void Invader::go(Board* board) {
 			break;
 		}
 	}
+	if (modifiers.size() == 0) {
+		counter += step;
+	}
 	if (counter >= 10 * speed) {
 		board->grid[x][y].delInvader(this);
 		x--;
-		board->grid[x][y].delInvader(this);
+		if (x < 0) return true;
+		board->grid[x][y].addInvader(this);
 		counter = 0;
 	}
-
-	//if (!attacking) {
-	//	if (slow) {
-	//		counter += 5;
-	//	}
-	//	else {
-	//		counter += 10;
-	//	}
-	//		
-	//	if (counter >= 10 * speed) {
-	//		board->grid[x][y].delInvader(this);
-	//		x--;
-	//		board->grid[x][y].delInvader(this);
-	//		counter = 0;
-	//	}
-	//}
+	return false;
 }
 
-void Invader::printName() {
+void Invader::printName(SDL_Renderer& rend) {
+	cout << "hi";
+	SDL_Rect gridRect = { x * (BOX_WIDTH),  y * (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
+	SDL_SetRenderDrawColor(&rend, 100, 0, 50, 255);
+	SDL_RenderFillRect(&rend, &gridRect);
 	//if (attacking) {
 	//	PrintWithColor(name, FOREGROUND_GREEN);
 	//} else if (burn) {

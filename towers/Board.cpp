@@ -14,6 +14,8 @@ static Board* board_ = nullptr;
 void Grid::setXY(int x, int y) {
 	dx = x * (GRID_WIDTH + 1) + 1;
 	dy = y * (GRID_HEIGHT + 1) + 1; 
+	this->x = x;
+	this->y = y;
 }
 
 bool Grid::setPiece(Piece* iPiece) {
@@ -32,8 +34,8 @@ void Grid::delPiece() {
 }
 
 void Grid::addInvader(Invader* iInvader) {
-	iInvader->applyEffect(1);
-	iInvader->applyEffect(2);
+	//iInvader->applyEffect(1);
+	//iInvader->applyEffect(2);
 	invaders.push_back(iInvader);
 	flag_refresh = true;
 }
@@ -73,52 +75,57 @@ void Grid::attackPiece(int attack)
 	}
 }
 
-void Grid::paint() {
+void Grid::paint(SDL_Renderer& rend) {
 	flag_refresh = false;
-
+	SDL_Rect gridRect = { x * (BOX_WIDTH),  y * (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
+	SDL_SetRenderDrawColor(&rend, 0, 143, 50, 255);
+	SDL_RenderFillRect(&rend, &gridRect);
 	string str(GRID_WIDTH, ' ');
 	for (int i = 0; i < GRID_HEIGHT; i++) {
 		Goto_XY(dx, dy + i);
 		PrintWithColor(str);
 	}
-
-	if (selected) {
-		string str(GRID_WIDTH - 2, '-');
-		Goto_XY(dx, dy);
-		PrintWithColor("+" + str + "+");
-		for (int i = 1; i < GRID_HEIGHT-1; i++) {
-			Goto_XY(dx, dy + i);
-			PrintWithColor("|");
-			Goto_XY(dx + GRID_WIDTH - 1, dy + i);
-			PrintWithColor("|");
-		}
-		Goto_XY(dx, dy+GRID_HEIGHT-1);
-		PrintWithColor("+" + str + "+");
+	if (invaders.size() != 0) {
+		invaders[0]->printName(rend);
 	}
 
-	if (piece != nullptr && invaders.size() == 0) {
-		Goto_XY(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2 );
-		piece->printPiece();
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
-		piece->printLife();
-	}
-	else if (piece != nullptr && invaders.size() == 1) {
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 2);
-		piece->printLife();
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 1);
-		piece->printPiece();
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
-		PrintWithColor("X");
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
-		invaders[0]->printName();
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 2);
-		invaders[0]->printLife();
-	} else if (piece == nullptr && invaders.size() != 0) {
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
-		invaders[0]->printName();
-		Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
-		invaders[0]->printLife();
-	}
+	//if (selected) {
+	//	string str(GRID_WIDTH - 2, '-');
+	//	Goto_XY(dx, dy);
+	//	PrintWithColor("+" + str + "+");
+	//	for (int i = 1; i < GRID_HEIGHT-1; i++) {
+	//		Goto_XY(dx, dy + i);
+	//		PrintWithColor("|");
+	//		Goto_XY(dx + GRID_WIDTH - 1, dy + i);
+	//		PrintWithColor("|");
+	//	}
+	//	Goto_XY(dx, dy+GRID_HEIGHT-1);
+	//	PrintWithColor("+" + str + "+");
+	//}
+
+	//if (piece != nullptr && invaders.size() == 0) {
+	//	Goto_XY(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2 );
+	//	piece->printPiece();
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+	//	piece->printLife();
+	//}
+	//else if (piece != nullptr && invaders.size() == 1) {
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 2);
+	//	piece->printLife();
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 - 1);
+	//	piece->printPiece();
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
+	//	PrintWithColor("X");
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+	//	invaders[0]->printName(rend);
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 2);
+	//	invaders[0]->printLife();
+	//} else if (piece == nullptr && invaders.size() != 0) {
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2);
+	//	invaders[0]->printName(rend);
+	//	Goto_XY(dx + (GRID_WIDTH / 2) - 1, dy + GRID_HEIGHT / 2 + 1);
+	//	invaders[0]->printLife();
+	//}
 }
 
 bool Board::travGrid(Game& game)
@@ -197,17 +204,17 @@ void Board::printBoard(SDL_Renderer& rend) {
 				SDL_RenderFillRect(&rend, &gridRect);
 			}
 			if (grid[i][j].flag_refresh) {
-				grid[i][j].paint();
+				grid[i][j].paint(*m_renderer);
 			}
 		}
 	}
 }
 
-void Board::refresh() {
+void Board::refresh(SDL_Renderer& rend) {
 	for (int i = 0; i < GRID_NUM_X; i++) {
 		for (int j = 0; j < GRID_NUM_Y; j++) {
 			if (grid[i][j].flag_refresh) {
-				grid[i][j].paint();
+				grid[i][j].paint(*m_renderer);
 			}
 		}
 	}

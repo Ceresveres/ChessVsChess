@@ -14,7 +14,7 @@ class Invader;
 class Bullet;
 class Grid {
 	int dx{}, dy{};
-	
+	int x, y;
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
 	
@@ -29,7 +29,7 @@ public:
 		: selected{ false }, flag_refresh{ false } {}
 	
 	void setXY(int x, int y);
-	void paint();
+	void paint(SDL_Renderer& rend);
 	//void init(SDL_Renderer& rend);
 	
 	void judgeAttacking();
@@ -65,7 +65,7 @@ public:
 	//void printBoard();
 	Grid grid[GRID_NUM_X][GRID_NUM_Y];
 	void printBoard(SDL_Renderer& rend);
-	void refresh();
+	void refresh(SDL_Renderer& rend);
 	bool setPiece(int ix, int iy, int type);
 	bool travGrid(Game& game);
 	static Board* GetInstance(SDL_Renderer& renderer);
