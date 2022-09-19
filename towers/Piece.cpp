@@ -4,8 +4,11 @@
 
 #include <iostream>
 
-void Piece::printPiece() {
-	PrintWithColor(name);
+void Piece::printPiece(SDL_Renderer& rend, SDL_Rect gridRect) {
+	//PrintWithColor(name);
+	cout << "hifdsa";
+	SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
+	SDL_RenderFillRect(&rend, &gridRect);
 }
 
 void Piece::printLife() {

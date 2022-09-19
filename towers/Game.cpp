@@ -36,11 +36,10 @@ void Game::initializeSDL() {
 void Game::loop() {
 	SDL_Event e;
 	bool end = false;
-	addInvader(7, 2, JUMPER);
+	addInvader(7, 2, BASIC);
 	board->printBoard(*rend);
 	while (!end) 
 	{
-		
 		store->printStore(*rend);
 		while (SDL_PollEvent(&e))
 		{
@@ -50,10 +49,32 @@ void Game::loop() {
 				break;
 			}
 		}
-		Sleep(100);
-		board->refresh(*rend);
-		if (moveInvader()) break;
+		board->grid[x][y].setUnSelected();
+		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+		if ((currentKeyStates[SDL_SCANCODE_UP]) && (y > 0))
+		{
+			y--;
+		}
+		else if ((currentKeyStates[SDL_SCANCODE_DOWN]) && (y < GRID_NUM_Y - 1))
+		{
+			y++;
+		}
+		else if ((currentKeyStates[SDL_SCANCODE_LEFT]) && (x > 0))
+		{
+			x--;
+		}
+		if ((currentKeyStates[SDL_SCANCODE_RIGHT]) && (x < GRID_NUM_X - 1))	x++;
 
+		if ((currentKeyStates[SDL_SCANCODE_1])) store->buy(1, x, y, board);
+		board->grid[x][y].setSelected();
+		Sleep(100);
+		board->travGrid(*this);
+		
+		moveBullet();
+		clearInvader();
+		printBullet();
+		if (moveInvader()) break;
+		board->refresh(*rend);
 
 		SDL_RenderPresent(rend);
 	}
@@ -193,7 +214,7 @@ void Game::addBullet(Bullet* p) {
 
 void Game::printBullet() {
 	for (auto const& var: bullets) {
-		var->print();
+		var->print(*rend);
 	}
 }
 

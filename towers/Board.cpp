@@ -78,15 +78,31 @@ void Grid::attackPiece(int attack)
 void Grid::paint(SDL_Renderer& rend) {
 	flag_refresh = false;
 	SDL_Rect gridRect = { x * (BOX_WIDTH),  y * (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
-	SDL_SetRenderDrawColor(&rend, 0, 143, 50, 255);
-	SDL_RenderFillRect(&rend, &gridRect);
+	if (selected) {
+		//SDL_RenderSetScale(&rend, 1.1, 1.1);
+		SDL_SetRenderDrawColor(&rend, 16, 10, 10, 255);
+		SDL_RenderFillRect(&rend, &gridRect);
+		gridRect = { (x * (BOX_WIDTH)) + 10,  (y * (BOX_HEIGHT)) + 10, BOX_WIDTH - 20, BOX_HEIGHT-20 };
+	}
+	if ((x + y) % 2 == 0) {
+		SDL_SetRenderDrawColor(&rend, 0, 143, 50, 255);
+		SDL_RenderFillRect(&rend, &gridRect);
+	}
+	else {
+		SDL_SetRenderDrawColor(&rend, 86, 201, 50, 255);
+		SDL_RenderFillRect(&rend, &gridRect);
+	}
+
 	string str(GRID_WIDTH, ' ');
 	for (int i = 0; i < GRID_HEIGHT; i++) {
 		Goto_XY(dx, dy + i);
 		PrintWithColor(str);
 	}
 	if (invaders.size() != 0) {
-		invaders[0]->printName(rend);
+		invaders[0]->printName(rend, gridRect);
+	}
+	if (piece != nullptr) {
+		piece->printPiece(rend, gridRect);
 	}
 
 	//if (selected) {

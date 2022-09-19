@@ -2,6 +2,7 @@
 
 #include "Invader.h"
 #include <vector>
+#include <SDL_render.h>
 
 class Board;
 class Bullet {
@@ -10,6 +11,10 @@ protected:
 	int dx{}, dy{};
 	int x{}, y{};
 	int attack{};
+	const int BULLET_WIDTH = 20;
+	const int BULLET_HEIGHT = 20;
+	int bullet_velocity = 10;
+
 	int bulletElement{ NORMAL };
 	
 public:
@@ -17,8 +22,10 @@ public:
 		: attack{ attack }, hit{ false }, bulletElement{ bulletElement } {}
 	
 	void setXY(int dx, int dy);
-	virtual void print();
+	void updateXY();
+	virtual void print(SDL_Renderer& rend);
 	bool hit;
+	void render();
 	void move(Board* board);
 	virtual void hitInvader(vector<Invader*>& invader);
 	

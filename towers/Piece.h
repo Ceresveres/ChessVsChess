@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ui-tools.h"
 #include <string>
+#include <SDL_render.h>
 
 class Game;
 class Grid;
@@ -18,7 +19,7 @@ public:
 	
 	void setXY(int ix, int iy) { x = ix; y = iy; }
 	
-	virtual void printPiece();
+	virtual void printPiece(SDL_Renderer& rend, SDL_Rect gridRect);
 	virtual void printLife();
 	virtual void go(Game& nowGame);
 

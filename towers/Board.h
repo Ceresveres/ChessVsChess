@@ -14,7 +14,7 @@ class Invader;
 class Bullet;
 class Grid {
 	int dx{}, dy{};
-	int x, y;
+	int x{}, y{};
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
 	

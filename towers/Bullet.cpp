@@ -3,42 +3,41 @@
 #include "ui-tools.h"
 
 void Bullet::setXY(int ix, int iy) {
-	dx = ix;
-	dy = iy;
-	//(dx + (GRID_WIDTH/2) - 1, dy + GRID_HEIGHT / 2)
-	//x = (dx + 1) * (GRID_WIDTH + 1) - (GRID_WIDTH/2);
-	//y = (dy) * (GRID_HEIGHT + 1) + GRID_HEIGHT/2;
-	x = dx * (GRID_WIDTH+1) + (GRID_WIDTH / 2);
-	y = dy * (GRID_HEIGHT + 1) + 1 + (GRID_HEIGHT/2);
+	x = ix;
+	y = iy;
+	dx = x * BOX_WIDTH + BOX_WIDTH;
+	dy = y * BOX_HEIGHT + BOX_HEIGHT/2;
 }
 
-void Bullet::print() {
-	Goto_XY(x, y);
-	PrintWithColor("*");
+void Bullet::updateXY() {
+	x++;
+	dx = x * BOX_WIDTH;
+}
+
+void Bullet::print(SDL_Renderer& rend) {
+	SDL_Rect gridRect = { dx,  dy, 5, 5 };
+	SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
+	SDL_RenderFillRect(&rend, &gridRect);
 }
 
 void Bullet::move(Board *board) {
-	board->grid[dx][dy].setRefresh();
-	if (x % (GRID_WIDTH + 1) == 0) {
-		Goto_XY(x, y);
-		PrintWithColor("#");
+	board->grid[x][y].setRefresh();
+	dx += 45;
+	if (dx >= (x+1) * BOX_WIDTH) {
+		x++;
+		board->grid[x][y].setRefresh();
 	}
-	x += 2;
-	if (dx >= GRID_NUM_X) {
+	
+	if (x >= GRID_NUM_X) {
 		hit = true;
 		return;
 	}
-	if (board->grid[dx][dy].invaders.size() > 0) {
-		hitInvader(board->grid[dx][dy].invaders);
-		board->grid[dx][dy].setRefresh();
-		if (x % (GRID_WIDTH + 1) == 0) {
-			Goto_XY(x, y);
-			PrintWithColor("#");
-		}
+	if (board->grid[x][y].invaders.size() > 0) {
+		hitInvader(board->grid[x][y].invaders);
+		//board->grid[x][y].setRefresh();
 		hit = true;
 		return;
 	}
-	dx = x / (GRID_WIDTH + 1);
 }
 
 void Bullet::hitInvader(vector<Invader*>& invader) {

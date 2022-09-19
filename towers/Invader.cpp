@@ -47,29 +47,38 @@ bool Invader::go(Board* board) {
 		}
 		effects_[i]->triggerEffect(*this);
 	}
-	for (int i = 0; i < modifiers.size(); i++) {
-		switch(modifiers[i]->type) {
-		case 0:
-			counter += step - modifiers[i]->val;
-			break;
+	if (!attacking) {
+		for (int i = 0; i < modifiers.size(); i++) {
+			switch (modifiers[i]->type) {
+			case 0:
+				counter += step - modifiers[i]->val;
+				break;
+			}
+		}
+		if (modifiers.size() == 0) {
+			counter += step;
+		}
+		if (counter >= 100 * speed) {
+			board->grid[x][y].delInvader(this);
+			x--;
+			if (x < 0) return true;
+			board->grid[x][y].addInvader(this);
+			counter = 0;
 		}
 	}
-	if (modifiers.size() == 0) {
-		counter += step;
-	}
-	if (counter >= 10 * speed) {
-		board->grid[x][y].delInvader(this);
-		x--;
-		if (x < 0) return true;
-		board->grid[x][y].addInvader(this);
-		counter = 0;
+	else {
+		attackCounter++;
+		if (attackCounter >= attackSpeed) {
+			board->grid[x][y].attackPiece(attack);
+			attackCounter = 0;
+		}
 	}
 	return false;
 }
 
-void Invader::printName(SDL_Renderer& rend) {
+void Invader::printName(SDL_Renderer& rend, SDL_Rect gridRect) {
 	cout << "hi";
-	SDL_Rect gridRect = { x * (BOX_WIDTH),  y * (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
+	//SDL_Rect gridRect = { x * (BOX_WIDTH),  y * (BOX_HEIGHT), BOX_WIDTH, BOX_HEIGHT };
 	SDL_SetRenderDrawColor(&rend, 100, 0, 50, 255);
 	SDL_RenderFillRect(&rend, &gridRect);
 	//if (attacking) {

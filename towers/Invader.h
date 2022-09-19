@@ -75,7 +75,7 @@ public:
 	virtual void hit(int damage);
 	virtual bool move(Board* board);
 	virtual bool go(Board* board);
-	virtual void printName(SDL_Renderer& renderer);
+	virtual void printName(SDL_Renderer& renderer, SDL_Rect gridRect);
 		
 	//virtual void setSlow() { slow = true; slowCounter = 0; };
 	virtual void removeEffect(Effect* effect);

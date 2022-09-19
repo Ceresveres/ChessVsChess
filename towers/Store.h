@@ -25,7 +25,7 @@ class Store {
 private:
 	SDL_Renderer* m_renderer = NULL;
 	PieceCard* pieces[MAXPIECECOUNT];
-	int money{100};
+	int money{100000};
 	void refreshMoney();
 	Store(SDL_Renderer& rend)
 		: m_renderer{ &rend } {
