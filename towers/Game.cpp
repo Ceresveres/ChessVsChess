@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <SDL.h>
 #include <SDL_render.h>
+#include <SDL_image.h>
 
 static Game* game_ = nullptr;
 
@@ -11,6 +12,16 @@ Game* Game::GetInstance() {
 	}
 	return game_;
 }
+
+enum KeyPressSurfaces
+{
+	KEY_PRESS_SURFACE_DEFAULT,
+	KEY_PRESS_SURFACE_UP,
+	KEY_PRESS_SURFACE_DOWN,
+	KEY_PRESS_SURFACE_LEFT,
+	KEY_PRESS_SURFACE_RIGHT,
+	KEY_PRESS_SURFACE_TOTAL
+};
 
 //void Game::loop() {
 //	bool state = true;
@@ -33,45 +44,103 @@ void Game::initializeSDL() {
 	rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
+void keyboard(bool KEYS[]) {
+	SDL_Event e;
+	while (SDL_PollEvent(&e) != 0)
+	{
+		// check for messages
+		switch (e.type) {
+			// exit if the window is closed
+		case SDL_QUIT:
+			break;
+			// check for keypresses
+		case SDL_KEYDOWN:
+			KEYS[e.key.keysym.sym] = true;
+			break;
+		case SDL_KEYUP:
+			KEYS[e.key.keysym.sym] = false;
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void Game::loop() {
+
+	string path = "v0he8g2kvsn91.jpg";
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	SDL_Event e;
 	bool end = false;
 	addInvader(7, 2, BASIC);
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+	SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL] = {};
+	SDL_Surface* gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
 	board->printBoard(*rend);
 	while (!end) 
 	{
 		store->printStore(*rend);
-		while (SDL_PollEvent(&e))
+		board->grid[x][y].setUnSelected();
+		while (SDL_PollEvent(&e) != 0)
 		{
 			if (e.type == SDL_QUIT)
 			{
 				end = true;
 				break;
 			}
+			else if (e.type == SDL_KEYDOWN) {
+				switch (e.key.keysym.sym)
+				{
+				case SDLK_UP:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
+					if (y > 0) y--;
+					break;
+
+				case SDLK_DOWN:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
+					if (y < GRID_NUM_Y - 1) y++;
+					break;
+
+				case SDLK_LEFT:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
+					if (x > 0) x--;
+					break;
+
+				case SDLK_RIGHT:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
+					if (x < GRID_NUM_X - 1) x++;
+					break;
+
+				default:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+					break;
+				}
+			}
 		}
-		board->grid[x][y].setUnSelected();
-		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-		if ((currentKeyStates[SDL_SCANCODE_UP]) && (y > 0))
-		{
-			y--;
-		}
-		else if ((currentKeyStates[SDL_SCANCODE_DOWN]) && (y < GRID_NUM_Y - 1))
-		{
-			y++;
-		}
-		else if ((currentKeyStates[SDL_SCANCODE_LEFT]) && (x > 0))
-		{
-			x--;
-		}
-		if ((currentKeyStates[SDL_SCANCODE_RIGHT]) && (x < GRID_NUM_X - 1))	x++;
+		
+		
+		//if ((currentKeyStates[SDL_SCANCODE_UP]) && (y > 0))
+		//{
+		//	y--;
+		//}
+		//else if ((currentKeyStates[SDL_SCANCODE_DOWN]) && (y < GRID_NUM_Y - 1))
+		//{
+		//	y++;
+		//}
+		//else if ((currentKeyStates[SDL_SCANCODE_LEFT]) && (x > 0))
+		//{
+		//	x--;
+		//}
+		//if ((currentKeyStates[SDL_SCANCODE_RIGHT]) && (x < GRID_NUM_X - 1))	x++;
 
 		if ((currentKeyStates[SDL_SCANCODE_1])) store->buy(1, x, y, board);
 		board->grid[x][y].setSelected();
-		Sleep(100);
+		//Sleep(100);
 		board->travGrid(*this);
 		
 		moveBullet();
 		clearInvader();
+		board->refresh(*rend);
 		printBullet();
 		if (moveInvader()) break;
 		board->refresh(*rend);

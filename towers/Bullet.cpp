@@ -22,7 +22,7 @@ void Bullet::print(SDL_Renderer& rend) {
 
 void Bullet::move(Board *board) {
 	board->grid[x][y].setRefresh();
-	dx += 45;
+	dx += 5;
 	if (dx >= (x+1) * BOX_WIDTH) {
 		x++;
 		board->grid[x][y].setRefresh();

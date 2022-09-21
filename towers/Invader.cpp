@@ -58,7 +58,7 @@ bool Invader::go(Board* board) {
 		if (modifiers.size() == 0) {
 			counter += step;
 		}
-		if (counter >= 100 * speed) {
+		if (counter >= 1000000 * speed) {
 			board->grid[x][y].delInvader(this);
 			x--;
 			if (x < 0) return true;
