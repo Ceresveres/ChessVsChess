@@ -143,10 +143,12 @@
     <ClCompile Include="Invader.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Store.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="towers.cpp" />
     <ClCompile Include="ui-tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Game.h" />

@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_render.h>
 #include <SDL_image.h>
+#include <iostream>
 
 static Game* game_ = nullptr;
 
@@ -44,6 +45,25 @@ void Game::initializeSDL() {
 	rend = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
+void Game::onStartUp() {
+	//fpsTimer.start();
+}
+	
+float Game::getAverageFPS() {
+	return mAverageFPS;
+}
+
+void Game::updateFPS(Uint32 delta) {
+	if (frameCount < 10) {
+		fps_counter += delta;
+	} else {
+		this->mAverageFPS = (float)fps_counter / ((float)frameCount * 1000.0f);
+		fps_counter = 0;
+		frameCount = 0;
+	}
+	frameCount++;
+}
+
 void keyboard(bool KEYS[]) {
 	SDL_Event e;
 	while (SDL_PollEvent(&e) != 0)
@@ -67,19 +87,25 @@ void keyboard(bool KEYS[]) {
 }
 
 void Game::loop() {
-
 	string path = "v0he8g2kvsn91.jpg";
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+
 	SDL_Event e;
 	bool end = false;
+
 	addInvader(7, 2, BASIC);
+
+	LTimer timer;
+
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL] = {};
 	SDL_Surface* gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
 	board->printBoard(*rend);
+	fpsTimer.start();
 	while (!end) 
 	{
-		store->printStore(*rend);
+		Uint32 delta = fpsTimer.restart();
+		updateFPS(delta);
 		board->grid[x][y].setUnSelected();
 		while (SDL_PollEvent(&e) != 0)
 		{
@@ -88,7 +114,35 @@ void Game::loop() {
 				end = true;
 				break;
 			}
-			else if (e.type == SDL_KEYDOWN) {
+			else if (e.type == SDL_KEYDOWN)
+			{
+				//Start/stop
+				if (e.key.keysym.sym == SDLK_s)
+				{
+					if (timer.isStarted())
+					{
+						getAverageFPS();
+						timer.stop();
+					}
+					else
+					{
+						timer.start();
+					}
+				}
+				//Pause/unpause
+				else if (e.key.keysym.sym == SDLK_p)
+				{
+					if (timer.isPaused())
+					{
+						timer.unpause();
+					}
+					else
+					{
+						timer.pause();
+					}
+				}
+			}
+			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym)
 				{
 				case SDLK_UP:
@@ -135,17 +189,16 @@ void Game::loop() {
 
 		if ((currentKeyStates[SDL_SCANCODE_1])) store->buy(1, x, y, board);
 		board->grid[x][y].setSelected();
-		//Sleep(100);
-		board->travGrid(*this);
 		
-		moveBullet();
+		update(delta);
+		/*moveBullet();
 		clearInvader();
 		board->refresh(*rend);
 		printBullet();
 		if (moveInvader()) break;
 		board->refresh(*rend);
 
-		SDL_RenderPresent(rend);
+		SDL_RenderPresent(rend);*/
 	}
 
 	SDL_DestroyRenderer(rend);
@@ -154,6 +207,18 @@ void Game::loop() {
 	_CrtDumpMemoryLeaks();
 	SDL_Quit();
 
+}
+
+void Game::update(Uint32 timestep) {
+	store->printStore(*rend);
+	board->travGrid(*this);
+	moveBullet();
+	clearInvader();
+	board->refresh(*rend);
+	printBullet();
+	moveInvader();
+	board->refresh(*rend);
+	SDL_RenderPresent(rend);
 }
 
 void Game::openFocus() {
