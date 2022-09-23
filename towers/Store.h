@@ -41,5 +41,5 @@ public:
 	
 	virtual void addMoney(int reward) { money += reward; refreshMoney(); }
 
-	bool buy(int choice, int x, int y, Board* board);
+	bool buy(int choice, Board* board);
 };

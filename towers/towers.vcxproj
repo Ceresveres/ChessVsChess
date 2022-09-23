@@ -148,6 +148,7 @@
     <ClCompile Include="ui-tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bullet.h" />

@@ -38,9 +38,9 @@ Store *Store::GetInstance(SDL_Renderer& rend) {
 	return store_;
 }
 
-bool Store::buy(int choice, int x, int y, Board *board) {
+bool Store::buy(int choice, Board *board) {
 	if (money >= pieces[choice - 1]->cost) {
-		if (board->setPiece(x, y, choice)) {
+		if (board->setPiece(choice)) {
 			money -= pieces[choice - 1]->cost;
 			refreshMoney();
 			return true;

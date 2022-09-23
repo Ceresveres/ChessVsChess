@@ -68,6 +68,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Downloads\v0he8g2kvsn91.jpg">

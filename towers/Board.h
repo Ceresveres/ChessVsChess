@@ -6,6 +6,7 @@
 #include <SDL_render.h>
 
 #include <vector>
+#include <SDL_events.h>
 
 using namespace std;
 
@@ -59,6 +60,7 @@ class Board {
 	
 	SDL_Renderer* m_renderer = NULL;
 	void init();
+	int x {0}, y {0};
 	Board(SDL_Renderer& rend)
 		: m_renderer{ &rend } {init(); }
 public:
@@ -66,10 +68,12 @@ public:
 	Grid grid[GRID_NUM_X][GRID_NUM_Y];
 	void printBoard(SDL_Renderer& rend);
 	void refresh(SDL_Renderer& rend);
-	bool setPiece(int ix, int iy, int type);
+	bool setPiece(int type);
 	bool travGrid(Game& game);
 	static Board* GetInstance(SDL_Renderer& renderer);
-
+	void update();
+	void handleInput(SDL_Event& e);
+	void handleSelection(const int ix = 0, const int iy = 0);
 	friend class Invader;
 	friend class Jumper;
 	friend class Bullet;

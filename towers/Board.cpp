@@ -157,7 +157,7 @@ bool Board::travGrid(Game& game)
 	return true;
 }
 
-bool Board::setPiece(int ix, int iy, int type) {
+bool Board::setPiece( int type) {
 	Piece* newPiece = nullptr;
 	switch (type) {
 	case 1:
@@ -179,8 +179,8 @@ bool Board::setPiece(int ix, int iy, int type) {
 	//	newPiece = new Queen;
 		break;
 	}
-	newPiece->setXY(ix, iy);
-	if (!grid[ix][iy].setPiece(newPiece)) {
+	newPiece->setXY(x, y);
+	if (!grid[x][y].setPiece(newPiece)) {
 		delete newPiece;
 		return false;
 	}
@@ -236,6 +236,44 @@ void Board::refresh(SDL_Renderer& rend) {
 	}
 }
 
+void Board::update() {
+
+}
+
+void Board::handleInput(SDL_Event &e) {
+	//const Uint8* state = SDL_GetKeyboardState(NULL);
+	switch (e.key.keysym.sym) {
+	case SDLK_UP:
+		handleSelection(0, -1);
+		break;
+	case SDLK_DOWN:
+		handleSelection(0, 1);
+		break;
+	case SDLK_LEFT:
+		handleSelection(-1, 0);
+		break;
+	case SDLK_RIGHT:
+		handleSelection(1, 0);
+		break;
+
+	default:
+		break;
+	}
+	//if (state[SDLK_UP]) handleSelection(0, -1);
+	//if (state[SDLK_DOWN]) handleSelection(0, 1);
+	//if (state[SDLK_LEFT]) handleSelection(-1, 0);
+	//if (state[SDLK_RIGHT]) handleSelection(1, 0);
+}
+
+void Board::handleSelection(const int ix, const int iy) {
+	if ((y + iy < 0) || (y > GRID_NUM_Y - 1 + iy)) return;
+	if ((x + ix < 0) || (x > GRID_NUM_X - 1 + ix)) return;
+	grid[x][y].setUnSelected();
+	this->x += ix;
+	this->y += iy;
+	grid[x][y].setSelected();
+}
+
 Board* Board::GetInstance(SDL_Renderer& renderer) {
 	if (board_ == nullptr) {
 		board_ = new Board(renderer);
@@ -249,4 +287,5 @@ void Board::init() {
 			grid[i][j].setXY(i, j);
 		}
 	}
+	grid[x][y].setSelected();
 }

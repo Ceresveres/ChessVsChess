@@ -13,6 +13,13 @@
 #include<list>
 using namespace std;
 
+enum State {
+	NONE = 0,
+	RUNNING = 1,
+	END = 2,
+	GAMEOVER = 3
+};
+
 class Game {
 	SDL_Window* window { SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
 	SDL_Renderer* rend { SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) };
@@ -25,17 +32,14 @@ class Game {
 
 	list<Bullet*> bullets = {};
 
-	int x, y;
-
 	int makeCounter = 0;
 	int makeSpeed = 30;
-
+	State gameState = NONE;
+	SDL_Event e;
 	int frameCount = 0;
 	float mAverageFPS = 0;
 	Uint32 fps_counter = 0;
-
-	void openFocus();
-	void building();
+	LTimer timer;
 	void makeInvaders();
 	void addInvader(int x, int y, int type);
 	bool moveInvader();
@@ -45,17 +49,14 @@ class Game {
 	void updateFPS(Uint32 delta);
 	void moveBullet();
 	void initializeSDL();
-
+	void processEvents();
 	void onStartUp();
 
 	//float getAverageFPS();
 	
 
 	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
-		: x(x), y(y), makeCounter(makeCounter), makeSpeed(makeSpeed)
-		//window{ SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) },
-		//rend { SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED) },
-		//board { Board::GetInstance(*rend) }, store { Store::GetInstance() }
+		: makeCounter(makeCounter), makeSpeed(makeSpeed)
 	{
 		//initializeSDL();
 		onStartUp();
