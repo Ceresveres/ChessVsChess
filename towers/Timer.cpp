@@ -1,7 +1,6 @@
 #include "Timer.h"
 
-LTimer::LTimer()
-{
+LTimer::LTimer() {
 	//Initialize the variables
 	mStartTicks = 0;
 	mPausedTicks = 0;
@@ -10,8 +9,7 @@ LTimer::LTimer()
 	mStarted = false;
 }
 
-void LTimer::start()
-{
+void LTimer::start() {
 	//Start the timer
 	mStarted = true;
 
@@ -23,8 +21,7 @@ void LTimer::start()
 	mPausedTicks = 0;
 }
 
-void LTimer::stop()
-{
+void LTimer::stop() {
 	//Stop the timer
 	mStarted = false;
 
@@ -36,8 +33,7 @@ void LTimer::stop()
 	mPausedTicks = 0;
 }
 
-void LTimer::pause()
-{
+void LTimer::pause() {
 	//If the timer is running and isn't already paused
 	if (mStarted && !mPaused)
 	{
@@ -50,8 +46,7 @@ void LTimer::pause()
 	}
 }
 
-void LTimer::unpause()
-{
+void LTimer::unpause() {
 	//If the timer is running and paused
 	if (mStarted && mPaused)
 	{
@@ -68,6 +63,7 @@ void LTimer::unpause()
 
 Uint32 LTimer::restart() {
 	Uint32 time = 0;
+	//Restarts the timer and return the elapsed time
 	if (mStarted) {
 		time = SDL_GetTicks() - mStartTicks;
 		mStartTicks = SDL_GetTicks();
@@ -76,8 +72,7 @@ Uint32 LTimer::restart() {
 	return time;
 }
 
-Uint32 LTimer::getTicks()
-{
+Uint32 LTimer::getTicks() {
 	//The actual timer time
 	Uint32 time = 0;
 
@@ -100,14 +95,12 @@ Uint32 LTimer::getTicks()
 	return time;
 }
 
-bool LTimer::isStarted()
-{
+bool LTimer::isStarted() {
 	//Timer is running and paused or unpaused
 	return mStarted;
 }
 
-bool LTimer::isPaused()
-{
+bool LTimer::isPaused() {
 	//Timer is running and paused
 	return mPaused && mStarted;
 }

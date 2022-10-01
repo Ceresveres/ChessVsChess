@@ -4,6 +4,8 @@
 #include "Invader.h"
 #include "Bullet.h"
 #include <SDL_render.h>
+#include "InputHandler.h"
+#include "Object.h"
 
 #include <vector>
 #include <SDL_events.h>
@@ -11,34 +13,32 @@
 using namespace std;
 
 class Game;
+class Piece;
 class Invader;
 class Bullet;
-class Grid {
-	int dx{}, dy{};
-	int x{}, y{};
+class Grid : public Object {
+	int color[4]{};
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
 	
-	bool selected{};
-	bool flag_refresh{};
-
-	//SDL_Renderer* m_renderer = NULL;
-	
+	bool selected{false};
+	bool flag_refresh{true};	
 	void setRefresh() { flag_refresh = true; }
 public:
-	Grid()
-		: selected{ false }, flag_refresh{ false } {}
+	//Grid(const LoaderParams* pParams) :
+	//	Object(pParams) {
+	//}
+	Grid();
+	Grid(const LoaderParams* pParams);
+
 	
-	void setXY(int x, int y);
-	void paint(SDL_Renderer& rend);
-	//void init(SDL_Renderer& rend);
-	
+	virtual void draw(SDL_Renderer& pRenderer);
+
 	void judgeAttacking();
 	void attackPiece(int attack);
-	
 	bool setPiece(Piece* piece);
 	void delPiece();
-	
+	void setColor(int choice);
 	void addInvader(Invader* iInvader);
 	void damageInvader(Invader* iInvader, int damage);
 	void delInvader(Invader* iInvader);
@@ -56,23 +56,26 @@ public:
 	friend class Peasant;
 };
 
-class Board {
-	
+class Board : public Object {	
 	SDL_Renderer* m_renderer = NULL;
 	void init();
+	bool m_kReleased = false;
 	int x {0}, y {0};
-	Board(SDL_Renderer& rend)
-		: m_renderer{ &rend } {init(); }
+	vector<Invader*> invaders = {};
+	//Board() {init(); }
+	Board(const LoaderParams* pParams);
 public:
-	//void printBoard();
-	Grid grid[GRID_NUM_X][GRID_NUM_Y];
-	void printBoard(SDL_Renderer& rend);
-	void refresh(SDL_Renderer& rend);
+	static Board* GetSingleton();
+
+	virtual void update();
+	virtual void draw(SDL_Renderer& pRenderer);
+
 	bool setPiece(int type);
-	bool travGrid(Game& game);
-	static Board* GetInstance(SDL_Renderer& renderer);
-	void update();
-	void handleInput(SDL_Event& e);
+	bool travGrid();
+	Grid grid[GRID_NUM_X][GRID_NUM_Y];
+
+
+	void handleInput();
 	void handleSelection(const int ix = 0, const int iy = 0);
 	friend class Invader;
 	friend class Jumper;

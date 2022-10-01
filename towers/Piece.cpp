@@ -1,49 +1,44 @@
 #include "Piece.h"
 #include "Board.h"
 #include "Game.h"
+#include "Scene.h"
+
 
 #include <iostream>
 
-void Piece::printPiece(SDL_Renderer& rend, SDL_Rect gridRect) {
-	//PrintWithColor(name);
-	cout << "hifdsa";
+void Piece::draw(SDL_Renderer& rend) {
+	SDL_Rect gridRect = { mX * (GRID_WIDTH)+(mWidth / 2),  mY * (GRID_HEIGHT)+(mHeight / 2), mWidth, mHeight };
 	SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
 	SDL_RenderFillRect(&rend, &gridRect);
 }
 
-void Piece::printLife() {
-	PrintWithColor(to_string(HP));
-}
-
-void Piece::go(Game& curgam) {
-	cout << "You can't go there!" << endl;
-}
-
-void Pawn::go(Game & curgame) {
+void Pawn::update() {
 	bool isAttacking = false;
-	
-	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board->grid[i][y].invaders.size() != 0) {
+	Scene* scene{ Scene::GetSingleton() };
+	Board* board{ Board::GetSingleton() };
+
+	for (int i = mX; i < GRID_NUM_X; i++) {
+		if (board->grid[i][mY].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
-
 	if (isAttacking) {
 		counter++;
-		if (counter >= speed) {
+		if (counter >= speed*1000) {
 			counter = 0;
-			Bullet* p = new Bullet();
-			p->setXY(x, y);
-			curgame.addBullet(p);
+			Bullet* p = new Bullet(new LoaderParams(mX * (GRID_WIDTH)+(mWidth+20), mY * (GRID_HEIGHT)+(mHeight), 20, 20), mX, mY);
+			scene->addBullet(p);
 		}
-
 	}
 }
 
-void Rook::go(Game& curgame) {
+
+void Knight::update() {
 	bool isAttacking = false;
-	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board->grid[i][y].invaders.size() != 0) {
+	Scene* scene{ Scene::GetSingleton() };
+	Board* board{ Board::GetSingleton() };
+	for (int i = mX; i < GRID_NUM_X; i++) {
+		if (board->grid[i][mY].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -51,21 +46,18 @@ void Rook::go(Game& curgame) {
 		counter++;
 		if (counter >= speed) {
 			counter = 0;
-			Bullet* p = new Bullet();
-			p->setXY(x, y);
-			curgame.addBullet(p);
+			Bullet* p = new Bullet(new LoaderParams(mX * (GRID_WIDTH)+(mWidth + 20), mY * (GRID_HEIGHT)+(mHeight), 20, 20), mX, mY);
+			scene->addBullet(p);
 		}
 	}
 }
 
-void Knight::printPiece() {
-	PrintWithColor(name, FOREGROUND_BLUE);
-}
-
-void Knight::go(Game& curgame) {
+void Bishop::update() {
 	bool isAttacking = false;
-	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board->grid[i][y].invaders.size() != 0) {
+	Scene* scene{ Scene::GetSingleton() };
+	Board* board{ Board::GetSingleton() };
+	for (int i = mX; i < GRID_NUM_X; i++) {
+		if (board->grid[i][mY].invaders.size() != 0) {
 			isAttacking = true; break;
 		}
 	}
@@ -73,43 +65,19 @@ void Knight::go(Game& curgame) {
 		counter++;
 		if (counter >= speed) {
 			counter = 0;
-			Bullet* p = new SlowBullet;
-			p->setXY(x, y);
-			curgame.addBullet(p);
+			//Bullet* p = new FireBullet;
+			//p->setXY(mX, mY);
+			//curGame->addBullet(p);
 		}
 	}
 }
 
-void Bishop::printPiece() {
-	PrintWithColor(name, FOREGROUND_RED | FOREGROUND_BLUE);
-}
-
-void Bishop::go(Game& curgame) {
-	bool isAttacking = false;
-	for (int i = x; i < GRID_NUM_X; i++) {
-		if (curgame.board->grid[i][y].invaders.size() != 0) {
-			isAttacking = true; break;
-		}
-	}
-	if (isAttacking) {
-		counter++;
-		if (counter >= speed) {
-			counter = 0;
-			Bullet* p = new FireBullet;
-			p->setXY(x, y);
-			curgame.addBullet(p);
-		}
-	}
-}
-
-void Peasant::go(Game& curgame) {
+void Peasant::update() {
 	counter++;
+	Store* store{ Store::GetSingleton() };
+	Board* board{ Board::GetSingleton() };
 	if (counter >= speed) {
 		counter = 0;
-		curgame.store->addMoney(25);
+		store->addMoney(25);
 	}
-}
-
-void Peasant::printPiece() {
-	PrintWithColor(name, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 }

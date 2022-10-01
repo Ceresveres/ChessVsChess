@@ -2,8 +2,10 @@
 #include "ui-tools.h"
 #include<string>
 #include <SDL_render.h>
+#include "Object.h"
 
 class Game;
+class Sccene;
 class Store;
 class Board;
 class PieceCard {
@@ -18,28 +20,21 @@ public:
 		: index{ index }, name{ name }, cost{ cost }, flag{ false } {}
 
 	void setSelect() { flag = true; }
-	void print(SDL_Renderer& rend);
+
+	void draw(SDL_Renderer& rend);
 };
 
-class Store {
+class Store : public Object {
 private:
-	SDL_Renderer* m_renderer = NULL;
 	PieceCard* pieces[MAXPIECECOUNT];
 	int money{100000};
-	void refreshMoney();
-	Store(SDL_Renderer& rend)
-		: m_renderer{ &rend } {
-		pieces[0] = new PieceCard(1, "Pawn", 50);
-		pieces[1] = new PieceCard(2, "Rook", 100);
-		pieces[2] = new PieceCard(3, "Knight", 125);
-		pieces[3] = new PieceCard(4, "Bishop", 125);
-		pieces[4] = new PieceCard(5, "Peasant", 25);
-	}
+	Store(const LoaderParams* pParams);
 public:
-	static Store* GetInstance(SDL_Renderer& rend);
-	void printStore(SDL_Renderer& rend);
-	
-	virtual void addMoney(int reward) { money += reward; refreshMoney(); }
+	static Store* GetSingleton();
+	void init();
+	void draw(SDL_Renderer& rend);
 
+
+	virtual void addMoney(int reward) { money += reward; }
 	bool buy(int choice, Board* board);
 };

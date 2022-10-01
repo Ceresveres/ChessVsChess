@@ -5,8 +5,8 @@
 
 int main(int argc, char* args[])
 {
-    Game* myGame = Game::GetInstance();
-    myGame->loop();
+    Game* myGame = Game::GetSingleton();
+    //myGame->loop();
     return 0;
 }
 
