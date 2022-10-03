@@ -11,16 +11,17 @@ class Scene;
 class Piece : public Object {
 protected:
 	string name;
+	PositionComponent pos;
 	int counter{12*1000};
 	int speed{12};
 	int HP = 100;
 	bool isAttacking = false;
 public:
 	Piece(const LoaderParams* pParams) :
-		Object(pParams) {
-	}
+		Object(pParams), 
+		pos(pParams->getX(), pParams->getY()) {	}
 	
-	void setXY(int ix, int iy) { mX = ix; mY = iy; }
+	//void setXY(int ix, int iy) { mX = ix; mY = iy; }
 	
 	virtual void draw(SDL_Renderer& rend);
 	virtual void update() {};

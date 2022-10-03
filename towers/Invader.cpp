@@ -4,7 +4,7 @@
 
 #include <iostream>
 using namespace std;
-Invader::Invader(const LoaderParams* pParams) : Object(pParams)
+Invader::Invader(const LoaderParams* pParams) : Object(pParams), pos(pParams->getX(), pParams->getY())
 {
 }
 
@@ -65,18 +65,18 @@ void Invader::update() {
 		if (modifiers.size() == 0) {
 			counter += step;
 		}
-		if (counter >= 1000000 * speed) {
-			board->grid[mX][mY].delInvader(this);
-			mX--;
-			if (mX < 0) return;
-			board->grid[mX][mY].addInvader(this);
+		if (counter >= 100 * speed) {
+			board->grid[pos.x * 5 + pos.y].delInvader(this);
+			pos.x--;
+			if (pos.x < 0) return;
+			board->grid[pos.x * 5 + pos.y].addInvader(this);
 			counter = 0;
 		}
 	}
 	else {
 		attackCounter++;
 		if (attackCounter >= attackSpeed) {
-			board->grid[mX][mY].attackPiece(attack);
+			board->grid[pos.x+pos.y].attackPiece(attack);
 			attackCounter = 0;
 		}
 	}
@@ -84,7 +84,7 @@ void Invader::update() {
 }
 
 void Invader::draw(SDL_Renderer& pRenderer) {
-	SDL_Rect gridRect = { mX * (GRID_HEIGHT) + (mWidth/2),  mY * (GRID_WIDTH) + (mHeight/2), mWidth, mHeight };
+	SDL_Rect gridRect = { pos.x * (GRID_HEIGHT) + (mWidth/2),  pos.y * (GRID_WIDTH) + (mHeight/2), mWidth, mHeight };
 	SDL_SetRenderDrawColor(&pRenderer, 100, 0, 50, 255);
 	SDL_RenderFillRect(&pRenderer, &gridRect);
 }

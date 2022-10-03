@@ -25,6 +25,8 @@ public:
 	bool hit{false};
 	virtual void draw(SDL_Renderer& rend);
 	virtual void update();
+	PositionComponent pos;
+
 	//virtual void hitInvader(vector<Invader*> invaders);
 };
 

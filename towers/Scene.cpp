@@ -16,6 +16,7 @@ void Scene::update() {
 		m_Objects[i]->update();
 	}
 	moveBullet();
+	moveInvader();
 
 }
 
@@ -69,14 +70,27 @@ void Scene::addInvader(int x, int y, int type) {
 		break;
 	}
 	if (newInvader != nullptr) {
-		board->grid[x][y].addInvader(newInvader);
+		//board->grid[x+y].addInvader(newInvader);
+		board->addInvader(x, y, newInvader);
 		invaders.push_back(newInvader);
 	}
 }
 
 bool Scene::moveInvader() {
-	for (auto& var : invaders) {
-		var->update();
+	//for (auto& var : invaders) {
+	//	var->update();
+	//	if (var->pos.x < 0) delete (var);
+	//	invaders.erase(&var);
+	//}
+	for (auto list = invaders.begin(); list != invaders.end();) {
+		(*list)->update();
+		if ((*list)->pos.x < 0) {
+			delete (*list);
+			list = invaders.erase(list);
+		}
+		else {
+			list++;
+		}
 	}
 	return false;
 }
@@ -86,7 +100,7 @@ void Scene::clearInvader() {
 	Store* store{ Store::GetSingleton() };
 	for (auto list = invaders.begin(); list != invaders.end();) {
 		if ((*list)->getHP() <= 0) {
-			board->grid[(*list)->getX()][(*list)->getY()].delInvader(*list);
+			board->grid[(*list)->pos.x+(*list)->pos.y].delInvader(*list);
 			store->addMoney((*list)->getReward());
 			delete (*list);
 			list = invaders.erase(list);

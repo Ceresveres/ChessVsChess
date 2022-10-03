@@ -57,7 +57,7 @@ protected:
 public:
 	Invader(const LoaderParams* pParams);
 	bool attacking = false;
-
+	PositionComponent pos;
 	virtual void update();
 	virtual void draw(SDL_Renderer& pRenderer);
 	virtual void load(const LoaderParams* pParams);

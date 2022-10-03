@@ -4,6 +4,14 @@
 
 using namespace std;
 
+struct PositionComponent
+{
+	int x, y;
+	PositionComponent(int x, int y)
+		: x(x), y(y) {}
+	PositionComponent() = default;
+};
+
 class LoaderParams;
 class Object
 {
@@ -12,12 +20,13 @@ public:
 	virtual void draw(SDL_Renderer& pRenderer);
 	virtual void update();
 	virtual void clean();
-	int getX() const { return mX; }
-	int getY() const { return mY; }
+	//int getX() const { return mX; }
+	//int getY() const { return mY; }
 protected:
 	Object(const LoaderParams* pParams);
-	int mX{};
-	int mY{};
+	//PositionComponent pos;
+	//int mX{};
+	//int mY{};
 	int mWidth{ 50 };
 	int mHeight{ 50 };
 };
@@ -41,3 +50,5 @@ private:
 	int m_height;
 	std::string m_textureID;
 };
+
+

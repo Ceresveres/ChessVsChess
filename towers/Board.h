@@ -20,16 +20,17 @@ class Grid : public Object {
 	int color[4]{};
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
-	
+	PositionComponent pos;
+
 	bool selected{false};
 	bool flag_refresh{true};	
 	void setRefresh() { flag_refresh = true; }
 public:
 	//Grid(const LoaderParams* pParams) :
-	//	Object(pParams) {
-	//}
+	//	Object(pParams);
 	Grid();
-	Grid(const LoaderParams* pParams);
+	Grid(int x, int y);
+	//Grid(const LoaderParams* pParams);
 
 	
 	virtual void draw(SDL_Renderer& pRenderer);
@@ -38,6 +39,7 @@ public:
 	void attackPiece(int attack);
 	bool setPiece(Piece* piece);
 	void delPiece();
+	//virtual void load(const LoaderParams* pParams);
 	void setColor(int choice);
 	void addInvader(Invader* iInvader);
 	void damageInvader(Invader* iInvader, int damage);
@@ -58,22 +60,26 @@ public:
 
 class Board : public Object {	
 	SDL_Renderer* m_renderer = NULL;
-	void init();
+	//void init();
 	bool m_kReleased = false;
 	int x {0}, y {0};
 	vector<Invader*> invaders = {};
 	//Board() {init(); }
+	Board();
 	Board(const LoaderParams* pParams);
 public:
 	static Board* GetSingleton();
 
 	virtual void update();
+	void addInvader(int x, int y, Invader* iInvader);
 	virtual void draw(SDL_Renderer& pRenderer);
 
 	bool setPiece(int type);
 	bool travGrid();
-	Grid grid[GRID_NUM_X][GRID_NUM_Y];
+	//Grid grid[GRID_NUM_X][GRID_NUM_Y];
+	vector<Grid> grid;
 
+	PositionComponent pos;
 
 	void handleInput();
 	void handleSelection(const int ix = 0, const int iy = 0);
