@@ -4,6 +4,7 @@
 
 #include <iostream>
 using namespace std;
+
 Invader::Invader(int x, int y) : Object(new LoaderParams(50, 50)), pos(x, y), move(-speed)
 {
 }

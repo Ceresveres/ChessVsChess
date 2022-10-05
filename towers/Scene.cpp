@@ -36,6 +36,8 @@ bool Scene::init() {
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
 	board->scene = this;
+	cout << "i";
+
 	m_Objects.push_back(board);
 	m_Objects.push_back(store);
 	addInvader(8, 2, BASIC);

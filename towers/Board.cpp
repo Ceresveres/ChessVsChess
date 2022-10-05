@@ -146,7 +146,6 @@ void Board::addInvader(int x, int y, Invader* iInvader) {
 	grid[x][y].addInvader(iInvader);
 }
 
-
 void Board::handleInput() {
 	SDL_GetKeyboardState(0);
 
@@ -180,30 +179,6 @@ void Board::handleInput() {
 		m_kReleased = true;
 	}
 }
-//void Board::handleInput(SDL_Event &e) {
-//	//const Uint8* state = SDL_GetKeyboardState(NULL);
-//	switch (e.key.keysym.sym) {
-//	case SDLK_UP:
-//		handleSelection(0, -1);
-//		break;
-//	case SDLK_DOWN:
-//		handleSelection(0, 1);
-//		break;
-//	case SDLK_LEFT:
-//		handleSelection(-1, 0);
-//		break;
-//	case SDLK_RIGHT:
-//		handleSelection(1, 0);
-//		break;
-//
-//	default:
-//		break;
-//	}
-//	//if (state[SDLK_UP]) handleSelection(0, -1);
-//	//if (state[SDLK_DOWN]) handleSelection(0, 1);
-//	//if (state[SDLK_LEFT]) handleSelection(-1, 0);
-//	//if (state[SDLK_RIGHT]) handleSelection(1, 0);
-//}
 
 void Board::handleSelection(const int ix, const int iy) {
 	if ((y + iy < 0) || (y > GRID_NUM_Y - 1 - iy)) return;
@@ -241,7 +216,6 @@ Grid::Grid(int x, int y) : Object(new LoaderParams( 100, 100)), pos(x, y) {
 	cout << "being made";
 	setColor((x + y) % 2);
 };
-
 
 bool Board::inLineOfSight(int x, int y) {
 	for (int i = x; i < GRID_NUM_X; i++) {

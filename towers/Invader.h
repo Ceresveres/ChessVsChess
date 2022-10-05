@@ -6,6 +6,8 @@
 #include "Object.h"
 #include "Scene.h"
 
+
+
 using namespace std;
 
 class Invader;
@@ -55,7 +57,7 @@ protected:
 	vector<Effect*> effects_ {};
 
 public:
-	Invader(int x, int y);
+	Invader(int x=1, int y=1);
 	bool attacking = false;
 	PositionComponent pos;
 	MoveComponent move;
@@ -98,3 +100,82 @@ public:
 //	}
 //	void hit(int damage);
 //};
+
+template <class Invader> class ObjectFactory
+{
+public:
+	ObjectFactory() : _head(NULL), _tail(NULL) {}
+
+	static ObjectFactory<Invader>& getInstance()
+	{
+		static ObjectFactory<Invader> instance;
+		return instance;
+	}
+
+	~ObjectFactory()
+	{
+		while (_head)
+		{
+			InvaderNode* next = _head->_next;
+			delete _head;
+			_head = next;
+		}
+	}
+
+	Invader* AcquireObject(int x, int y)
+	{
+		if (_head)
+		{
+			InvaderNode* oldNode = _head;
+
+			if (_head == _tail) _head = _tail = NULL;
+			else
+			{
+				_head = _head->_next;
+				if (_head) _head->_prev = NULL;
+			}
+			return &oldNode->sInvader;
+		}
+		else
+		{
+			// There's nothing in our free-list to re-use!  Hand the user a new object instead.
+			InvaderNode* newNode = new InvaderNode;
+			return &newNode->sInvader;
+		}
+	}
+
+	void ReleaseObject(Invader* invader)
+	{
+		// reset (obj) back to its default-constructed state
+		// (this might not be necessary, depending what your Objects represent)
+		//(*obj) = Object();
+
+		InvaderNode* node = reinterpret_cast<InvaderNode*>(invader);   // this works only because _object is the first item in the ObjectNode struct
+		if (_head)
+		{
+			// Prepend our node back to the start of our free-nodes-list
+			node->_prev = NULL;
+			node->_next = _head;
+			_head->_prev = node;
+			_head = node;
+		}
+		else
+		{
+			// We were empty; now will have just this one ObjectNode in the free-list
+			_head = _tail = node;
+			node->_prev = node->_next = NULL;
+		}
+	}
+//private:
+public:
+	class InvaderNode
+	{
+	public:
+		Invader sInvader;
+		InvaderNode* _prev;
+		InvaderNode* _next;
+	};
+
+	InvaderNode * _head;  // first item in our free-nodes-list, or NULL if we have no available free nodes
+	InvaderNode* _tail;
+};

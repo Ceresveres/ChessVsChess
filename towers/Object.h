@@ -1,10 +1,9 @@
 #pragma once
 #include <string>
 #include <SDL.h>
-#include "ui-tools.h"
 #include <cmath>
 #include <vector>
-#include <list>
+//#include <list>
 
 
 using namespace std;
@@ -68,5 +67,7 @@ private:
 	int m_height;
 	std::string m_textureID;
 };
+
+
 
 
