@@ -1,5 +1,5 @@
 #pragma once
-#include "ui-tools.h"
+
 #include <string>
 #include <vector>
 #include <SDL_render.h>
@@ -40,14 +40,14 @@ class Board;
 class Invader : public Object {
 protected:
 	string name{};
-	int speed{ 10 };
+	float speed{ .01F };
 	int HP{ 100 };
 	int attack{ 10 };
 	int reward{ 50 };
 	
 	int attackSpeed{ 4 };
 	int attackCounter{ 0 };
-
+	bool remo{ false };
 	int step{ 10 };
 	int counter{0};
 
@@ -55,10 +55,11 @@ protected:
 	vector<Effect*> effects_ {};
 
 public:
-	Invader(const LoaderParams* pParams);
+	Invader(int x, int y);
 	bool attacking = false;
 	PositionComponent pos;
-	virtual void update();
+	MoveComponent move;
+	virtual void update(Uint32 delta);
 	virtual void draw(SDL_Renderer& pRenderer);
 	virtual void load(const LoaderParams* pParams);
 

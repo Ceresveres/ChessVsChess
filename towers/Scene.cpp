@@ -10,14 +10,13 @@ Scene* Scene::GetSingleton() {
 	return scene_;
 }
 
-void Scene::update() {
+void Scene::update(Uint32 delta) {
 	for (int i = 0; i < m_Objects.size(); i++)
 	{
 		m_Objects[i]->update();
 	}
-	moveBullet();
-	moveInvader();
-
+	moveBullet(delta);
+	moveInvader(delta);
 }
 
 void Scene::draw(SDL_Renderer& pRenderer) {
@@ -28,14 +27,18 @@ void Scene::draw(SDL_Renderer& pRenderer) {
 	for (auto const& var : bullets) {
 		var->draw(pRenderer);
 	}
+	for (auto const& var : invaders) {
+		var->draw(pRenderer);
+	}
 }
 
 bool Scene::init() {
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
+	board->scene = this;
 	m_Objects.push_back(board);
 	m_Objects.push_back(store);
-	addInvader(7, 2, BASIC);
+	addInvader(8, 2, BASIC);
 	std::cout << "entering " << s_sceneID << "\n";
 	return true;
 }
@@ -47,6 +50,10 @@ void Scene::clean() {
 	}
 }
 
+void Scene::addPiece(int x, int y, int type) {
+
+
+}
 
 //Spawning logic for bullets/invaders will be moved
 void Scene::addInvader(int x, int y, int type) {
@@ -55,7 +62,7 @@ void Scene::addInvader(int x, int y, int type) {
 	Invader* newInvader = nullptr;
 	switch (type) {
 	case BASIC:
-		newInvader = new Invader(new LoaderParams(x, y, 50, 50));
+		newInvader = new Invader((x*100)+25, (y*100)+25);
 		break;
 	case JUMPER:
 		//newInvader = new Jumper();
@@ -70,21 +77,26 @@ void Scene::addInvader(int x, int y, int type) {
 		break;
 	}
 	if (newInvader != nullptr) {
-		//board->grid[x+y].addInvader(newInvader);
 		board->addInvader(x, y, newInvader);
 		invaders.push_back(newInvader);
 	}
 }
 
-bool Scene::moveInvader() {
+bool Scene::moveInvader(Uint32 delta) {
 	//for (auto& var : invaders) {
 	//	var->update();
 	//	if (var->pos.x < 0) delete (var);
 	//	invaders.erase(&var);
 	//}
+	for (auto const& var : invaders) {
+		var->update(delta);
+	}
 	for (auto list = invaders.begin(); list != invaders.end();) {
-		(*list)->update();
-		if ((*list)->pos.x < 0) {
+		(*list)->update(delta);
+		if ((*list)->pos.x % 300 == 0) {
+			cout << "hi";
+		}
+		if ((*list)->pos.x <= -50) {
 			delete (*list);
 			list = invaders.erase(list);
 		}
@@ -100,7 +112,7 @@ void Scene::clearInvader() {
 	Store* store{ Store::GetSingleton() };
 	for (auto list = invaders.begin(); list != invaders.end();) {
 		if ((*list)->getHP() <= 0) {
-			board->grid[(*list)->pos.x+(*list)->pos.y].delInvader(*list);
+			board->grid[(*list)->pos.x][(*list)->pos.y].delInvader(*list);
 			store->addMoney((*list)->getReward());
 			delete (*list);
 			list = invaders.erase(list);
@@ -115,10 +127,10 @@ void Scene::addBullet(Bullet* p) {
 	bullets.push_back(p);
 }
 
-void Scene::moveBullet() {
+void Scene::moveBullet(Uint32 delta) {
 	Board* board{ Board::GetSingleton() };
 	for (auto const& var : bullets) {
-		var->update();
+		var->update(delta);
 	}
 
 	for (auto list = bullets.begin(); list != bullets.end(); ) {

@@ -26,12 +26,7 @@ class Grid : public Object {
 	bool flag_refresh{true};	
 	void setRefresh() { flag_refresh = true; }
 public:
-	//Grid(const LoaderParams* pParams) :
-	//	Object(pParams);
-	Grid();
 	Grid(int x, int y);
-	//Grid(const LoaderParams* pParams);
-
 	
 	virtual void draw(SDL_Renderer& pRenderer);
 
@@ -50,10 +45,10 @@ public:
 
 	friend class Board;
 	friend class Bullet;
-	friend class Piece;
-	friend class Pawn;
-	friend class Knight;
-	friend class Rook;
+	//friend class Piece;
+	//friend class Pawn;
+	//friend class Knight;
+	//friend class Rook;
 	friend class Bishop;
 	friend class Peasant;
 };
@@ -69,15 +64,14 @@ class Board : public Object {
 	Board(const LoaderParams* pParams);
 public:
 	static Board* GetSingleton();
-
+	Scene* scene {nullptr};
 	virtual void update();
 	void addInvader(int x, int y, Invader* iInvader);
 	virtual void draw(SDL_Renderer& pRenderer);
-
+	bool inLineOfSight(int x, int y);
 	bool setPiece(int type);
 	bool travGrid();
-	//Grid grid[GRID_NUM_X][GRID_NUM_Y];
-	vector<Grid> grid;
+	vector<vector<Grid>> grid;
 
 	PositionComponent pos;
 

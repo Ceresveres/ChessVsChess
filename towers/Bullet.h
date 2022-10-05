@@ -1,33 +1,26 @@
 #pragma once
 
-#include "Invader.h"
 #include <vector>
 #include "Object.h"
 #include <SDL_render.h>
 
-class Board;
 class Bullet : public Object {
 protected:
 	enum Type { NORMAL, FIRE, ICE };
-	int dx{}, dy{};
 	int attack{25};
 	const int BULLET_WIDTH = 20;
 	const int BULLET_HEIGHT = 20;
 	int bullet_velocity = 10;
-
+	float speed{ 2 };
 	int bulletElement{ NORMAL };
 	
 public:
-	Bullet(const LoaderParams* pParams, int x, int y);
-
-	
-	void setXY(int dx, int dy);
+	Bullet(int x, int y);
 	bool hit{false};
 	virtual void draw(SDL_Renderer& rend);
-	virtual void update();
+	virtual void update(Uint32 delta);
 	PositionComponent pos;
-
-	//virtual void hitInvader(vector<Invader*> invaders);
+	MoveComponent move;
 };
 
 //class SlowBullet :public Bullet {

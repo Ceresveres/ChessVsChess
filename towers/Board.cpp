@@ -69,18 +69,12 @@ void Grid::attackPiece(int attack)
 
 
 bool Board::travGrid() {
-	for (auto i : grid) {
-		i.judgeAttacking();
-		if (i.piece != nullptr) i.piece->update();
+	for (auto& row : grid) {
+		for (auto& i : row) {
+			i.judgeAttacking();
+			if (i.piece != nullptr) i.piece->update();
+		}
 	}
-	//for (int i = 0; i < GRID_NUM_X; i++) {
-	//	for (int j = 0; j < GRID_NUM_Y; j++) {
-	//		grid[i+j].judgeAttacking();
-	//		if (grid[i+j].piece != nullptr) {
-	//			grid[i+j].piece->update();
-	//		}
-	//	}
-	//}
 	return true;
 }
 
@@ -88,7 +82,7 @@ bool Board::setPiece( int type) {
 	Piece* newPiece = nullptr;
 	switch (type) {
 	case 1:
-		newPiece = new Pawn(new LoaderParams(x, y, 50, 50));
+		newPiece = new Pawn(x, y);
 		break;
 	case 2:
 		//newPiece = new Rook;
@@ -106,12 +100,12 @@ bool Board::setPiece( int type) {
 	//	newPiece = new Queen;
 		break;
 	}
-	//newPiece->setXY(x, y);
-	if (!grid[x+y].setPiece(newPiece)) {
+	if (!grid[x][y].setPiece(newPiece)) {
 		delete newPiece;
 		return false;
 	}
 	else {
+		Scene* pScene = Scene::GetSingleton();
 		return true;
 	}
 }
@@ -127,25 +121,20 @@ void Grid::draw(SDL_Renderer& pRenderer) {
 	SDL_SetRenderDrawColor(&pRenderer, color[0], color[1], color[2], color[3]);
 	SDL_RenderFillRect(&pRenderer, &gridRect);
 
-	if (invaders.size() != 0) {
-		invaders[0]->draw(pRenderer);
-	}
+	//if (invaders.size() != 0) {
+	//	invaders[0]->draw(pRenderer);
+	//}
 	if (piece != nullptr) {
 		piece->draw(pRenderer);
 	}
 }
 
 void Board::draw(SDL_Renderer& rend) {
-	for (auto i : grid) {
-		if (i.flag_refresh) i.draw(rend);
+	for (auto& row : grid) {
+		for (auto& i : row) {
+			if (i.flag_refresh) i.draw(rend);
+		}
 	}
-	//for (int i = 0; i < GRID_NUM_X; i++) {
-	//	for (int j = 0; j < GRID_NUM_Y; j++) {
-	//		if (grid[i+j].flag_refresh) {
-	//			grid[i+j].draw(rend);
-	//		}
-	//	}
-	//}
 }
 
 void Board::update() {
@@ -154,7 +143,7 @@ void Board::update() {
 }
 
 void Board::addInvader(int x, int y, Invader* iInvader) {
-	grid[x * 5 + y].addInvader(iInvader);
+	grid[x][y].addInvader(iInvader);
 }
 
 
@@ -219,10 +208,11 @@ void Board::handleInput() {
 void Board::handleSelection(const int ix, const int iy) {
 	if ((y + iy < 0) || (y > GRID_NUM_Y - 1 - iy)) return;
 	if ((x + ix < 0) || (x > GRID_NUM_X - 1 - ix)) return;
-	grid[x * 5 + y].setUnSelected();
+	grid[x][y].setUnSelected();
 	this->x += ix;
 	this->y += iy;
-	grid[x * 5 + y].setSelected();
+	grid[x][y].setSelected();
+
 }
 
 Board* Board::GetSingleton() {
@@ -247,49 +237,28 @@ void Grid::setColor(int choice) {
 	}
 }
 
-//Grid::Grid(const LoaderParams* pParams) :
-//	Object(pParams), pos(pParams->getX(), pParams->getY())
-//{
-//}
-
-Grid::Grid() : Object(new LoaderParams(0,0,0,0)), pos(0, 0) {};
-
-//grid::grid(const loaderparams* pparams) : object(pparams), pos(pparams->getx(), pparams->gety())
-//{};
-
-//Grid::Grid(const LoaderParams* pParams) {};
-
-Grid::Grid(int x, int y) : Object(new LoaderParams(x, y, 100, 100)), pos(x, y) {
+Grid::Grid(int x, int y) : Object(new LoaderParams( 100, 100)), pos(x, y) {
 	cout << "being made";
 	setColor((x + y) % 2);
 };
 
-//void Grid::load(const LoaderParams* pParams) {
-//	pos.x = pParams->getX();
-//	pos.y = pParams->getY();
-//	load(pParams);
-//}
 
-Board::Board() : Object(new LoaderParams(0,0,0,0)), pos(0, 0) {
-	for (int i = 0; i < GRID_NUM_X; i++) {
-		for (int j = 0; j < GRID_NUM_Y; j++) {
-			grid.emplace_back(i, j);
+bool Board::inLineOfSight(int x, int y) {
+	for (int i = x; i < GRID_NUM_X; i++) {
+		if (grid[i][y].invaders.size() != 0) {
+			return true;
 		}
 	}
-	grid[x+y].setSelected();
+	return false;
 }
 
-//Board::Board(const LoaderParams* pParams) :
-//	Object(pParams), pos(pParams->getX(), pParams->getY())
-//{
-//}
+Board::Board() : Object(new LoaderParams(0,0)), pos(0, 0) {
+	for (int i = 0; i < GRID_NUM_X; i++) {
+		grid.push_back(std::vector<Grid>());
+		for (int j = 0; j < GRID_NUM_Y; j++) {
+			grid[i].emplace_back(i, j);
+		}
+	}
+	grid[x][y].setSelected();
 
-//void Board::init() {
-//	for(int i = 0; i < GRID_NUM_X; i++) {
-//		for (int j = 0; j < GRID_NUM_Y; j++) {
-//			grid[i][j].setColor((i + j) % 2);
-//			grid[i][j].load(new LoaderParams(i, j, GRID_HEIGHT, GRID_WIDTH));				
-//		}
-//	}
-//	grid[x][y].setSelected();
-//}
+}

@@ -1,17 +1,7 @@
 #include "Bullet.h"
-#include "Board.h"
 #include "ui-tools.h"
 
-Bullet::Bullet(const LoaderParams* pParams, int x, int y) : Object(pParams), pos(pParams->getX(), pParams->getY())
-{
-}
-
-void Bullet::setXY(int ix, int iy) {
-	//mX = ix;
-	//mY = iy;
-	dx = ix * GRID_HEIGHT + GRID_HEIGHT;
-	dy = iy * GRID_WIDTH + GRID_WIDTH/2;
-}
+Bullet::Bullet(int x, int y) : Object(new LoaderParams(5, 5)), pos(x, y), move(speed) {}
 
 void Bullet::draw(SDL_Renderer& rend) {
 	SDL_Rect gridRect = { pos.x,  pos.y, 5, 5 };
@@ -19,17 +9,9 @@ void Bullet::draw(SDL_Renderer& rend) {
 	SDL_RenderFillRect(&rend, &gridRect);
 }
 
-void Bullet::update() {
-	Board* board{ Board::GetSingleton() };
-	pos.x += 5;
-	if (dx >= (pos.x +1) * GRID_HEIGHT) {
-		board->grid[pos.x+pos.y].setRefresh();
-	}
-	
-	if (pos.x >= SCREEN_WIDTH) {
-		hit = true;
-		return;
-	}
+void Bullet::update(Uint32 delta) {
+	move.UpdatePosition(delta, pos);
+	if (pos.x >= SCREEN_WIDTH) { hit = true; }
 }
 
 //void Bullet::hitInvader(vector<Invader*> invaders) {

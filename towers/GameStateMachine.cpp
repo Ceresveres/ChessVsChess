@@ -36,10 +36,10 @@ void GameStateMachine::changeState(GameState* pState) {
 	m_gameStates.back()->onEnter();
 }
 
-void GameStateMachine::update() {
+void GameStateMachine::update(Uint32 delta) {
 	if (!m_gameStates.empty())
 	{
-		m_gameStates.back()->update();
+		m_gameStates.back()->update(delta);
 	}
 }
 

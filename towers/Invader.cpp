@@ -4,7 +4,7 @@
 
 #include <iostream>
 using namespace std;
-Invader::Invader(const LoaderParams* pParams) : Object(pParams), pos(pParams->getX(), pParams->getY())
+Invader::Invader(int x, int y) : Object(new LoaderParams(50, 50)), pos(x, y), move(-speed)
 {
 }
 
@@ -45,46 +45,51 @@ void Invader::load(const LoaderParams* pParams)
 	Object::load(pParams);
 }
 
-void Invader::update() {
+void Invader::update(Uint32 delta) {
 	Board* board = Board::GetSingleton();
 	vector<Modifier*> modifiers{};
-	for (int i = (int)effects_.size() - 1; i >= 0; i--) {
-		if (effects_[i]->modifier != nullptr) {
-			modifiers.push_back(effects_[i]->modifier);
-		}
-		effects_[i]->triggerEffect(*this);
+	move.UpdatePosition(delta, pos);
+	if (pos.x >= SCREEN_WIDTH) {
+		this->remo = true;
+		return;
 	}
-	if (!attacking) {
-		for (int i = 0; i < modifiers.size(); i++) {
-			switch (modifiers[i]->type) {
-			case 0:
-				counter += step - modifiers[i]->val;
-				break;
-			}
-		}
-		if (modifiers.size() == 0) {
-			counter += step;
-		}
-		if (counter >= 100 * speed) {
-			board->grid[pos.x * 5 + pos.y].delInvader(this);
-			pos.x--;
-			if (pos.x < 0) return;
-			board->grid[pos.x * 5 + pos.y].addInvader(this);
-			counter = 0;
-		}
-	}
-	else {
-		attackCounter++;
-		if (attackCounter >= attackSpeed) {
-			board->grid[pos.x+pos.y].attackPiece(attack);
-			attackCounter = 0;
-		}
-	}
+	//for (int i = (int)effects_.size() - 1; i >= 0; i--) {
+	//	if (effects_[i]->modifier != nullptr) {
+	//		modifiers.push_back(effects_[i]->modifier);
+	//	}
+	//	effects_[i]->triggerEffect(*this);
+	//}
+	//if (!attacking) {
+	//	for (int i = 0; i < modifiers.size(); i++) {
+	//		switch (modifiers[i]->type) {
+	//		case 0:
+	//			counter += step - modifiers[i]->val;
+	//			break;
+	//		}
+	//	}
+	//	if (modifiers.size() == 0) {
+	//		counter += step;
+	//	}
+	//	//if (counter >= 100 * speed) {
+	//	//	board->grid[pos.x][pos.y].delInvader(this);
+	//	//	pos.x--;
+	//	//	if (pos.x < 0) return;
+	//	//	board->grid[pos.x][ pos.y].addInvader(this);
+	//	//	counter = 0;
+	//	//}
+	//}
+	//else {
+	//	attackCounter++;
+	//	if (attackCounter >= attackSpeed) {
+	//		board->grid[pos.x][pos.y].attackPiece(attack);
+	//		attackCounter = 0;
+	//	}
+	//}
 	return;
 }
 
 void Invader::draw(SDL_Renderer& pRenderer) {
-	SDL_Rect gridRect = { pos.x * (GRID_HEIGHT) + (mWidth/2),  pos.y * (GRID_WIDTH) + (mHeight/2), mWidth, mHeight };
+	SDL_Rect gridRect = { pos.x,  pos.y, mWidth, mHeight };
 	SDL_SetRenderDrawColor(&pRenderer, 100, 0, 50, 255);
 	SDL_RenderFillRect(&pRenderer, &gridRect);
 }

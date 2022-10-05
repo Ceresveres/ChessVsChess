@@ -8,7 +8,7 @@ static Store* store_ = nullptr;
 Store* Store::GetSingleton() {
 
 	if (store_ == nullptr) {
-		store_ = new Store(new LoaderParams(0, 0, 0, 0));
+		store_ = new Store(new LoaderParams(0, 0));
 	}
 	return store_;
 }

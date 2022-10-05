@@ -3,11 +3,11 @@
 #include "Scene.h"
 const std::string PlayState::s_playID = "PLAY";
 
-void PlayState::update()
+void PlayState::update(Uint32 delta)
 {
 	for (int i = 0; i < m_Scenes.size(); i++)
 	{
-		m_Scenes[i]->update();
+		m_Scenes[i]->update(delta);
 	}
 }
 

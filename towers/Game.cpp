@@ -119,6 +119,6 @@ void Game::processEvents() {
 // Physics update loop
 void Game::update() {
 	Uint32 delta = fpsTimer.restart();
-	m_pGameStateMachine->update();
+	m_pGameStateMachine->update(delta);
 	updateFPS(delta);
 }
