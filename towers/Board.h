@@ -27,14 +27,12 @@ class Grid : public Object {
 	void setRefresh() { flag_refresh = true; }
 public:
 	Grid(int x, int y);
-	
 	virtual void draw(SDL_Renderer& pRenderer);
 
 	void judgeAttacking();
 	void attackPiece(int attack);
 	bool setPiece(Piece* piece);
 	void delPiece();
-	//virtual void load(const LoaderParams* pParams);
 	void setColor(int choice);
 	void addInvader(Invader* iInvader);
 	void damageInvader(Invader* iInvader, int damage);
@@ -45,21 +43,13 @@ public:
 
 	friend class Board;
 	friend class Bullet;
-	//friend class Piece;
-	//friend class Pawn;
-	//friend class Knight;
-	//friend class Rook;
-	friend class Bishop;
-	friend class Peasant;
 };
 
 class Board : public Object {	
 	SDL_Renderer* m_renderer = NULL;
-	//void init();
 	bool m_kReleased = false;
 	int x {0}, y {0};
 	vector<Invader*> invaders = {};
-	//Board() {init(); }
 	Board();
 	Board(const LoaderParams* pParams);
 public:

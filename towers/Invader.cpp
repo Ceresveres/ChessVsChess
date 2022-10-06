@@ -1,11 +1,16 @@
 #include "Invader.h"
 #include "Board.h"
 #include "Game.h"
+#include "TextureManager.h"
 
 #include <iostream>
 using namespace std;
 
-Invader::Invader(int x, int y) : Object(new LoaderParams(50, 50)), pos(x, y), move(-speed)
+Invader::Invader(int x, int y) : Object(new LoaderParams(50, 50)), pos(x, y), move(x, y, -speed), graphic("Pieces", SDL_FLIP_HORIZONTAL)
+{
+}
+
+Invader::Invader(int x, int y, Scene* scene) : Object(new LoaderParams(50, 50)), pos(x, y), move(x, y, -speed), scene(scene), mTextureID("assets/Icon01.png"), graphic("Pieces", SDL_FLIP_HORIZONTAL)
 {
 }
 
@@ -90,9 +95,14 @@ void Invader::update(Uint32 delta) {
 }
 
 void Invader::draw(SDL_Renderer& pRenderer) {
-	SDL_Rect gridRect = { pos.x,  pos.y, mWidth, mHeight };
-	SDL_SetRenderDrawColor(&pRenderer, 100, 0, 50, 255);
-	SDL_RenderFillRect(&pRenderer, &gridRect);
+	//SDL_Rect gridRect = { move.x,  move.y, mWidth, mHeight };
+	//SDL_SetRenderDrawColor(&pRenderer, 100, 0, 50, 255);
+	//SDL_RenderFillRect(&pRenderer, &gridRect);draw
+	//TextureManager::GetSingletonInstance()->draw("Icon", pos.x, pos.y, mWidth, mHeight);
+	//TextureManager::Instance()->drawFrame("Icon", pos.x, pos.x, mWidth, mHeight, 0, 0, &pRenderer);
+	graphic.draw(pos, mWidth, mHeight);
+
+	cout << "hi";
 }
 
 void Invader::hit(int damage) {

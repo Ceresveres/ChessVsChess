@@ -150,6 +150,7 @@
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Store.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="towers.cpp" />
     <ClCompile Include="ui-tools.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Bullet.h" />
@@ -173,7 +175,10 @@
     <ClInclude Include="ui-tools.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\v0he8g2kvsn91.jpg" />
+    <Image Include="assets\Icon01.png" />
+    <Image Include="assets\Pieces.png" />
+    <Image Include="assets\212Pieces.png" />
+    <Image Include="assets\skull.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

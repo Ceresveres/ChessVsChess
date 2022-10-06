@@ -30,6 +30,7 @@ class Game {
 
 	Board* board { Board::GetSingleton() };
 	Store* store { Store::GetSingleton() };
+	TextureManager* sTextureManager{ nullptr };
 
 	LTimer fpsTimer;
 	int frameCount = 0;

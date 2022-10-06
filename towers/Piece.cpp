@@ -6,14 +6,16 @@
 
 #include <iostream>
 
-Piece::Piece(int x, int y) : Object(new LoaderParams(50, 50)), pos((x * 100) + 25, (y * 100) + 25), indexI(x), indexJ(y) {
+Piece::Piece(int x, int y) : Object(new LoaderParams(50, 50)), pos((x * 100) + 25, (y * 100) + 25), indexI(x), indexJ(y), graphic("Pieces") {
 	cout << "being made";
 }
 
 void Piece::draw(SDL_Renderer& rend) {
-	SDL_Rect gridRect = { pos.x,  pos.y, mWidth, mHeight };
-	SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
-	SDL_RenderFillRect(&rend, &gridRect);
+	//SDL_Rect gridRect = { pos.x,  pos.y, mWidth, mHeight };
+	//SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
+	//SDL_RenderFillRect(&rend, &gridRect);
+	//TextureManager::GetSingletonInstance()->draw(mTextureID, pos.x, pos.y, mWidth, mHeight);
+	graphic.draw(pos, mWidth, mHeight);
 }
 
 void Pawn::update() {
@@ -53,11 +55,8 @@ void Bishop::update() {
 	bool isAttacking = false;
 	Scene* scene{ Scene::GetSingleton() };
 	Board* board{ Board::GetSingleton() };
-	for (int i = pos.x; i < GRID_NUM_X; i++) {
-		if (board->grid[i][pos.y].invaders.size() != 0) {
-			isAttacking = true; break;
-		}
-	}
+	isAttacking = board->inLineOfSight(indexI, indexJ);
+
 	if (isAttacking) {
 		counter++;
 		if (counter >= speed) {

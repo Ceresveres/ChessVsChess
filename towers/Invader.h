@@ -42,7 +42,7 @@ class Board;
 class Invader : public Object {
 protected:
 	string name{};
-	float speed{ .01F };
+	float speed{ 3.0F };
 	int HP{ 100 };
 	int attack{ 10 };
 	int reward{ 50 };
@@ -52,23 +52,24 @@ protected:
 	bool remo{ false };
 	int step{ 10 };
 	int counter{0};
-
+	Scene* scene = nullptr;
 	enum { SHIELD, BURN=1, SLOW=2, MAXEFFECTS };
 	vector<Effect*> effects_ {};
 
 public:
-	Invader(int x=1, int y=1);
+	Invader(int x, int y);
+	Invader(int x, int y, Scene* scene);
 	bool attacking = false;
 	PositionComponent pos;
 	MoveComponent move;
 	virtual void update(Uint32 delta);
 	virtual void draw(SDL_Renderer& pRenderer);
 	virtual void load(const LoaderParams* pParams);
-
+	DynamicComponent graphic;
 	virtual int getHP() { return HP; };
 	virtual int getReward() { return reward; };
 	virtual void hit(int damage);
-
+	std::string mTextureID;
 
 	virtual void removeEffect(Effect* effect);
 	virtual void applyEffect(int type) { effects_.push_back(new Effect(type)); };

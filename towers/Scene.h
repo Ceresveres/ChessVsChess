@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Piece.h"
 #include "Invader.h"
+#include "TextureManager.h"
 #include <list>
 #include <vector>
 #include <SDL.h>
@@ -15,7 +16,9 @@ class Piece;
 class Scene;
 class Scene {
 	static const string s_sceneID;
+	TextureManager* sTextureManager{ TextureManager::GetSingletonInstance() };
 	std::vector<Object*> m_Objects;
+	std::vector<MoveComponent*> m_Move = {};
 	std::vector<Piece*> pieces = {};
 	vector<Invader*> invaders = {};
 	list<Bullet*> bullets = {};
@@ -24,10 +27,15 @@ class Scene {
 		init();
 	}
 
+	Scene(SDL_Renderer* rend) : m_renderer(rend)
+	{
+		init();
+	}
 public:
 
 	static Scene* GetSingleton();
-
+	static Scene* GetSingleton(SDL_Renderer* rend);
+	SDL_Renderer* m_renderer = NULL;
 	virtual std::string getStateID() const { return s_sceneID; }
 	virtual void update(Uint32 delta);
 	virtual bool init();

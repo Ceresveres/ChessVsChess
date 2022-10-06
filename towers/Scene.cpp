@@ -10,11 +10,21 @@ Scene* Scene::GetSingleton() {
 	return scene_;
 }
 
+Scene* Scene::GetSingleton(SDL_Renderer* rend) {
+	if (scene_ == nullptr) {
+		scene_ = new Scene(rend);
+	}
+	return scene_;
+}
+
 void Scene::update(Uint32 delta) {
 	for (int i = 0; i < m_Objects.size(); i++)
 	{
 		m_Objects[i]->update();
 	}
+	//for (auto const& var : m_Move) {
+	//	var->UpdatePosition(delta);
+	//}
 	moveBullet(delta);
 	moveInvader(delta);
 }
@@ -37,6 +47,8 @@ bool Scene::init() {
 	Store* store{ Store::GetSingleton() };
 	board->scene = this;
 	cout << "i";
+	sTextureManager->load("assets/Icon01.png", "Icon");
+	sTextureManager->load("assets/skull.png", "Pieces");
 
 	m_Objects.push_back(board);
 	m_Objects.push_back(store);
@@ -64,7 +76,7 @@ void Scene::addInvader(int x, int y, int type) {
 	Invader* newInvader = nullptr;
 	switch (type) {
 	case BASIC:
-		newInvader = new Invader((x*100)+25, (y*100)+25);
+		newInvader = new Invader((x*100)+25, (y*100)+25, this);
 		break;
 	case JUMPER:
 		//newInvader = new Jumper();

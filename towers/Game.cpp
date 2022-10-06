@@ -19,8 +19,9 @@ Game* Game::GetSingleton() {
 void Game::onStartUp() {
 	fpsTimer.start();
 	gameState = RUNNING;
+	sTextureManager = TextureManager::GetSingleton(m_pRenderer);
 	m_pGameStateMachine = new GameStateMachine();
-	m_pGameStateMachine->changeState(new PlayState(m_pRenderer));
+	m_pGameStateMachine->changeState(new PlayState(m_pRenderer, sTextureManager));
 	loop();
 }
 

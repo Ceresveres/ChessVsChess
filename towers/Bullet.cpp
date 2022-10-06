@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "ui-tools.h"
 
-Bullet::Bullet(int x, int y) : Object(new LoaderParams(5, 5)), pos(x, y), move(speed) {}
+Bullet::Bullet(int x, int y) : Object(new LoaderParams(5, 5)), pos(x, y), move(x, y, speed) {}
 
 void Bullet::draw(SDL_Renderer& rend) {
 	SDL_Rect gridRect = { pos.x,  pos.y, 5, 5 };

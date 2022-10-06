@@ -12,14 +12,14 @@ class Piece : public Object {
 protected:
 	string name;
 	PositionComponent pos;
-	int counter{12*1000};
+	DynamicComponent graphic;
+	int counter{ 12 * 1000 };
 	int indexI, indexJ;
-	int speed{12};
+	int speed{ 12 };
 	int HP = 100;
 	bool isAttacking = false;
 public:
 	Piece(int x, int y);
-		
 	virtual void draw(SDL_Renderer& rend);
 	virtual void update() {};
 

@@ -21,7 +21,7 @@ void PlayState::render()
 
 bool PlayState::onEnter()
 {
-	Scene* scene{ Scene::GetSingleton() };
+	Scene* scene{ Scene::GetSingleton(m_renderer) };
 	m_Scenes.push_back(scene);
 	std::cout << "entering PlayState\n";
 	return true;

@@ -63,6 +63,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -113,9 +116,21 @@
     <ClInclude Include="Scene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Downloads\v0he8g2kvsn91.jpg">
+    <Image Include="assets\Icon01.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\212Pieces.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Pieces.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\skull.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
