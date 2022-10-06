@@ -10,11 +10,11 @@ public:
 	virtual void render();
 	virtual bool onEnter();
 	virtual bool onExit();
-	PlayState(SDL_Renderer* rend, TextureManager* textureManager)
-		: m_renderer{ rend }, m_TextureManager{ textureManager } {}
+	PlayState(TextureManager* textureManager)
+		: m_TextureManager{ textureManager } {}
 	virtual std::string getStateID() const { return s_playID; }
 private:
-	SDL_Renderer* m_renderer = NULL;
+	//SDL_Renderer* m_renderer = NULL;
 	TextureManager* m_TextureManager = NULL;
 	static const string s_playID;
 	std::vector<Scene*> m_Scenes;

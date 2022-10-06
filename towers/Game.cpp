@@ -21,7 +21,7 @@ void Game::onStartUp() {
 	gameState = RUNNING;
 	sTextureManager = TextureManager::GetSingleton(m_pRenderer);
 	m_pGameStateMachine = new GameStateMachine();
-	m_pGameStateMachine->changeState(new PlayState(m_pRenderer, sTextureManager));
+	m_pGameStateMachine->changeState(new PlayState(sTextureManager));
 	loop();
 }
 

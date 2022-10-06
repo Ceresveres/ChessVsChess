@@ -43,7 +43,6 @@ class Invader : public Object {
 protected:
 	string name{};
 	float speed{ 3.0F };
-	int HP{ 100 };
 	int attack{ 10 };
 	int reward{ 50 };
 	
@@ -58,18 +57,17 @@ protected:
 
 public:
 	Invader(int x, int y);
-	Invader(int x, int y, Scene* scene);
 	bool attacking = false;
+	HealthComponent health{ 100 };
+
 	PositionComponent pos;
 	MoveComponent move;
+	SizeComponent size;
 	virtual void update(Uint32 delta);
-	virtual void draw(SDL_Renderer& pRenderer);
-	virtual void load(const LoaderParams* pParams);
+	virtual void draw();
 	DynamicComponent graphic;
-	virtual int getHP() { return HP; };
 	virtual int getReward() { return reward; };
 	virtual void hit(int damage);
-	std::string mTextureID;
 
 	virtual void removeEffect(Effect* effect);
 	virtual void applyEffect(int type) { effects_.push_back(new Effect(type)); };

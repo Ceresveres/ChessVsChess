@@ -4,12 +4,48 @@
 #include <algorithm>
 
 #include <vector>
-#include <SDL_video.h>
 #include <SDL_rect.h>
-#include <SDL_render.h>
 
 using namespace std;
 static Board* board_ = nullptr;
+
+void Board::update() {
+	handleInput();
+	travGrid();
+}
+
+void Board::draw() {
+	for (auto& row : grid) {
+		for (auto& i : row) {
+			if (i.flag_refresh) i.draw();
+		}
+	}
+}
+
+void Grid::draw() {
+	SDL_Rect gridRect = { pos.x * size.mWidth,  pos.y * size.mHeight, size.mWidth, size.mHeight };
+	TextureManager::GetSingletonInstance()->drawTemp(gridRect, color);
+	if (selected) {
+		int tmpColor[4] = { 16, 10, 10, 255 };
+		TextureManager::GetSingletonInstance()->drawTemp(gridRect, tmpColor);
+
+		gridRect = { (pos.x * size.mWidth) + 10,  (pos.y * (size.mHeight)) + 10, size.mWidth - 20, size.mHeight - 20 };
+
+	}
+	TextureManager::GetSingletonInstance()->drawTemp(gridRect, color);
+
+	////graphic.draw(pos, mWidth, mHeight);
+
+	//SDL_SetRenderDrawColor(&pRenderer, color[0], color[1], color[2], color[3]);
+	//SDL_RenderFillRect(&pRenderer, &gridRect);
+
+	////if (invaders.size() != 0) {
+	////	invaders[0]->draw(pRenderer);
+	////}
+	if (piece != nullptr) {
+		piece->draw();
+	}
+}
 
 bool Grid::setPiece(Piece* iPiece) {
 	if (piece != nullptr) return false;
@@ -67,7 +103,6 @@ void Grid::attackPiece(int attack)
 	}
 }
 
-
 bool Board::travGrid() {
 	for (auto& row : grid) {
 		for (auto& i : row) {
@@ -105,41 +140,8 @@ bool Board::setPiece( int type) {
 		return false;
 	}
 	else {
-		Scene* pScene = Scene::GetSingleton();
 		return true;
 	}
-}
-
-void Grid::draw(SDL_Renderer& pRenderer) {
-	SDL_Rect gridRect = { pos.x * mWidth,  pos.y * mHeight, mWidth, mHeight };
-	if (selected) {
-		SDL_SetRenderDrawColor(&pRenderer, 16, 10, 10, 255);
-		SDL_RenderFillRect(&pRenderer, &gridRect);
-		gridRect = { (pos.x * mWidth) + 10,  (pos.y * (mHeight)) + 10, mWidth - 20, mHeight -20 };
-
-	}
-	SDL_SetRenderDrawColor(&pRenderer, color[0], color[1], color[2], color[3]);
-	SDL_RenderFillRect(&pRenderer, &gridRect);
-
-	//if (invaders.size() != 0) {
-	//	invaders[0]->draw(pRenderer);
-	//}
-	if (piece != nullptr) {
-		piece->draw(pRenderer);
-	}
-}
-
-void Board::draw(SDL_Renderer& rend) {
-	for (auto& row : grid) {
-		for (auto& i : row) {
-			if (i.flag_refresh) i.draw(rend);
-		}
-	}
-}
-
-void Board::update() {
-	handleInput();
-	travGrid();
 }
 
 void Board::addInvader(int x, int y, Invader* iInvader) {
@@ -190,12 +192,19 @@ void Board::handleSelection(const int ix, const int iy) {
 
 }
 
-Board* Board::GetSingleton() {
-	if (board_ == nullptr) {
-		board_ = new Board();
+bool Board::inLineOfSight(int x, int y) {
+	for (int i = x; i < GRID_NUM_X; i++) {
+		if (grid[i][y].invaders.size() != 0) {
+			return true;
+		}
 	}
-	return board_;
+	return false;
 }
+
+Grid::Grid(int x, int y) : pos(x, y), size(100, 100) {
+	cout << "being made";
+	setColor((x + y) % 2);
+};
 
 void Grid::setColor(int choice) {
 	if (choice == 0) {
@@ -212,21 +221,7 @@ void Grid::setColor(int choice) {
 	}
 }
 
-Grid::Grid(int x, int y) : Object(new LoaderParams( 100, 100)), pos(x, y) {
-	cout << "being made";
-	setColor((x + y) % 2);
-};
-
-bool Board::inLineOfSight(int x, int y) {
-	for (int i = x; i < GRID_NUM_X; i++) {
-		if (grid[i][y].invaders.size() != 0) {
-			return true;
-		}
-	}
-	return false;
-}
-
-Board::Board() : Object(new LoaderParams(0,0)), pos(0, 0) {
+Board::Board() : pos(0, 0) {
 	for (int i = 0; i < GRID_NUM_X; i++) {
 		grid.push_back(std::vector<Grid>());
 		for (int j = 0; j < GRID_NUM_Y; j++) {
@@ -235,4 +230,11 @@ Board::Board() : Object(new LoaderParams(0,0)), pos(0, 0) {
 	}
 	grid[x][y].setSelected();
 
+}
+
+Board* Board::GetSingleton() {
+	if (board_ == nullptr) {
+		board_ = new Board();
+	}
+	return board_;
 }

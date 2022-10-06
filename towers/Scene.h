@@ -26,21 +26,16 @@ class Scene {
 	{
 		init();
 	}
-
-	Scene(SDL_Renderer* rend) : m_renderer(rend)
-	{
-		init();
-	}
 public:
 
 	static Scene* GetSingleton();
-	static Scene* GetSingleton(SDL_Renderer* rend);
-	SDL_Renderer* m_renderer = NULL;
+	//static Scene* GetSingleton(SDL_Renderer* rend);
+	//SDL_Renderer* m_renderer = NULL;
 	virtual std::string getStateID() const { return s_sceneID; }
 	virtual void update(Uint32 delta);
 	virtual bool init();
 	virtual void clean();
-	virtual void draw(SDL_Renderer& pRenderer);
+	virtual void draw();
 
 	void addInvader(int x, int y, int type);
 	void addPiece(int x, int y, int type);

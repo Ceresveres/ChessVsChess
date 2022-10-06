@@ -10,12 +10,12 @@ Scene* Scene::GetSingleton() {
 	return scene_;
 }
 
-Scene* Scene::GetSingleton(SDL_Renderer* rend) {
-	if (scene_ == nullptr) {
-		scene_ = new Scene(rend);
-	}
-	return scene_;
-}
+//Scene* Scene::GetSingleton(SDL_Renderer* rend) {
+//	if (scene_ == nullptr) {
+//		scene_ = new Scene(rend);
+//	}
+//	return scene_;
+//}
 
 void Scene::update(Uint32 delta) {
 	for (int i = 0; i < m_Objects.size(); i++)
@@ -29,26 +29,25 @@ void Scene::update(Uint32 delta) {
 	moveInvader(delta);
 }
 
-void Scene::draw(SDL_Renderer& pRenderer) {
+void Scene::draw() {
 	for (int i = 0; i < m_Objects.size(); i++)
 	{
-		m_Objects[i]->draw(pRenderer);
+		m_Objects[i]->draw();
 	}
 	for (auto const& var : bullets) {
-		var->draw(pRenderer);
+		var->draw();
 	}
 	for (auto const& var : invaders) {
-		var->draw(pRenderer);
+		var->draw();
 	}
 }
 
 bool Scene::init() {
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
-	board->scene = this;
 	cout << "i";
-	sTextureManager->load("assets/Icon01.png", "Icon");
-	sTextureManager->load("assets/skull.png", "Pieces");
+	sTextureManager->loadTexture("assets/Icon01.png", "Icon");
+	sTextureManager->loadTexture("assets/skull.png", "Pieces");
 
 	m_Objects.push_back(board);
 	m_Objects.push_back(store);
@@ -76,7 +75,7 @@ void Scene::addInvader(int x, int y, int type) {
 	Invader* newInvader = nullptr;
 	switch (type) {
 	case BASIC:
-		newInvader = new Invader((x*100)+25, (y*100)+25, this);
+		newInvader = new Invader((x*100)+25, (y*100)+25);
 		break;
 	case JUMPER:
 		//newInvader = new Jumper();
@@ -97,11 +96,6 @@ void Scene::addInvader(int x, int y, int type) {
 }
 
 bool Scene::moveInvader(Uint32 delta) {
-	//for (auto& var : invaders) {
-	//	var->update();
-	//	if (var->pos.x < 0) delete (var);
-	//	invaders.erase(&var);
-	//}
 	for (auto const& var : invaders) {
 		var->update(delta);
 	}
@@ -125,7 +119,7 @@ void Scene::clearInvader() {
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
 	for (auto list = invaders.begin(); list != invaders.end();) {
-		if ((*list)->getHP() <= 0) {
+		if ((*list)->health.getHP() <= 0) {
 			board->grid[(*list)->pos.x][(*list)->pos.y].delInvader(*list);
 			store->addMoney((*list)->getReward());
 			delete (*list);

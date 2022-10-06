@@ -21,18 +21,18 @@ public:
 
 	void setSelect() { flag = true; }
 
-	void draw(SDL_Renderer& rend);
+	void draw();
 };
 
 class Store : public Object {
 private:
 	PieceCard* pieces[MAXPIECECOUNT];
 	int money{100000};
-	Store(const LoaderParams* pParams);
+	Store();
 public:
 	static Store* GetSingleton();
 	void init();
-	void draw(SDL_Renderer& rend);
+	void draw();
 
 
 	virtual void addMoney(int reward) { money += reward; }

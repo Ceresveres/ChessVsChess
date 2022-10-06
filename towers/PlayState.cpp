@@ -15,13 +15,13 @@ void PlayState::render()
 {
 	for (int i = 0; i < m_Scenes.size(); i++)
 	{
-		m_Scenes[i]->draw(*m_renderer);
+		m_Scenes[i]->draw();
 	}
 }
 
 bool PlayState::onEnter()
 {
-	Scene* scene{ Scene::GetSingleton(m_renderer) };
+	Scene* scene{ Scene::GetSingleton() };
 	m_Scenes.push_back(scene);
 	std::cout << "entering PlayState\n";
 	return true;

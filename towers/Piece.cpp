@@ -6,16 +6,15 @@
 
 #include <iostream>
 
-Piece::Piece(int x, int y) : Object(new LoaderParams(50, 50)), pos((x * 100) + 25, (y * 100) + 25), indexI(x), indexJ(y), graphic("Pieces") {
-	cout << "being made";
-}
+Piece::Piece(int x, int y) :pos((x * 100) + 25, (y * 100) + 25), 
+							indexI(x), 
+							indexJ(y), 
+							graphic("Pieces"), 
+							size(50, 50) 
+							{ cout << "being made";}
 
-void Piece::draw(SDL_Renderer& rend) {
-	//SDL_Rect gridRect = { pos.x,  pos.y, mWidth, mHeight };
-	//SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
-	//SDL_RenderFillRect(&rend, &gridRect);
-	//TextureManager::GetSingletonInstance()->draw(mTextureID, pos.x, pos.y, mWidth, mHeight);
-	graphic.draw(pos, mWidth, mHeight);
+void Piece::draw() {
+	graphic.draw(pos, size);
 }
 
 void Pawn::update() {
@@ -28,7 +27,7 @@ void Pawn::update() {
 		counter++;
 		if (counter >= speed*1000) {
 			counter = 0;
-			Bullet* p = new Bullet(pos.x+mWidth, pos.y+mHeight/2);
+			Bullet* p = new Bullet(pos.x+ size.mWidth, pos.y+ size.mHeight/2);
 			scene->addBullet(p);
 		}
 	}

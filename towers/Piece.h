@@ -12,6 +12,7 @@ class Piece : public Object {
 protected:
 	string name;
 	PositionComponent pos;
+	SizeComponent size;
 	DynamicComponent graphic;
 	int counter{ 12 * 1000 };
 	int indexI, indexJ;
@@ -20,7 +21,7 @@ protected:
 	bool isAttacking = false;
 public:
 	Piece(int x, int y);
-	virtual void draw(SDL_Renderer& rend);
+	virtual void draw();
 	virtual void update() {};
 
 	friend class Game;

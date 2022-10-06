@@ -3,35 +3,7 @@
 
 TextureManager* TextureManager::s_pInstance = 0;
 
-//SDL_Texture* loadTexture(std::string path)
-//{
-//	//The final texture
-//	SDL_Texture* newTexture = NULL;
-//
-//	//Load image at specified path
-//	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-//	if (loadedSurface == NULL)
-//	{
-//		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-//	}
-//	else
-//	{
-//		//Create texture from surface pixels
-//		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
-//		if (newTexture == NULL)
-//		{
-//			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-//		}
-//
-//		//Get rid of old loaded surface
-//		SDL_FreeSurface(loadedSurface);
-//	}
-//
-//	return newTexture;
-//}
-
-
-bool TextureManager::load(string fileName, string id)
+bool TextureManager::loadTexture(string fileName, string id)
 {
 	SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
 	if (pTempSurface == 0)
@@ -50,20 +22,17 @@ bool TextureManager::load(string fileName, string id)
 
 void TextureManager::draw(string id, int x, int y, int width, int height, SDL_RendererFlip flip)
 {
-	SDL_Rect dstRect {x, y, width, height};
-	dstRect.w = width;
-	dstRect.h = height;
-	dstRect.x = x;
-	dstRect.y = y;
-	SDL_RenderCopy(m_pRenderer, m_textureMap[id], NULL, &dstRect);
-	//SDL_RenderCopy(pRenderer, m_textureMap[id], NULL, NULL);
-
-	//SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &dstRect, NULL, NULL, flip);
+	SDL_Rect destRect{x, y, width, height};
+	destRect.w = width;
+	destRect.h = height;
+	destRect.x = x;
+	destRect.y = y;
+	SDL_RenderCopy(m_pRenderer, m_textureMap[id], NULL, &destRect);
+	SDL_RenderDrawRect(m_pRenderer, &destRect);
 }
 
 void TextureManager::drawFrame(string id, int x, int y, int width, int height, SDL_Rect gridRect,  int currentRow, int currentFrame, SDL_RendererFlip flip)
 {
-	//SDL_Rect srcRect;
 	SDL_Rect destRect;
 	gridRect.x = gridRect.w * currentFrame;
 	gridRect.y = gridRect.h * (currentRow - 1);
@@ -72,4 +41,17 @@ void TextureManager::drawFrame(string id, int x, int y, int width, int height, S
 	destRect.x = x;
 	destRect.y = y;
 	SDL_RenderCopyEx(m_pRenderer, m_textureMap[id], &gridRect, &destRect, 0, 0, flip);
+	drawHitbox(destRect);
+}
+
+void TextureManager::drawTemp(SDL_Rect gridRect, int *color)
+{
+	SDL_SetRenderDrawColor(m_pRenderer, color[0], color[1], color[2], color[3]);
+	SDL_RenderFillRect(m_pRenderer, &gridRect);
+}
+
+void TextureManager::drawHitbox(SDL_Rect gridRect)
+{
+	SDL_SetRenderDrawColor(m_pRenderer, 16, 10, 10, 255);
+	SDL_RenderDrawRect(m_pRenderer, &gridRect);
 }

@@ -8,15 +8,15 @@ static Store* store_ = nullptr;
 Store* Store::GetSingleton() {
 
 	if (store_ == nullptr) {
-		store_ = new Store(new LoaderParams(0, 0));
+		store_ = new Store();
 	}
 	return store_;
 }
 
-void PieceCard::draw(SDL_Renderer& rend) {
+void PieceCard::draw() {
 	SDL_Rect pieceCardRect = { (index-1) * (PIECE_CARD_WIDTH),  SCREEN_HEIGHT - PIECE_CARD_HEIGHT, PIECE_CARD_WIDTH, PIECE_CARD_HEIGHT };
-	SDL_SetRenderDrawColor(&rend, (index+4)*20, 0, index * 20, 255);
-	SDL_RenderFillRect(&rend, &pieceCardRect);
+	int tmpColor[4] = { (index + 4) * 20, 0,  index * 20, 255 };
+	TextureManager::GetSingletonInstance()->drawTemp(pieceCardRect, tmpColor);
 }
 
 void Store::init() {
@@ -27,13 +27,13 @@ void Store::init() {
 	pieces[4] = new PieceCard(5, "Peasant", 25);
 }
 
-void Store::draw(SDL_Renderer& rend) {
+void Store::draw() {
 	for (auto& var : pieces) {
-		var->draw(rend);
+		var->draw();
 	}
 }
 
-Store::Store(const LoaderParams* pParams) : Object(pParams) {
+Store::Store() {
 	init();
 }
 

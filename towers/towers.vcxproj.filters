@@ -51,9 +51,6 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateMachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,9 +99,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyState.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GameStateMachine.h">

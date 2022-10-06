@@ -1,12 +1,14 @@
 #include "Bullet.h"
 #include "ui-tools.h"
 
-Bullet::Bullet(int x, int y) : Object(new LoaderParams(5, 5)), pos(x, y), move(x, y, speed) {}
+Bullet::Bullet(int x, int y) :pos(x, y), 
+							  move(speed), 
+							  size(50, 5) {}
 
-void Bullet::draw(SDL_Renderer& rend) {
-	SDL_Rect gridRect = { pos.x,  pos.y, 5, 5 };
-	SDL_SetRenderDrawColor(&rend, 3, 252, 98, 255);
-	SDL_RenderFillRect(&rend, &gridRect);
+void Bullet::draw() {
+	int tmpColor[4] = { 3, 3, 3, 255 };
+	SDL_Rect gridRect = { pos.x,  pos.y, size.mWidth, size.mHeight };
+	TextureManager::GetSingletonInstance()->drawTemp(gridRect, tmpColor);
 }
 
 void Bullet::update(Uint32 delta) {

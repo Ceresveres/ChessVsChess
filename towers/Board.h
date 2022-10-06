@@ -21,13 +21,13 @@ class Grid : public Object {
 	Piece* piece = {};
 	vector<Invader*> invaders = {};
 	PositionComponent pos;
-
+	SizeComponent size;
 	bool selected{false};
 	bool flag_refresh{true};	
 	void setRefresh() { flag_refresh = true; }
 public:
 	Grid(int x, int y);
-	virtual void draw(SDL_Renderer& pRenderer);
+	virtual void draw();
 
 	void judgeAttacking();
 	void attackPiece(int attack);
@@ -50,23 +50,27 @@ class Board : public Object {
 	bool m_kReleased = false;
 	int x {0}, y {0};
 	vector<Invader*> invaders = {};
-	Board();
-	Board(const LoaderParams* pParams);
-public:
-	static Board* GetSingleton();
-	Scene* scene {nullptr};
-	virtual void update();
-	void addInvader(int x, int y, Invader* iInvader);
-	virtual void draw(SDL_Renderer& pRenderer);
-	bool inLineOfSight(int x, int y);
-	bool setPiece(int type);
-	bool travGrid();
-	vector<vector<Grid>> grid;
+	void handleSelection(const int ix = 0, const int iy = 0);
 
 	PositionComponent pos;
 
+	Board();
+public:
+	static Board* GetSingleton();
+	
+	vector<vector<Grid>> grid;
+
+	bool setPiece(int type);
+	void addInvader(int x, int y, Invader* iInvader);
+
 	void handleInput();
-	void handleSelection(const int ix = 0, const int iy = 0);
+	virtual void update();
+	virtual void draw();
+
+
+	bool inLineOfSight(int x, int y);
+	bool travGrid();
+	
 	friend class Invader;
 	friend class Jumper;
 	friend class Bullet;

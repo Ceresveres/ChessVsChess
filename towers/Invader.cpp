@@ -6,13 +6,11 @@
 #include <iostream>
 using namespace std;
 
-Invader::Invader(int x, int y) : Object(new LoaderParams(50, 50)), pos(x, y), move(x, y, -speed), graphic("Pieces", SDL_FLIP_HORIZONTAL)
-{
-}
-
-Invader::Invader(int x, int y, Scene* scene) : Object(new LoaderParams(50, 50)), pos(x, y), move(x, y, -speed), scene(scene), mTextureID("assets/Icon01.png"), graphic("Pieces", SDL_FLIP_HORIZONTAL)
-{
-}
+Invader::Invader(int x, int y) :pos(x, y), 
+								move(-speed), 
+								size(50, 50),
+								graphic("Pieces", SDL_FLIP_HORIZONTAL)
+{}
 
 void Effect::initEffect(int type) {
 	switch (type) {
@@ -46,19 +44,13 @@ void Invader::removeEffect(Effect* effect) {
 	effects_.erase(remove(effects_.begin(), effects_.end(), effect), effects_.end());
 }
 
-void Invader::load(const LoaderParams* pParams)
-{
-	Object::load(pParams);
-}
-
 void Invader::update(Uint32 delta) {
-	Board* board = Board::GetSingleton();
-	vector<Modifier*> modifiers{};
 	move.UpdatePosition(delta, pos);
 	if (pos.x >= SCREEN_WIDTH) {
 		this->remo = true;
 		return;
 	}
+
 	//for (int i = (int)effects_.size() - 1; i >= 0; i--) {
 	//	if (effects_[i]->modifier != nullptr) {
 	//		modifiers.push_back(effects_[i]->modifier);
@@ -94,20 +86,18 @@ void Invader::update(Uint32 delta) {
 	return;
 }
 
-void Invader::draw(SDL_Renderer& pRenderer) {
-	//SDL_Rect gridRect = { move.x,  move.y, mWidth, mHeight };
-	//SDL_SetRenderDrawColor(&pRenderer, 100, 0, 50, 255);
-	//SDL_RenderFillRect(&pRenderer, &gridRect);draw
-	//TextureManager::GetSingletonInstance()->draw("Icon", pos.x, pos.y, mWidth, mHeight);
-	//TextureManager::Instance()->drawFrame("Icon", pos.x, pos.x, mWidth, mHeight, 0, 0, &pRenderer);
-	graphic.draw(pos, mWidth, mHeight);
-
+void Invader::draw(/*SDL_Renderer& pRenderer*/) {
+	graphic.draw(pos, size);
 	cout << "hi";
 }
 
+//void Invader::hit(int damage) {
+//	HP -= damage;
+//	if (HP < 0) HP = 0;
+//}
+
 void Invader::hit(int damage) {
-	HP -= damage;
-	if (HP < 0) HP = 0;
+	health.hit(damage);
 }
 
 //void Shield::hit(int damage) {

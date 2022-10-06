@@ -11,16 +11,17 @@ protected:
 	const int BULLET_WIDTH = 20;
 	const int BULLET_HEIGHT = 20;
 	int bullet_velocity = 10;
-	float speed{ 2 };
+	float speed{ 20 };
 	int bulletElement{ NORMAL };
 	
 public:
 	Bullet(int x, int y);
 	bool hit{false};
-	virtual void draw(SDL_Renderer& rend);
+	virtual void draw();
 	virtual void update(Uint32 delta);
 	PositionComponent pos;
 	MoveComponent move;
+	SizeComponent size;
 };
 
 //class SlowBullet :public Bullet {
