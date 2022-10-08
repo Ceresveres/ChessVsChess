@@ -23,36 +23,19 @@ void Board::draw() {
 }
 
 void Grid::draw() {
-	SDL_Rect gridRect = { pos.x * size.mWidth,  pos.y * size.mHeight, size.mWidth, size.mHeight };
+	SDL_Rect gridRect = { pos.x /** size.mWidth*/,  pos.y /** size.mHeight*/, size.mWidth, size.mHeight };
 	TextureManager::GetSingletonInstance()->drawTemp(gridRect, color);
 	if (selected) {
 		int tmpColor[4] = { 16, 10, 10, 255 };
 		TextureManager::GetSingletonInstance()->drawTemp(gridRect, tmpColor);
 
-		gridRect = { (pos.x * size.mWidth) + 10,  (pos.y * (size.mHeight)) + 10, size.mWidth - 20, size.mHeight - 20 };
+		gridRect = { (pos.x/* * size.mWidth*/) + 10,  (pos.y  /** (size.mHeight)*/) + 10, size.mWidth - 20, size.mHeight - 20 };
 
 	}
 	TextureManager::GetSingletonInstance()->drawTemp(gridRect, color);
 
-	////graphic.draw(pos, mWidth, mHeight);
-
-	//SDL_SetRenderDrawColor(&pRenderer, color[0], color[1], color[2], color[3]);
-	//SDL_RenderFillRect(&pRenderer, &gridRect);
-
-	////if (invaders.size() != 0) {
-	////	invaders[0]->draw(pRenderer);
-	////}
 	if (piece != nullptr) {
 		piece->draw();
-	}
-}
-
-bool Grid::setPiece(Piece* iPiece) {
-	if (piece != nullptr) return false;
-	else {
-		piece = iPiece;
-		flag_refresh = true;
-		return true;
 	}
 }
 
@@ -104,43 +87,45 @@ void Grid::attackPiece(int attack)
 }
 
 bool Board::travGrid() {
-	for (auto& row : grid) {
-		for (auto& i : row) {
-			i.judgeAttacking();
-			if (i.piece != nullptr) i.piece->update();
+	int rowIndex = 0;
+	for (const auto& row : grid) {
+		int index = 0;
+		for (const auto& box : row) {
+			if (box.piece != nullptr) {
+				for (int i = rowIndex; i < grid.size(); i++) {
+					if (grid[i][index].invaders.size() != 0) {
+						box.piece->update();
+						break;
+					}
+				}
+			}
+
+			index++;
 		}
+		rowIndex++;
 	}
 	return true;
 }
 
+
+bool Grid::setPiece() {
+	if (piece != nullptr) return false;
+	else {
+		piece = new Pawn(pos.x + size.mWidth/2, pos.y + size.mHeight/2);
+		board->eventBus->publish(new SpawnEvent(piece));
+		flag_refresh = true;
+		return true;
+	}
+}
+
 bool Board::setPiece( int type) {
-	Piece* newPiece = nullptr;
 	switch (type) {
 	case 1:
-		newPiece = new Pawn(x, y);
-		break;
-	case 2:
-		//newPiece = new Rook;
-		break;
-	case 3:
-		//newPiece = new Knight;
-		break;
-	case 4:
-		//newPiece = new Bishop;
-		break;
-	case 5:
-		//newPiece = new Peasant;
-		break;
-	case 6:
-	//	newPiece = new Queen;
-		break;
-	}
-	if (!grid[x][y].setPiece(newPiece)) {
-		delete newPiece;
+		if (!grid[x][y].setPiece()) {
+			return false;
+		}
+	default:
 		return false;
-	}
-	else {
-		return true;
 	}
 }
 
@@ -201,9 +186,9 @@ bool Board::inLineOfSight(int x, int y) {
 	return false;
 }
 
-Grid::Grid(int x, int y) : pos(x, y), size(100, 100) {
+Grid::Grid(int x, int y, Board* pboard) : pos(x, y), size(100, 100), board(pboard) {
 	cout << "being made";
-	setColor((x + y) % 2);
+	setColor((x + y) % 200);
 };
 
 void Grid::setColor(int choice) {
@@ -225,10 +210,14 @@ Board::Board() : pos(0, 0) {
 	for (int i = 0; i < GRID_NUM_X; i++) {
 		grid.push_back(std::vector<Grid>());
 		for (int j = 0; j < GRID_NUM_Y; j++) {
-			grid[i].emplace_back(i, j);
+			grid[i].emplace_back(i * 100, j * 100, this);
 		}
 	}
 	grid[x][y].setSelected();
+
+}
+
+void Board::onCollisionEvent(CollisionEvent* collision) {
 
 }
 

@@ -8,6 +8,12 @@
 
 using namespace std;
 
+class EventBus;
+//struct EventComponent {
+//	EventBus* eventBus;
+//	EventComponent(EventBus* eventBus) : eventBus(eventBus) {};
+//};
+
 struct PositionComponent
 {
 	int x, y;
@@ -16,8 +22,18 @@ struct PositionComponent
 	PositionComponent() = default;
 };
 
-struct SpawnComponent {
-	
+
+struct WorldBoundsComponent
+{
+	int xMin, xMax, yMin, yMax;
+
+	WorldBoundsComponent(int xMin, int xMax, int yMin, int yMax)
+		: xMin(xMin)
+		, xMax(xMax)
+		, yMin(yMin)
+		, yMax(yMax)
+	{
+	}
 };
 
 struct HealthComponent
@@ -96,13 +112,13 @@ struct MoveComponent
     }
 };
 
+class EventBus;
 class Object
 {
 public:
 	virtual void update();
 	virtual void draw();
 	virtual void clean();
-protected:
 	Object() {};
 };
 
@@ -110,3 +126,19 @@ protected:
 
 
 
+struct Event {
+	
+};
+	
+struct CollisionEvent : public Event {
+	//CollisionEvent(Object a, Object b) : ObjectA{ a }, ObjectB{ b } {}
+	CollisionEvent() {};
+	//Object ObjectA {};
+	//Object ObjectB {};
+};
+
+struct SpawnEvent : public Event {
+	SpawnEvent(Object* a) : ObjectA(a) {};
+	Object* ObjectA {};
+	//Object ObjectB {};
+};

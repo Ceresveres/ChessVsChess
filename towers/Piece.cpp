@@ -2,35 +2,41 @@
 #include "Board.h"
 #include "Game.h"
 #include "Scene.h"
+#include "EventBus.h"
 
 
 #include <iostream>
 
-Piece::Piece(int x, int y) :pos((x * 100) + 25, (y * 100) + 25), 
-							indexI(x), 
-							indexJ(y), 
-							graphic("Pieces"), 
-							size(50, 50) 
-							{ cout << "being made";}
+Piece::Piece(int x, int y) :size(50, 50),
+							pos(x-size.mWidth/2, y-size.mHeight/2), 
+							graphic("Pieces")
+{ 
+	cout << "being made";
+	Scene* scene{ Scene::GetSingleton() };
+	eventBus = scene->getEventBus();
+	eventBus->publish(new CollisionEvent());
+}
 
 void Piece::draw() {
 	graphic.draw(pos, size);
 }
 
 void Pawn::update() {
-	bool isAttacking = false;
+	//bool isAttacking = false;
 	Scene* scene{ Scene::GetSingleton() };
-	Board* board{ Board::GetSingleton() };
-	isAttacking = board->inLineOfSight(indexI, indexJ);
+	//Board* board{ Board::GetSingleton() };
+	//isAttacking = board->inLineOfSight(indexI, indexJ);
 
-	if (isAttacking) {
+	//if (isAttacking) {
 		counter++;
 		if (counter >= speed*1000) {
 			counter = 0;
-			Bullet* p = new Bullet(pos.x+ size.mWidth, pos.y+ size.mHeight/2);
+			Bullet* p = new Bullet(pos.x + size.mWidth, pos.y + size.mHeight / 2);
+			eventBus->publish(new SpawnEvent(p));
+			//Bullet* p = new Bullet(pos.x+ size.mWidth, pos.y+ size.mHeight/2);
 			scene->addBullet(p);
 		}
-	}
+	//}
 }
 
 
@@ -38,7 +44,7 @@ void Knight::update() {
 	bool isAttacking = false;
 	Scene* scene{ Scene::GetSingleton() };
 	Board* board{ Board::GetSingleton() };
-	isAttacking = board->inLineOfSight(indexI, indexJ);
+	//isAttacking = board->inLineOfSight(indexI, indexJ);
 
 	if (isAttacking) {
 		counter++;
@@ -54,7 +60,7 @@ void Bishop::update() {
 	bool isAttacking = false;
 	Scene* scene{ Scene::GetSingleton() };
 	Board* board{ Board::GetSingleton() };
-	isAttacking = board->inLineOfSight(indexI, indexJ);
+	//isAttacking = board->inLineOfSight(indexI, indexJ);
 
 	if (isAttacking) {
 		counter++;

@@ -17,6 +17,12 @@ Scene* Scene::GetSingleton() {
 //	return scene_;
 //}
 
+template<class Movable>
+void UpdatePosition(Uint32 deltaTime, Movable& go, WorldBoundsComponent& bounds)
+{
+	go.move.UpdatePosition(deltaTime, go.pos, bounds);
+}
+
 void Scene::update(Uint32 delta) {
 	for (int i = 0; i < m_Objects.size(); i++)
 	{
@@ -24,6 +30,10 @@ void Scene::update(Uint32 delta) {
 	}
 	//for (auto const& var : m_Move) {
 	//	var->UpdatePosition(delta);
+	//}
+	//for (auto& go : this->m_Move)
+	//{
+	//	UpdatePosition(delta, go, this->bounds);
 	//}
 	moveBullet(delta);
 	moveInvader(delta);
@@ -42,9 +52,19 @@ void Scene::draw() {
 	}
 }
 
+void Scene::onCollisionEvent(CollisionEvent* collision) {
+	cout << "it works\n";
+}
+
+void Scene::onSpawnEvent(SpawnEvent* spawn) {
+	m_Objects.push_back(spawn->ObjectA);
+}
+
 bool Scene::init() {
+	eventBus->subscribe(this, &Scene::onSpawnEvent);
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
+	board->SetEventBus(eventBus);
 	cout << "i";
 	sTextureManager->loadTexture("assets/Icon01.png", "Icon");
 	sTextureManager->loadTexture("assets/skull.png", "Pieces");

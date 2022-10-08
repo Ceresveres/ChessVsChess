@@ -11,11 +11,11 @@ class Scene;
 class Piece : public Object {
 protected:
 	string name;
+	SizeComponent size{ 50,50 };
 	PositionComponent pos;
-	SizeComponent size;
 	DynamicComponent graphic;
+	EventBus* eventBus{};
 	int counter{ 12 * 1000 };
-	int indexI, indexJ;
 	int speed{ 12 };
 	int HP = 100;
 	bool isAttacking = false;
