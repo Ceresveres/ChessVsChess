@@ -21,6 +21,7 @@ protected:
 	bool isAttacking = false;
 public:
 	Piece(int x, int y);
+	~Piece() = default;
 	virtual void draw();
 	virtual void update() {};
 

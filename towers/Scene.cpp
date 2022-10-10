@@ -43,12 +43,7 @@ void Scene::onCollisionEvent(CollisionEvent* collision) {
 	cout << "it works\n";
 }
 
-void Scene::onSpawnEvent(SpawnEvent* spawn) {
-	m_Objects.push_back(spawn->ObjectA);
-}
-
 bool Scene::init() {
-	eventBus->subscribe(this, &Scene::onSpawnEvent);
 	Board* board{ Board::GetSingleton() };
 	Store* store{ Store::GetSingleton() };
 	board->SetEventBus(eventBus);
@@ -122,21 +117,21 @@ bool Scene::moveInvader(Uint32 delta) {
 	return false;
 }
 
-void Scene::clearInvader() {
-	Board* board{ Board::GetSingleton() };
-	Store* store{ Store::GetSingleton() };
-	for (auto list = invaders.begin(); list != invaders.end();) {
-		if ((*list)->health.getHP() <= 0) {
-			board->grid[(*list)->pos.x][(*list)->pos.y].delInvader(*list);
-			store->addMoney((*list)->getReward());
-			delete (*list);
-			list = invaders.erase(list);
-		}
-		else {
-			list++;
-		}
-	}
-}
+//void Scene::clearInvader() {
+//	Board* board{ Board::GetSingleton() };
+//	Store* store{ Store::GetSingleton() };
+//	for (auto list = invaders.begin(); list != invaders.end();) {
+//		if ((*list)->health.getHP() <= 0) {
+//			board->grid[(*list)->pos.x][(*list)->pos.y].delInvader(*list);
+//			store->addMoney((*list)->getReward());
+//			delete (*list);
+//			list = invaders.erase(list);
+//		}
+//		else {
+//			list++;
+//		}
+//	}
+//}
 
 void Scene::addBullet(Bullet* p) {
 	bullets.push_back(p);

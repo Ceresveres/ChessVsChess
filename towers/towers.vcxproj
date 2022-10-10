@@ -143,6 +143,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Invader.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="memberFunctionHandler.h" />
     <ClInclude Include="Object.h" />

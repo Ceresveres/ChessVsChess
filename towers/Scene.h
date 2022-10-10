@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Store.h"
+#include "Grid.h"
 #include "Board.h"
 #include "Bullet.h"
 #include "Piece.h"
@@ -45,9 +46,8 @@ public:
 	void addPiece(int x, int y, int type);
 
 	bool moveInvader(Uint32 delta);
-	void clearInvader();
+	//void clearInvader();
 	void onCollisionEvent(CollisionEvent* collision);
-	void onSpawnEvent(SpawnEvent* spawn);
 	void addBullet(Bullet* p);
 	void moveBullet(Uint32 delta);
 };
