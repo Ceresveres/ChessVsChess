@@ -25,6 +25,7 @@ class Scene {
 	std::map<std::type_index, Object*> objects;
 	vector<Invader*> invaders = {};
 	list<Bullet*> bullets = {};
+
 	EventBus* eventBus = new EventBus();
 	Scene()
 	{

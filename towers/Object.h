@@ -120,6 +120,8 @@ public:
 	virtual void draw();
 	virtual void clean();
 	Object() {};
+	int id;
+	friend bool operator<(const Object& l, const Object& r) { return l.id < r.id; }
 };
 
 

@@ -10,13 +10,6 @@ Scene* Scene::GetSingleton() {
 	return scene_;
 }
 
-//Scene* Scene::GetSingleton(SDL_Renderer* rend) {
-//	if (scene_ == nullptr) {
-//		scene_ = new Scene(rend);
-//	}
-//	return scene_;
-//}
-
 template<class Movable>
 void UpdatePosition(Uint32 deltaTime, Movable& go, WorldBoundsComponent& bounds)
 {
@@ -28,13 +21,7 @@ void Scene::update(Uint32 delta) {
 	{
 		m_Objects[i]->update();
 	}
-	//for (auto const& var : m_Move) {
-	//	var->UpdatePosition(delta);
-	//}
-	//for (auto& go : this->m_Move)
-	//{
-	//	UpdatePosition(delta, go, this->bounds);
-	//}
+
 	moveBullet(delta);
 	moveInvader(delta);
 }
