@@ -1,73 +1,75 @@
-#pragma once
-#include "ui-tools.h"
-#include <string>
-
-class Game;
-class Board;
-class Piece {
-protected:
-	string name;
-	int x, y;
-	int counter = 0;
-	void init(const string& iname) {
-		name = iname;
-	}
-
-	//friend class Grid;
-
-public:
-	void setXY(int ix, int iy) { x = ix; y = iy; }
-	void printPiece();
-	bool move(Board& board);
-
-	friend class Game;
-	friend class Grid;
-};
-
-class Pawn :public Piece {
-public:
-	Pawn() {
-		init("PW");
-	}
-
-};
-
-class Knight :public Piece {
-public:
-	Knight() {
-		init("NT");
-	}
-
-}; 
-
-class Rook :public Piece {
-public:
-	Rook() {
-		init("Ro");
-	}
-
-};
-
-class Bishop :public Piece {
-public:
-	Bishop() {
-		init("Bp");
-	}
-
-};
-
-class King :public Piece {
-public:
-	King() {
-		init("Kn");
-	}
-
-};
-
-class Queen :public Piece {
-public:
-	Queen() {
-		init("Qu");
-	}
-
-};
+﻿//#pragma once
+//#include "ui-tools.h"
+//#include <string>
+//#include "Scene.h"
+//#include <SDL_render.h>
+//#include "Object.h"
+//
+//class Game;
+//class Grid;
+//class Scene;
+//class Piece : public Object {
+////protected:
+////	string name;
+////	SizeComponent size{ 50,50 };
+////	PositionComponent pos;
+////	DynamicComponent graphic;
+////	EventBus* eventBus{};
+////	int counter{ 12 * 1000 };
+////	int speed{ 12 };
+////	int HP = 100;
+////	bool isAttacking = false;
+////public:
+//	Piece(int x, int y);
+//	~Piece() = default;
+//	virtual void draw();
+//	virtual void update() {};
+//
+//	friend class Game;
+//	friend class Scene;
+//	friend class Grid;
+//};
+//
+//class Scene;
+//class Pawn :public Piece {
+//public:
+//	Pawn(int x, int y) : Piece(x, y) {};
+//
+//	void update();
+//};
+//
+//class Rook :public Piece {
+//public:
+//	//Rook(const LoaderParams* pParams, string name = "Ro", int speed = 6)
+//	//	: Piece{ pParams } {}
+//
+//	Rook(int x, int y) : Piece(x, y) {};
+//
+//};
+//
+//
+//class Knight :public Piece {
+//public:
+//	//Knight(const LoaderParams* pParams, string name = "NT", int speed = 1200 )
+//	//	: Piece{ pParams } {}
+//	Knight(int x, int y) : Piece(x, y) {};
+//
+//	void update();
+//}; 
+//
+//class Bishop :public Piece {
+//public:
+//	//Bishop(const LoaderParams* pParams, string name = "Bp", int speed = 600)
+//	//	: Piece{ pParams } {}
+//	Bishop(int x, int y) : Piece(x, y) {};
+//
+//	void update();
+//};
+//
+//class Peasant :public Piece {
+//public:
+//	Peasant(int x, int y) : Piece(x, y) {
+//		this->counter = 0;
+//	}
+//	void update();
+//};

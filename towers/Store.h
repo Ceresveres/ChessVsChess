@@ -1,37 +1,40 @@
-#pragma once
-#include "ui-tools.h"
-#include<string>
-
-class Game;
-class Store;
-class Board;
-
-class PieceCard {
-	int index;
-	string name;
-	bool flag;
-public:
-	void init(int i, const string& iname) {
-		index = i;
-		name = iname;
-		flag = false;
-	}
-	void setSelect() { flag = true; }
-
-};
-
-class Store {
-	PieceCard pieces[6];
-public:
-	Store() {
-		pieces[0].init(0, "Pawn");
-		pieces[1].init(1, "Rook");
-		pieces[2].init(2, "Knight");
-		pieces[3].init(3, "Bishop");
-		pieces[4].init(4, "King");
-		pieces[5].init(5, "Queen");
-	}
-	void init();
-
-	friend class Game;
-};
+//#pragma once
+//#include "ui-tools.h"
+//#include<string>
+//#include <SDL_render.h>
+//#include "Object.h"
+//
+//class Game;
+//class Sccene;
+//class Store;
+//class Board;
+//class PieceCard {
+//	int index{};
+//	int cost{};
+//	string name{};
+//	bool flag;
+//
+//	friend class Store;
+//public:
+//	PieceCard(int index = 0, const string& name = "blank", int cost=0)
+//		: index{ index }, name{ name }, cost{ cost }, flag{ false } {}
+//
+//	void setSelect() { flag = true; }
+//
+//	void draw();
+//};
+//
+//class Store : public Object {
+//private:
+//	PieceCard* pieces[MAXPIECECOUNT];
+//	int money{100000};
+//	Store();
+//public:
+//	static Store* GetSingleton();
+//	void init();
+//	void draw();
+//
+//
+//	virtual void addMoney(int reward) { money += reward; }
+//	bool buy(int choice, Board* board);
+//};

@@ -3,11 +3,11 @@
 
 #include "Game.h"
 
-int main()
+int main(int argc, char* args[])
 {
-    Game myGame;
-    myGame.init();
-    myGame.loop();
+    Game* myGame = Game::GetSingleton();
+    //myGame->loop();
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
