@@ -1,14 +1,16 @@
 #pragma once
 #include "EventBus.h"
 
+struct Event {
+
+};
+
 class HandlerFunctionBase {
 public:
-    // Call the member function
     void exec(Event* evnt) {
         call(evnt);
     }
 private:
-    // Implemented by MemberFunctionHandler
     virtual void call(Event* evnt) = 0;
 };
 
@@ -21,13 +23,9 @@ public:
     MemberFunctionHandler(T* instance, MemberFunction memberFunction) : instance{ instance }, memberFunction{ memberFunction } {};
 
     void call(Event* evnt) {
-        // Cast event to the correct type and call member function
         (instance->*memberFunction)(static_cast<EventType*>(evnt));
     }
 private:
-    // Pointer to class instance
     T* instance;
-
-    // Pointer to member function
     MemberFunction memberFunction;
 };

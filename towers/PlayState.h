@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "Scene.h"
 #include <vector>
+#include "TextureManager.h"
 
 class PlayState : public GameState
 {
@@ -14,8 +15,7 @@ public:
 		: m_TextureManager{ textureManager } {}
 	virtual std::string getStateID() const { return s_playID; }
 private:
-	//SDL_Renderer* m_renderer = NULL;
 	TextureManager* m_TextureManager = NULL;
 	static const string s_playID;
-	std::vector<Scene*> m_Scenes;
+	std::vector<std::unique_ptr<Scene>> m_Scenes;
 };

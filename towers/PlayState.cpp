@@ -1,6 +1,8 @@
 #include <iostream>
 #include "PlayState.h"
 #include "Scene.h"
+#include "PieceSystem.h"
+#include "MapSystem.h"
 const std::string PlayState::s_playID = "PLAY";
 
 void PlayState::update(Uint32 delta)
@@ -21,9 +23,17 @@ void PlayState::render()
 
 bool PlayState::onEnter()
 {
-	Scene* scene{ Scene::GetSingleton() };
-	m_Scenes.push_back(scene);
-	std::cout << "entering PlayState\n";
+
+	auto objectManager = std::make_unique<ObjectManager>();
+	auto scene = std::make_unique<Scene>(std::move(objectManager));
+	std::unique_ptr<System> map = std::make_unique<Map>();
+	scene->addSystem(std::move(map));
+	std::unique_ptr<System> piece = std::make_unique<Piece>();
+	scene->addSystem(std::move(piece));
+
+	scene->init();
+
+	m_Scenes.push_back(std::move(scene));
 	return true;
 }
 

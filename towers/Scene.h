@@ -1,54 +1,104 @@
 #pragma once
+#include <memory>
+#include "Component.h"
+#include "ComponentHandler.h"
+#include "ComponentManager.h"
+#include "ComponentMap.h"
 #include "Object.h"
-#include "Store.h"
-#include "Grid.h"
-#include "Board.h"
-#include "Bullet.h"
-#include "Piece.h"
-#include "Invader.h"
+#include "ObjectManager.h"
 #include "EventBus.h"
+#include "System.h"
 #include "TextureManager.h"
 #include <list>
+#include <string>
+
 #include <vector>
 #include <SDL.h>
 
-class Invader;
-class Bullet;
-class Piece;
-class Scene;
+struct ObjectHandler;
 class Scene {
-	static const string s_sceneID;
-	WorldBoundsComponent bounds{ 0, SCREEN_WIDTH, 0, SCREEN_HEIGHT };
-	TextureManager* sTextureManager{ TextureManager::GetSingletonInstance() };
-	std::vector<Object*> m_Objects;
-	std::vector<MoveComponent*> m_Move = {};
-	std::vector<Piece*> pieces = {};
-	std::map<std::type_index, Object*> objects;
-	vector<Invader*> invaders = {};
-	list<Bullet*> bullets = {};
-
-	EventBus* eventBus = new EventBus();
-	Scene()
-	{
-		init();
-	}
 public:
+	explicit Scene(std::unique_ptr<ObjectManager> objectManager);
 
-	static Scene* GetSingleton();
-	EventBus* getEventBus() { return eventBus; }
-	virtual std::string getStateID() const { return s_sceneID; }
-	virtual void update(Uint32 delta);
-	virtual bool init();
-	virtual void clean();
-	virtual void draw();
+	void init();
+	void update(Uint32 delta);
+	void draw();
+	ObjectHandler createObject();
+	void destroyObject(Object object);
+	void addSystem(std::unique_ptr<System> system);
+	void updateEntityMask(Object const& object, ComponentMap oldMask);
 
-	void addInvader(int x, int y, int type);
-	void addPiece(int x, int y, int type);
+	template <typename ComponentType>
+	void addCustomComponentManager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
+		int family = GetComponentFamily<ComponentType>();
+		if (family >= componentManagers.size()) {
+			componentManagers.resize(family + 1);
+		}
+		componentManagers[family] = manager;
+	}
 
-	bool moveInvader(Uint32 delta);
-	//void clearInvader();
-	void onCollisionEvent(CollisionEvent* collision);
-	void addBullet(Bullet* p);
-	void moveBullet(Uint32 delta);
+	template <typename ComponentType>
+	void addComponent(Object const& object, ComponentType&& component) {
+		ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
+		manager->addComponent(object, component);
+
+		ComponentMap oldMask = objectMap[object];
+		objectMap[object].addComponent<ComponentType>();
+
+		updateEntityMask(object, oldMask);
+	}
+
+	template <typename ComponentType>
+	void removeComponent(Object const& object) {
+		ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
+		ComponentHandler<ComponentType> component = manager->lookup(object);
+		component.destroy();
+
+		ComponentMap oldMask = objectMap[object];
+		objectMap[object].removeComponent<ComponentType>();
+
+		updateEntityMask(object, oldMask);
+	}
+
+	template <typename ComponentType, typename... Args>
+	void unpack(Object e, ComponentHandler<ComponentType>& handle, ComponentHandler<Args> &... args) {
+		typedef ComponentManager<ComponentType> ComponentManagerType;
+		auto mgr = getComponentManager<ComponentType>();
+		handle = ComponentHandler<ComponentType>(e, mgr->lookup(e), mgr);
+
+		unpack<Args...>(e, args...);
+	}
+
+	template <typename ComponentType>
+	void unpack(Object e, ComponentHandler<ComponentType>& handle) {
+		typedef ComponentManager<ComponentType> ComponentManagerType;
+		auto mgr = getComponentManager<ComponentType>();
+		handle = ComponentHandler<ComponentType>(e, mgr->lookup(e), mgr);
+	}
+
+	template<typename ComponentType>
+	void removeComponent(Object object, ComponentType&& component) {
+
+	}
+	std::unique_ptr<ObjectManager> objectManager;
+	std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
+	std::vector<std::unique_ptr<System>> systems;
+	std::map<Object, ComponentMap> objectMap;
+	void clean();
+
+	template <typename ComponentType>
+	ComponentManager<ComponentType>* getComponentManager() {
+		int family = GetComponentFamily<ComponentType>();
+
+		if (family >= componentManagers.size()) {
+			componentManagers.resize(family + 1);
+		}
+
+		if (!componentManagers[family]) {
+			componentManagers[family] = std::make_unique<ComponentManager<ComponentType>>();
+		}
+
+		return static_cast<ComponentManager<ComponentType> *>(componentManagers[family].get());
+	}
 };
 
