@@ -165,6 +165,7 @@
     <ClInclude Include="ComponentHandler.h" />
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="ComponentMap.h" />
+    <ClInclude Include="Events.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="MapSystem.h" />

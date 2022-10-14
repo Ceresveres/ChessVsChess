@@ -5,6 +5,7 @@
 #include <map>
 #include <list>
 #include "Object.h"
+#include "Events.h"
 #ifndef AAA_HEADER
 #define AAA_HEADER
 class HandlerFunctionBase;

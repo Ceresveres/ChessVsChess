@@ -1,9 +1,6 @@
 #pragma once
 #include "EventBus.h"
-
-struct Event {
-
-};
+#include "Events.h"
 
 class HandlerFunctionBase {
 public:

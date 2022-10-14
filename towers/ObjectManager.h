@@ -4,6 +4,7 @@
 class ObjectManager {
 public:
 	Object createObject();
+	void destroyObject(Object object);
 
 private:
 	int lastObject = 0;

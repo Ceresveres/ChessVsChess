@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include <bitset>
+#include "EventBus.h"
 #include "ComponentMap.h"
 #include "Component.h"
 #include "ComponentHandler.h"
@@ -22,4 +24,5 @@ protected:
     std::vector<Object> registeredObjects;
     Scene* parent;
     ComponentMap signature;
+    std::shared_ptr<EventBus> eventBus;
 };

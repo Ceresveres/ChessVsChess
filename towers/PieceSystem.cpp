@@ -1,10 +1,17 @@
 #include "PieceSystem.h"
 
+void Piece::init() {
+    eventBus = parent->getEventBus();
+}
+
 void Piece::update() {
     for (auto& object : registeredObjects) {
         ComponentHandler<Position> position;
         parent->unpack(object, position);
         position->x += 1;
+        if (position->x == 200) {
+            eventBus->publish(new CollisionEvent(object));
+        }
     }
 }
 
