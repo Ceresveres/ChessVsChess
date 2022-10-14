@@ -32,7 +32,7 @@ public:
 	void addCustomComponentManager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
 		int family = GetComponentFamily<ComponentType>();
 		if (family >= componentManagers.size()) {
-			componentManagers.resize(family + 1);
+			componentManagers.resize(static_cast<std::vector<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>, std::allocator<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>>>::size_type>(family) + 1);
 		}
 		componentManagers[family] = manager;
 	}
@@ -91,7 +91,7 @@ public:
 		int family = GetComponentFamily<ComponentType>();
 
 		if (family >= componentManagers.size()) {
-			componentManagers.resize(family + 1);
+			componentManagers.resize(static_cast<std::vector<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>, std::allocator<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>>>::size_type>(family) + 1);
 		}
 
 		if (!componentManagers[family]) {
