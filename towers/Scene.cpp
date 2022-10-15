@@ -12,11 +12,6 @@ Scene::Scene(std::unique_ptr<ObjectManager> objectManager) : objectManager(std::
 
 void Scene::onCollisionEvent(CollisionEvent* collision) {
 	std::cout << "it works\n";
-	auto player = createObject();
-	player.addComponent(Position(25, 225));
-	player.addComponent(Size(50, 50));
-	player.addComponent(StaticSprite("Pieces"));
-	destroyObject(collision->object);
 }
 
 

@@ -14,6 +14,7 @@ void CollisionSystem::update() {
             parent->unpack(objectB, boundingBoxB);
             if (hasBoundingBoxOverlap(boundingBoxA.component, boundingBoxB.component)) {
                 std::cout << "test";
+                eventBus->publish(new CollisionEvent(objectA, objectB));
             }
         }
     }

@@ -21,9 +21,7 @@ public:
         std::cout << "Made";
     }
 
-    void onCollisionEvent(CollisionEvent* collision) {
-
-    }
+    void onCollisionEvent(CollisionEvent* collision);
     void init();
     void update();
     void draw();

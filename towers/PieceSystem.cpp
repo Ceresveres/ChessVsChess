@@ -2,6 +2,7 @@
 
 void Piece::init() {
     eventBus = parent->getEventBus();
+    eventBus->subscribe(this, &Piece::onCollisionEvent);
 }
 
 void Piece::update() {
@@ -14,6 +15,8 @@ void Piece::update() {
         parent->unpack(object, boundingBox);
 
         position->x += motion->xVelocity;
+        position->y += motion->yVelocity;
+
         *boundingBox.component += *motion.component;
     }
 }
@@ -33,4 +36,16 @@ void Piece::draw() {
         TextureManager::GetSingletonInstance()->draw("Pieces", position->x, position->y, size->width, size->height);
 
     }
+}
+
+void Piece::onCollisionEvent(CollisionEvent* collision) {
+    ComponentHandler<Motion> motionA;
+    parent->unpack(collision->objectA, motionA);
+    motionA->xVelocity = 0;
+    motionA->yVelocity = -3;
+
+    ComponentHandler<Motion> motionB;
+    parent->unpack(collision->objectB, motionB);
+    motionB->xVelocity = 0;
+    motionB->yVelocity = 2;
 }

@@ -7,6 +7,7 @@ struct Event {
 };
 
 struct CollisionEvent : public Event {
-    CollisionEvent(Object object) : object(object) {};
-    Object object;
+    CollisionEvent(Object objectA, Object objectB) : objectA(objectA), objectB(objectB) {};
+    Object objectA;
+    Object objectB;
 };
