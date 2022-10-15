@@ -3,13 +3,13 @@
 #include <iostream>
 #include <map>
 #include <SDL.h>
-using namespace std;
+#include <string>
 class TextureManager
 {
 public:
-	bool loadTexture(string fileName, std::string id);
-	void draw(string id, int x, int y, int width, int height, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	void drawFrame(string id, int x, int y, int width, int height, SDL_Rect gridRect, int currentRow, int currentFrame, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	bool loadTexture(std::string fileName, std::string id);
+	void draw(std::string id, int x, int y, int width, int height, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void drawFrame(std::string id, int x, int y, int width, int height, SDL_Rect gridRect, int currentRow, int currentFrame, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	void drawTemp(SDL_Rect gridRect, int *color);
 	void drawHitbox(SDL_Rect gridRect);
 	static TextureManager* GetSingletonInstance()
@@ -35,7 +35,7 @@ public:
 private:
 	TextureManager() {}
 	TextureManager(SDL_Renderer* renderer) : m_pRenderer(renderer) {}
-	map<string, SDL_Texture*> m_textureMap;
+	std::map<std::string, SDL_Texture*> m_textureMap;
 	SDL_Renderer* m_pRenderer = nullptr;
 	static TextureManager* s_pInstance;
 };

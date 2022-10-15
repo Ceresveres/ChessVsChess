@@ -3,7 +3,7 @@
 
 TextureManager* TextureManager::s_pInstance = 0;
 
-bool TextureManager::loadTexture(string fileName, string id)
+bool TextureManager::loadTexture(std::string fileName, std::string id)
 {
 	SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
 	if (pTempSurface == 0)
@@ -20,7 +20,7 @@ bool TextureManager::loadTexture(string fileName, string id)
 	return false;
 }
 
-void TextureManager::draw(string id, int x, int y, int width, int height, SDL_RendererFlip flip)
+void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_RendererFlip flip)
 {
 	SDL_Rect destRect{x, y, width, height};
 	destRect.w = width;
@@ -31,7 +31,7 @@ void TextureManager::draw(string id, int x, int y, int width, int height, SDL_Re
 	SDL_RenderDrawRect(m_pRenderer, &destRect);
 }
 
-void TextureManager::drawFrame(string id, int x, int y, int width, int height, SDL_Rect gridRect,  int currentRow, int currentFrame, SDL_RendererFlip flip)
+void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, SDL_Rect gridRect,  int currentRow, int currentFrame, SDL_RendererFlip flip)
 {
 	SDL_Rect destRect;
 	gridRect.x = gridRect.w * currentFrame;

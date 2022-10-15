@@ -80,7 +80,7 @@ public:
 	std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
 	std::vector<std::unique_ptr<System>> systems;
 	std::map<Object, ComponentMap> objectMap;
-	shared_ptr<EventBus> getEventBus() { return eventBus; }
+	std::shared_ptr<EventBus> getEventBus() { return eventBus; }
 	std::shared_ptr<EventBus> eventBus = std::make_shared<EventBus>();
 	void clean();
 

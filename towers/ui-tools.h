@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <string>
 
-using namespace std;
 enum PieceType { PAWN, ROOK, KNIGHT, BISHOP, PEASANT, MAXPIECECOUNT
 };
 //
@@ -26,7 +25,7 @@ const int SLEEP_TIME = 100;
 void SetWindowSize(int cols, int lines);
 void HideCursor();
 void Goto_XY(const int x, const int y);
-void PrintWithColor(const string& str, int colorID= FOREGROUND_INTENSITY);
+//void PrintWithColor(const string& str, int colorID= FOREGROUND_INTENSITY);
 inline int RANDOM(int x) { return rand() % x; }
 
 enum EnemyType {BASIC, JUMPER, HEAVY, SHIELD};

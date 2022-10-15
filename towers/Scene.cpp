@@ -11,7 +11,7 @@ Scene::Scene(std::unique_ptr<ObjectManager> objectManager) : objectManager(std::
 }
 
 void Scene::onCollisionEvent(CollisionEvent* collision) {
-	cout << "it works\n";
+	std::cout << "it works\n";
 	auto player = createObject();
 	player.addComponent(Position(25, 225));
 	player.addComponent(Size(50, 50));
@@ -52,7 +52,15 @@ void Scene::init() {
 	auto player = createObject();
 	player.addComponent(Position(25, 225));
 	player.addComponent(Size(50, 50));
+	player.addComponent(Motion(1));
 	player.addComponent(StaticSprite("Pieces"));
+	player.addComponent(BoundingBox(25, 225, 50, 50));
+	auto enemy = createObject();
+	enemy.addComponent(Position(625, 225));
+	enemy.addComponent(Size(50, 50));
+	enemy.addComponent(Motion(-1));
+	enemy.addComponent(StaticSprite("Pieces"));
+	enemy.addComponent(BoundingBox(625, 225, 50, 50));
 }
 
 void Scene::destroyObject(Object object) {

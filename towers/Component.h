@@ -6,7 +6,6 @@
 #include <cmath>
 #include <vector>
 
-using namespace std;
 
 struct ComponentCounter {
     static int familyCounter;
@@ -31,6 +30,12 @@ struct Position : Component<Position> {
     int y;
 };
 
+struct Motion : Component<Motion> {
+    Motion(int x, int y=0) : xVelocity(x), yVelocity(y) {};
+    int xVelocity;
+    int yVelocity;
+};
+
 struct Grid : Component<Grid> {
     SDL_Rect grid;
     Grid(int x, int y) {
@@ -52,5 +57,21 @@ struct StaticSprite : Component<StaticSprite> {
     StaticSprite(std::string texture)
     {
         std::snprintf(textureID, sizeof(textureID), "%s", texture.c_str());
+    }
+};
+
+struct BoundingBox : Component<BoundingBox> {
+    SDL_Rect grid;
+    BoundingBox(int x, int y, int w, int h) {
+        grid.x = x;
+        grid.y = y;
+        grid.w = w;
+        grid.h = h;
+    };
+
+    BoundingBox& operator+=(const Motion& rhs) {
+        this->grid.x += rhs.xVelocity;
+        this->grid.y += rhs.yVelocity;
+        return *this;
     }
 };

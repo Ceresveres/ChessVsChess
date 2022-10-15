@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include"GameState.h"
-using namespace std;
 
 class GameStateMachine {
 public:
@@ -12,5 +11,5 @@ public:
 	void render();
 
 //private:
-	vector<GameState*> m_gameStates;
+	std::vector<GameState*> m_gameStates;
 };

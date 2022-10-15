@@ -7,5 +7,5 @@ Object ObjectManager::createObject() {
 
 
 void ObjectManager::destroyObject(Object object) {
-	lastObject--;
+//	lastObject--;
 }

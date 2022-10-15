@@ -14,8 +14,11 @@ public:
         
         signature.addComponent<Position>();
         signature.addComponent<Size>();
+        signature.addComponent<Motion>();
         signature.addComponent<StaticSprite>();
-        cout << "Made";
+        signature.addComponent<BoundingBox>();
+
+        std::cout << "Made";
     }
 
     void onCollisionEvent(CollisionEvent* collision) {

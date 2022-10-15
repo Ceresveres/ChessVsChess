@@ -5,14 +5,19 @@
 #include "ComponentHandler.h"
 #include "Component.h"
 #include "ComponentManager.h"
+#include "EventBus.h"
 
-class Map : public System {
+class EventBus;
+class CollisionSystem : public System {
 public:
-    Map() {
-        signature.addComponent<Grid>();
+    CollisionSystem() {
+        signature.addComponent<BoundingBox>();
         std::cout << "Made";
     }
 
+    bool hasBoundingBoxOverlap(BoundingBox* a, BoundingBox* b);
+
+    void init();
     void update();
     void draw();
 };

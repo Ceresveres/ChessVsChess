@@ -15,7 +15,6 @@
 #include "PlayState.h"
 
 #include<list>
-using namespace std;
 
 enum State {
 	NONE = 0,

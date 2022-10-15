@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "PieceSystem.h"
 #include "MapSystem.h"
+#include "CollisionSystem.h"
 const std::string PlayState::s_playID = "PLAY";
 
 void PlayState::update(Uint32 delta)
@@ -30,7 +31,8 @@ bool PlayState::onEnter()
 	scene->addSystem(std::move(map));
 	std::unique_ptr<System> piece = std::make_unique<Piece>();
 	scene->addSystem(std::move(piece));
-
+	std::unique_ptr<System> collision = std::make_unique<CollisionSystem>();
+	scene->addSystem(std::move(collision));
 	scene->init();
 
 	m_Scenes.push_back(std::move(scene));

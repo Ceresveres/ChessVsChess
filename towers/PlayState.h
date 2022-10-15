@@ -16,6 +16,6 @@ public:
 	virtual std::string getStateID() const { return s_playID; }
 private:
 	TextureManager* m_TextureManager = NULL;
-	static const string s_playID;
+	static const std::string s_playID;
 	std::vector<std::unique_ptr<Scene>> m_Scenes;
 };

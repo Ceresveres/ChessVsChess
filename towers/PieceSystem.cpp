@@ -8,10 +8,13 @@ void Piece::update() {
     for (auto& object : registeredObjects) {
         ComponentHandler<Position> position;
         parent->unpack(object, position);
-        position->x += 1;
-        if (position->x == 200) {
-            eventBus->publish(new CollisionEvent(object));
-        }
+        ComponentHandler<Motion> motion;
+        parent->unpack(object, motion);
+        ComponentHandler<BoundingBox> boundingBox;
+        parent->unpack(object, boundingBox);
+
+        position->x += motion->xVelocity;
+        *boundingBox.component += *motion.component;
     }
 }
 
@@ -24,19 +27,6 @@ void Piece::draw() {
         ComponentHandler<Size> size;
         parent->unpack(object, size);
 
-        int choice = (position->x + position->y) % 200;
-        if (choice == 0) {
-            tmpColor[0] = 0;
-            tmpColor[1] = 143;
-            tmpColor[2] = 50;
-            tmpColor[3] = 255;
-        }
-        else {
-            tmpColor[0] = 86;
-            tmpColor[1] = 201;
-            tmpColor[2] = 50;
-            tmpColor[3] = 255;
-        }
 
         ComponentHandler<StaticSprite> staticSprite;
         parent->unpack(object, staticSprite);
