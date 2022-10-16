@@ -9,9 +9,11 @@ class TextureManager
 public:
 	bool loadTexture(std::string fileName, std::string id);
 	void draw(std::string id, int x, int y, int width, int height, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	void drawFrame(std::string id, int x, int y, int width, int height, SDL_Rect gridRect, int currentRow, int currentFrame, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	void drawTemp(SDL_Rect gridRect, int *color);
-	void drawHitbox(SDL_Rect gridRect);
+	void draw(std::string id, SDL_Rect rect);
+	void draw(std::string id, int x, int y, int width, int height, SDL_Rect gridRect, int currentRow, int currentFrame, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void draw(SDL_Rect gridRect, int *color);
+	void draw(SDL_Rect gridRect);
+
 	static TextureManager* GetSingletonInstance()
 	{
 		if (s_pInstance == 0)

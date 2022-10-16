@@ -147,6 +147,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="GraphicSystem.cpp" />
     <ClCompile Include="MapSystem.cpp" />
     <ClCompile Include="PieceSystem.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="GraphicSystem.h" />
     <ClInclude Include="MapSystem.h" />
     <ClInclude Include="PieceSystem.h" />
     <ClInclude Include="Grid.h" />

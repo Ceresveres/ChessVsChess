@@ -36,15 +36,24 @@ struct Motion : Component<Motion> {
     int yVelocity;
 };
 
-struct Grid : Component<Grid> {
-    SDL_Rect grid;
-    Grid(int x, int y) {
-        grid.x = x;
-        grid.y = y;
-        grid.w = 100;
-        grid.h = 100;
-    };
+struct Layer : Component<Layer> {
+    int layerID;
+    Layer(int id) : layerID(id) {};
 };
+
+//struct Grid : Component<Grid> {
+//    SDL_Rect grid;
+//    Grid(int x, int y) {
+//        grid.x = x;
+//        grid.y = y;
+//        grid.w = 100;
+//        grid.h = 100;
+//    };
+//};
+
+//struct Dynamic : Component<Dynamic> {
+//
+//};
 
 struct Size : Component<Size> {
     int width, height;
@@ -54,7 +63,7 @@ struct Size : Component<Size> {
 
 struct StaticSprite : Component<StaticSprite> {
     char textureID[1024];
-    StaticSprite(std::string texture)
+    StaticSprite(std::string texture="none")
     {
         std::snprintf(textureID, sizeof(textureID), "%s", texture.c_str());
     }

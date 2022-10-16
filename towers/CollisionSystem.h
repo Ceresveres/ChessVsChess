@@ -12,6 +12,8 @@ class CollisionSystem : public System {
 public:
     CollisionSystem() {
         signature.addComponent<BoundingBox>();
+        signature.addComponent<Motion>();
+
         std::cout << "Made";
     }
 

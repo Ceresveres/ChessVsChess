@@ -31,7 +31,13 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 	SDL_RenderDrawRect(m_pRenderer, &destRect);
 }
 
-void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, SDL_Rect gridRect,  int currentRow, int currentFrame, SDL_RendererFlip flip)
+void TextureManager::draw(std::string id, SDL_Rect rect) {
+	SDL_RenderCopy(m_pRenderer, m_textureMap[id], NULL, &rect);
+	SDL_RenderDrawRect(m_pRenderer, &rect);
+}
+
+
+void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_Rect gridRect,  int currentRow, int currentFrame, SDL_RendererFlip flip)
 {
 	SDL_Rect destRect;
 	gridRect.x = gridRect.w * currentFrame;
@@ -41,16 +47,16 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 	destRect.x = x;
 	destRect.y = y;
 	SDL_RenderCopyEx(m_pRenderer, m_textureMap[id], &gridRect, &destRect, 0, 0, flip);
-	drawHitbox(destRect);
+	draw(destRect);
 }
 
-void TextureManager::drawTemp(SDL_Rect gridRect, int *color)
+void TextureManager::draw(SDL_Rect gridRect, int *color)
 {
 	SDL_SetRenderDrawColor(m_pRenderer, color[0], color[1], color[2], color[3]);
 	SDL_RenderFillRect(m_pRenderer, &gridRect);
 }
 
-void TextureManager::drawHitbox(SDL_Rect gridRect)
+void TextureManager::draw(SDL_Rect gridRect)
 {
 	SDL_SetRenderDrawColor(m_pRenderer, 16, 10, 10, 255);
 	SDL_RenderDrawRect(m_pRenderer, &gridRect);

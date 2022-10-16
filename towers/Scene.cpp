@@ -41,19 +41,20 @@ void Scene::init() {
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 5; j++) {
 			auto box = createObject();
-			box.addComponent(Grid(i*100, j*100));
+			box.addComponent(BoundingBox(i*100, j*100, 100, 100));
+			box.addComponent(Layer(5));
+			box.addComponent(StaticSprite());
+
 		}
 	}
 	auto player = createObject();
-	player.addComponent(Position(25, 225));
-	player.addComponent(Size(50, 50));
 	player.addComponent(Motion(1));
+	player.addComponent(Layer(7));
 	player.addComponent(StaticSprite("Pieces"));
 	player.addComponent(BoundingBox(25, 225, 50, 50));
 	auto enemy = createObject();
-	enemy.addComponent(Position(625, 225));
-	enemy.addComponent(Size(50, 50));
 	enemy.addComponent(Motion(-1));
+	enemy.addComponent(Layer(4));
 	enemy.addComponent(StaticSprite("Pieces"));
 	enemy.addComponent(BoundingBox(625, 225, 50, 50));
 }

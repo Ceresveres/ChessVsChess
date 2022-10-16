@@ -17,7 +17,7 @@ public:
     void registerScene(Scene* scene) {
         parent = scene;
     }
-    void registerObject(Object const& object);
+    virtual void registerObject(Object const& object);
     void unRegisterObject(Object const& object);
     ComponentMap getSignature();
 protected:

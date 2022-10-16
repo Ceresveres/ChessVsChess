@@ -12,10 +12,7 @@ class Piece : public System {
 public:
     Piece() {
         
-        signature.addComponent<Position>();
-        signature.addComponent<Size>();
         signature.addComponent<Motion>();
-        signature.addComponent<StaticSprite>();
         signature.addComponent<BoundingBox>();
 
         std::cout << "Made";

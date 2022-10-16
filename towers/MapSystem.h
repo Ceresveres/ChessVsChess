@@ -9,7 +9,7 @@
 class Map : public System {
 public:
     Map() {
-        signature.addComponent<Grid>();
+        signature.addComponent<BoundingBox>();
         std::cout << "Made";
     }
 
