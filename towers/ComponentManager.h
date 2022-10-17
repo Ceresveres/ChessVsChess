@@ -8,7 +8,7 @@
 
 template<typename ComponentType>
 struct ComponentData {
-    unsigned int size = 1;
+    unsigned int componentCount = 1;
     std::array<ComponentType, 1024> *data;
 };
 
@@ -31,24 +31,24 @@ public:
         componentData.data = static_cast<std::array<ComponentType, 1024> *>(malloc(sizeof(ComponentType) * 1024));
     }
     ComponentInstance addComponent(Object object, ComponentType& component) {
-        ComponentInstance newInstance = componentData.size;
+        ComponentInstance newInstance = componentData.componentCount;
         componentData.data->at(newInstance) = component;
         objectMap.add(object, newInstance);
-        componentData.size++;
+        componentData.componentCount++;
         return newInstance;
     }
 
     void destroyComponent(Object object) {
         ComponentInstance instance = objectMap.getInstance(object);
 
-        ComponentInstance lastComponent = componentData.size - 1;
+        ComponentInstance lastComponent = componentData.componentCount - 1;
         componentData.data[instance] = componentData.data[lastComponent];
         Object lastObject = objectMap.getObject(lastComponent);
 
         objectMap.remove(object);
         objectMap.update(lastObject, instance);
 
-        componentData.size--;
+        componentData.componentCount--;
     }
 
     LookupType* lookup(Object object) {

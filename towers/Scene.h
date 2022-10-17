@@ -42,10 +42,10 @@ public:
 		ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
 		manager->addComponent(object, component);
 
-		ComponentMap oldMask = objectMap[object];
-		objectMap[object].addComponent<ComponentType>();
+		ComponentMap oldComponentMap = objectMaps[object];
+		objectMaps[object].addComponent<ComponentType>();
 
-		updateEntityMask(object, oldMask);
+		updateEntityMask(object, oldComponentMap);
 	}
 
 	template <typename ComponentType>
@@ -54,10 +54,10 @@ public:
 		ComponentHandler<ComponentType> component = manager->lookup(object);
 		component.destroy();
 
-		ComponentMap oldMask = objectMap[object];
-		objectMap[object].removeComponent<ComponentType>();
+		ComponentMap oldComponentMap = objectMaps[object];
+		objectMaps[object].removeComponent<ComponentType>();
 
-		updateEntityMask(object, oldMask);
+		updateEntityMask(object, oldComponentMap);
 	}
 
 	template <typename ComponentType, typename... Args>
@@ -79,7 +79,7 @@ public:
 	std::unique_ptr<ObjectManager> objectManager;
 	std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
 	std::vector<std::unique_ptr<System>> systems;
-	std::map<Object, ComponentMap> objectMap;
+	std::map<Object, ComponentMap> objectMaps;
 	std::shared_ptr<EventBus> getEventBus() { return eventBus; }
 	std::shared_ptr<EventBus> eventBus = std::make_shared<EventBus>();
 	void clean();

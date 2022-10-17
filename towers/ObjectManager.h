@@ -7,5 +7,5 @@ public:
 	void destroyObject(Object object);
 
 private:
-	int lastObject = 0;
+	int lastObject = 1;
 };

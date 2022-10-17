@@ -202,5 +202,8 @@
     <Image Include="assets\skull.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\tileset.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

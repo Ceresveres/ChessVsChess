@@ -50,6 +50,30 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 	draw(destRect);
 }
 
+void TextureManager::draw(std::string id, SDL_Rect gridRect, int currentRow, int currentFrame, SDL_RendererFlip flip)
+{
+	SDL_Rect destRect;
+	destRect.w = 16;
+	destRect.h = 16;
+	destRect.x = 16 * currentFrame;
+	destRect.y = 16 * currentRow;
+
+	SDL_Rect tempRect = gridRect;
+	tempRect.w = gridRect.w/2;
+	tempRect.h = gridRect.h/2;
+	for (int i = 0; i < 2; i++) {
+		tempRect.x = gridRect.x + (gridRect.w / 2 * i);
+		for (int j = 0; j < 2; j++) {
+
+			tempRect.y = gridRect.y + (gridRect.h / 2 * j);
+
+			SDL_RenderCopyEx(m_pRenderer, m_textureMap[id], &destRect, &tempRect, 0, 0, flip);
+		}
+	}
+	//SDL_RenderCopyEx(m_pRenderer, m_textureMap[id], &destRect, &gridRect, 0, 0, flip);
+	//draw(destRect);
+}
+
 void TextureManager::draw(SDL_Rect gridRect, int *color)
 {
 	SDL_SetRenderDrawColor(m_pRenderer, color[0], color[1], color[2], color[3]);

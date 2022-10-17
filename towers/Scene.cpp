@@ -4,7 +4,6 @@
 #include "ObjectHandler.h"
 
 //const std::string Scene::s_sceneID = "Level_1";
-static Scene* scene_ = nullptr;
 
 Scene::Scene(std::unique_ptr<ObjectManager> objectManager) : objectManager(std::move(objectManager)) 
 {
@@ -38,20 +37,29 @@ void Scene::init() {
 	}
 	auto sTextureManager = TextureManager::GetSingletonInstance();
 	sTextureManager->loadTexture("assets/Icon01.png", "Pieces");
+	sTextureManager->loadTexture("assets/tileset.png", "tileset");
+
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 5; j++) {
 			auto box = createObject();
 			box.addComponent(BoundingBox(i*100, j*100, 100, 100));
-			box.addComponent(Layer(5));
-			box.addComponent(StaticSprite());
+			box.addComponent(Layer(1));
+			if ((i + j) % 2) {
+				box.addComponent(StaticSprite("tileset", 4, 1));
+			}
+			else {
+				box.addComponent(StaticSprite("tileset", 4, 7));
+			}
 
 		}
 	}
+
 	auto player = createObject();
 	player.addComponent(Motion(1));
 	player.addComponent(Layer(7));
 	player.addComponent(StaticSprite("Pieces"));
 	player.addComponent(BoundingBox(25, 225, 50, 50));
+
 	auto enemy = createObject();
 	enemy.addComponent(Motion(-1));
 	enemy.addComponent(Layer(4));
@@ -75,15 +83,15 @@ void Scene::clean() {
 
 }
 
-void Scene::updateEntityMask(Object const& object, ComponentMap oldMask) {
-	ComponentMap newMask = objectMap[object];
+void Scene::updateEntityMask(Object const& object, ComponentMap oldComponentMap) {
+	ComponentMap newComponentMap = objectMaps[object];
 
 	for (auto& system : systems) {
 		ComponentMap systemSignature = system->getSignature();
-		if (newMask.isNewMatch(oldMask, systemSignature)) {
+		if (newComponentMap.isNewMatch(oldComponentMap, systemSignature)) {
 			system->registerObject(object);
 		}
-		else if (newMask.isNoLongerMatched(oldMask, systemSignature)) {
+		else if (newComponentMap.isNoLongerMatched(oldComponentMap, systemSignature)) {
 			system->unRegisterObject(object);
 		}
 	}

@@ -28,6 +28,7 @@ bool PlayState::onEnter()
 
 	auto objectManager = std::make_unique<ObjectManager>();
 	auto scene = std::make_unique<Scene>(std::move(objectManager));
+
 	std::unique_ptr<System> map = std::make_unique<Map>();
 	scene->addSystem(std::move(map));
 	std::unique_ptr<System> piece = std::make_unique<Piece>();
@@ -36,6 +37,7 @@ bool PlayState::onEnter()
 	scene->addSystem(std::move(collision));
 	std::unique_ptr<System> graphic = std::make_unique<GraphicSystem>();
 	scene->addSystem(std::move(graphic));
+
 	scene->init();
 
 	m_Scenes.push_back(std::move(scene));

@@ -63,7 +63,9 @@ struct Size : Component<Size> {
 
 struct StaticSprite : Component<StaticSprite> {
     char textureID[1024];
-    StaticSprite(std::string texture="none")
+    int currentRow;
+    int currentFrame;
+    StaticSprite(std::string texture = "none", int row=-1, int frame=-1) : currentRow(row), currentFrame(frame)
     {
         std::snprintf(textureID, sizeof(textureID), "%s", texture.c_str());
     }

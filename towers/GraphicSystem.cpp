@@ -23,23 +23,8 @@ void GraphicSystem::draw() {
             ComponentHandler<BoundingBox> grid;
             ComponentHandler<StaticSprite> sprite;
             parent->unpack(object, grid, sprite);
-
-            if (strcmp(sprite->textureID, "none") == 0) {
-                int choice = (grid->grid.x + grid->grid.y) % 200;
-                if (choice == 0) {
-                    tmpColor[0] = 0;
-                    tmpColor[1] = 143;
-                    tmpColor[2] = 50;
-                    tmpColor[3] = 255;
-                }
-                else {
-                    tmpColor[0] = 86;
-                    tmpColor[1] = 201;
-                    tmpColor[2] = 50;
-                    tmpColor[3] = 255;
-                }
-                TextureManager::GetSingletonInstance()->draw(grid->grid, tmpColor);
-
+            if (sprite->currentRow != -1) {
+                TextureManager::GetSingletonInstance()->draw(sprite->textureID, grid->grid, sprite->currentRow, sprite->currentFrame);
             }
             else {
                 TextureManager::GetSingletonInstance()->draw(sprite->textureID, grid->grid);
