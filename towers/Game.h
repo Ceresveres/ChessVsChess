@@ -25,14 +25,14 @@ enum State {
 
 class Game {
 	SDL_Window* window { SDL_CreateWindow("Tower Defense", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
-	SDL_Renderer* m_pRenderer{ SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) };
-	TextureManager* sTextureManager{ nullptr };
+	SDL_Renderer* renderer{ SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) };
+	TextureManager* textureManager{ nullptr };
 
 	LTimer fpsTimer;
 	int frameCount = 0;
-	float mAverageFPS = 0;
+	float averageFPS = 0;
 
-	GameStateMachine* m_pGameStateMachine{};
+	GameStateMachine* gameStateMachine{};
 	State gameState = NONE;
 
 	SDL_Event e;
@@ -45,7 +45,7 @@ class Game {
 	void onStartUp();
 	void render();	
 	void loop();
-	Game(int x = 0, int y = 0, int makeCounter = 0, int makeSpeed = 30)
+	Game()
 	{
 		onStartUp();
 	}	
@@ -53,7 +53,7 @@ class Game {
 public:
 	static Game* GetSingleton();
 	
-	SDL_Renderer* GetRenderer() { return m_pRenderer; };
+	SDL_Renderer* GetRenderer() { return renderer; };
 
-	float getAverageFPS() { return mAverageFPS; };
+	float getAverageFPS() { return averageFPS; };
 };

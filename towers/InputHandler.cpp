@@ -2,7 +2,7 @@
 #include "InputHandler.h"
 #include "Game.h"
 
-InputHandler* InputHandler::inputHandler_ = nullptr;
+InputHandler* InputHandler::inputHandler = nullptr;
 
 void InputHandler::update() {
 	SDL_Event event;
@@ -20,13 +20,13 @@ void InputHandler::update() {
 }
 
 void InputHandler::onKeyDown(SDL_Event event) {
-	m_keystates = SDL_GetKeyboardState(0);
+	keystates = SDL_GetKeyboardState(0);
 }
 
 bool InputHandler::isKeyDown(SDL_Scancode key) {
-	if (m_keystates != 0)
+	if (keystates != 0)
 	{
-		if (m_keystates[key] == 1)
+		if (keystates[key] == 1)
 		{
 			return true;
 		}
@@ -39,11 +39,11 @@ bool InputHandler::isKeyDown(SDL_Scancode key) {
 }
 
 InputHandler* InputHandler::GetSingleton() {
-	if (inputHandler_ == nullptr)
+	if (inputHandler == nullptr)
 	{
-		inputHandler_ = new InputHandler();
+		inputHandler = new InputHandler();
 	}
-	return inputHandler_;
+	return inputHandler;
 }
 
 InputHandler::InputHandler() {

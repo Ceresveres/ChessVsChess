@@ -80,11 +80,11 @@ public:
 	std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
 	std::vector<std::unique_ptr<System>> systems;
 	std::map<Object, ComponentMap> objectMaps;
-	std::shared_ptr<EventBus> getEventBus() { return eventBus; }
 	std::shared_ptr<EventBus> eventBus = std::make_shared<EventBus>();
 	void clean();
 
 	void onCollisionEvent(CollisionEvent* collision);
+	std::shared_ptr<EventBus> getEventBus() { return eventBus; }
 
 	template <typename ComponentType>
 	ComponentManager<ComponentType>* getComponentManager() {

@@ -1,50 +1,50 @@
 #include "GameStateMachine.h"
 
 void GameStateMachine::pushState(GameState* pState) {
-	m_gameStates.push_back(pState);
-	m_gameStates.back()->onEnter();
+	gameStates.push_back(pState);
+	gameStates.back()->onEnter();
 }
 
 
 
 void GameStateMachine::popState() {
-	if (!m_gameStates.empty())
+	if (!gameStates.empty())
 	{
-		if (m_gameStates.back()->onExit())
+		if (gameStates.back()->onExit())
 		{
-			delete m_gameStates.back();
-			m_gameStates.pop_back();
+			delete gameStates.back();
+			gameStates.pop_back();
 		}
 	}
 }
 
 void GameStateMachine::changeState(GameState* pState) {
-	if (!m_gameStates.empty())
+	if (!gameStates.empty())
 	{
-		if (m_gameStates.back()->getStateID() == pState->getStateID())
+		if (gameStates.back()->getStateID() == pState->getStateID())
 		{
 			return;
 		}
-		if (m_gameStates.back()->onExit())
+		if (gameStates.back()->onExit())
 		{
-			delete m_gameStates.back();
-			m_gameStates.pop_back();
+			delete gameStates.back();
+			gameStates.pop_back();
 		}
 	}
-	m_gameStates.push_back(pState);
-	m_gameStates.back()->onEnter();
+	gameStates.push_back(pState);
+	gameStates.back()->onEnter();
 }
 
 void GameStateMachine::update(Uint32 delta) {
-	if (!m_gameStates.empty())
+	if (!gameStates.empty())
 	{
-		m_gameStates.back()->update(delta);
+		gameStates.back()->update(delta);
 	}
 }
 
 void GameStateMachine::render() {
-	if (!m_gameStates.empty())
+	if (!gameStates.empty())
 	{
-		m_gameStates.back()->render();
+		gameStates.back()->render();
 	}
 }

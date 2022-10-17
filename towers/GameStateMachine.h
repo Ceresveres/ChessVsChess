@@ -11,5 +11,5 @@ public:
 	void render();
 
 //private:
-	std::vector<GameState*> m_gameStates;
+	std::vector<GameState*> gameStates;
 };

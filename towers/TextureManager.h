@@ -17,28 +17,28 @@ public:
 
 	static TextureManager* GetSingletonInstance()
 	{
-		if (s_pInstance == 0)
+		if (instance == 0)
 		{
-			s_pInstance = new TextureManager();
-			return s_pInstance;
+			instance = new TextureManager();
+			return instance;
 		}
-		return s_pInstance;
+		return instance;
 	}
 
 	static TextureManager* GetSingleton(SDL_Renderer* renderer)
 	{
-		if (s_pInstance == 0)
+		if (instance == 0)
 		{
-			s_pInstance = new TextureManager(renderer);
-			return s_pInstance;
+			instance = new TextureManager(renderer);
+			return instance;
 		}
-		return s_pInstance;
+		return instance;
 	}
 
 private:
 	TextureManager() {}
-	TextureManager(SDL_Renderer* renderer) : m_pRenderer(renderer) {}
-	std::map<std::string, SDL_Texture*> m_textureMap;
-	SDL_Renderer* m_pRenderer = nullptr;
-	static TextureManager* s_pInstance;
+	TextureManager(SDL_Renderer* renderer) : renderer(renderer) {}
+	std::map<std::string, SDL_Texture*> textureMap;
+	SDL_Renderer* renderer = nullptr;
+	static TextureManager* instance;
 };

@@ -5,21 +5,21 @@
 #include "MapSystem.h"
 #include "CollisionSystem.h"
 #include "GraphicSystem.h"
-const std::string PlayState::s_playID = "PLAY";
+const std::string PlayState::playID = "PLAY";
 
 void PlayState::update(Uint32 delta)
 {
-	for (int i = 0; i < m_Scenes.size(); i++)
+	for (int i = 0; i < scenes.size(); i++)
 	{
-		m_Scenes[i]->update(delta);
+		scenes[i]->update(delta);
 	}
 }
 
 void PlayState::render()
 {
-	for (int i = 0; i < m_Scenes.size(); i++)
+	for (int i = 0; i < scenes.size(); i++)
 	{
-		m_Scenes[i]->draw();
+		scenes[i]->draw();
 	}
 }
 
@@ -40,17 +40,17 @@ bool PlayState::onEnter()
 
 	scene->init();
 
-	m_Scenes.push_back(std::move(scene));
+	scenes.push_back(std::move(scene));
 	return true;
 }
 
 bool PlayState::onExit()
 {
-	for (int i = 0; i < m_Scenes.size(); i++)
+	for (int i = 0; i < scenes.size(); i++)
 	{
-		m_Scenes[i]->clean();
+		scenes[i]->clean();
 	}
-	m_Scenes.clear();
+	scenes.clear();
 	std::cout << "exiting PlayState\n";
 	return true;
 }

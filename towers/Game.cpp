@@ -7,21 +7,21 @@
 #include "InputHandler.h"
 
 
-static Game* game_ = nullptr;
+static Game* game = nullptr;
 
 Game* Game::GetSingleton() {
-	if (game_ == nullptr) {
-		game_ = new Game();
+	if (game == nullptr) {
+		game = new Game();
 	}
-	return game_;
+	return game;
 }
 
 void Game::onStartUp() {
 	fpsTimer.start();
 	gameState = RUNNING;
-	sTextureManager = TextureManager::GetSingleton(m_pRenderer);
-	m_pGameStateMachine = new GameStateMachine();
-	m_pGameStateMachine->changeState(new PlayState(sTextureManager));
+	textureManager = TextureManager::GetSingleton(renderer);
+	gameStateMachine = new GameStateMachine();
+	gameStateMachine->changeState(new PlayState(textureManager));
 	loop();
 }
 
@@ -30,7 +30,7 @@ void Game::updateFPS(Uint32 delta) {
 	if (frameCount < 10) {
 		fps_counter += delta;
 	} else {
-		this->mAverageFPS = (float)fps_counter / ((float)frameCount * 1000.0f);
+		this->averageFPS = (float)fps_counter / ((float)frameCount * 1000.0f);
 		fps_counter = 0;
 		frameCount = 0;
 	}
@@ -39,7 +39,6 @@ void Game::updateFPS(Uint32 delta) {
 
 // Core game loop
 void Game::loop() {
-	//addInvader(7, 2, BASIC);
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	
 	while (gameState == RUNNING)
@@ -53,7 +52,7 @@ void Game::loop() {
 		// display
 		render();
 	}
-	SDL_DestroyRenderer(m_pRenderer);
+	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	_CrtDumpMemoryLeaks();
 	SDL_Quit();
@@ -62,9 +61,9 @@ void Game::loop() {
 
 // Handles the rendering and graphic updates
 void Game::render() {
-	SDL_RenderClear(m_pRenderer);
-	m_pGameStateMachine->render();
-	SDL_RenderPresent(m_pRenderer);
+	SDL_RenderClear(renderer);
+	gameStateMachine->render();
+	SDL_RenderPresent(renderer);
 }
 
 // handles the input
@@ -120,6 +119,6 @@ void Game::processEvents() {
 // Physics update loop
 void Game::update() {
 	Uint32 delta = fpsTimer.restart();
-	m_pGameStateMachine->update(delta);
+	gameStateMachine->update(delta);
 	updateFPS(delta);
 }

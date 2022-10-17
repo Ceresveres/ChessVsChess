@@ -12,10 +12,10 @@ public:
 	virtual bool onEnter();
 	virtual bool onExit();
 	PlayState(TextureManager* textureManager)
-		: m_TextureManager{ textureManager } {}
-	virtual std::string getStateID() const { return s_playID; }
+		: textureManager{ textureManager } {}
+	virtual std::string getStateID() const { return playID; }
 private:
-	TextureManager* m_TextureManager = NULL;
-	static const std::string s_playID;
-	std::vector<std::unique_ptr<Scene>> m_Scenes;
+	TextureManager* textureManager = NULL;
+	static const std::string playID;
+	std::vector<std::unique_ptr<Scene>> scenes;
 };

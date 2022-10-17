@@ -35,9 +35,9 @@ void Scene::init() {
 	for (auto& system : systems) {
 		system->init();
 	}
-	auto sTextureManager = TextureManager::GetSingletonInstance();
-	sTextureManager->loadTexture("assets/Icon01.png", "Pieces");
-	sTextureManager->loadTexture("assets/tileset.png", "tileset");
+	auto textureManager = TextureManager::GetSingletonInstance();
+	textureManager->loadTexture("assets/Icon01.png", "Pieces");
+	textureManager->loadTexture("assets/tileset.png", "tileset");
 
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 5; j++) {

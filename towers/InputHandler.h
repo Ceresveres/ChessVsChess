@@ -13,8 +13,8 @@ public:
 private:
 	InputHandler();
 	~InputHandler();
-	const Uint8* m_keystates;
-	static InputHandler* inputHandler_;
+	const Uint8* keystates;
+	static InputHandler* inputHandler;
 	void onKeyDown(SDL_Event event);
 	
 };

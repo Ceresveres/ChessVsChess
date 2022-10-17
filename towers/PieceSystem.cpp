@@ -42,5 +42,5 @@ void Piece::onCollisionEvent(CollisionEvent* collision) {
     ComponentHandler<Motion> motionB;
     parent->unpack(collision->objectB, motionB);
     motionB->xVelocity = 0;
-    motionB->yVelocity = 2;
+    motionB->yVelocity = 2;     
 }
