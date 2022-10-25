@@ -11,3 +11,8 @@ struct CollisionEvent : public Event {
     Object objectA;
     Object objectB;
 };
+
+struct SpawnEvent : public Event {
+    SpawnEvent(Object object) : object(object) {};
+    Object object;
+};

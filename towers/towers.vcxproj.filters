@@ -63,9 +63,6 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventBus.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,9 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PieceSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="System.cpp">
@@ -90,56 +84,17 @@
     <ClCompile Include="GraphicSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EventBus.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ui-tools.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Piece.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Store.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Invader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStateMachine.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayState.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="memberFunctionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -161,7 +116,7 @@
     <ClInclude Include="ObjectMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentMap.h">
+    <ClInclude Include="ComponentMask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ComponentHandler.h">
@@ -186,6 +141,72 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphicSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Invader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Piece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui-tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Archetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDgenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeIDGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

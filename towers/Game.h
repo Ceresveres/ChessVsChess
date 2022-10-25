@@ -1,11 +1,6 @@
 #pragma once
 
-#include "Board.h"
 #include "ui-tools.h"
-#include "Store.h"
-#include "Piece.h"
-#include "Bullet.h"
-#include "Invader.h"
 #include "Timer.h"
 #include <SDL.h>
 #include <stdio.h>

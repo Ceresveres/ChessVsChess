@@ -17,5 +17,5 @@ public:
 private:
 	TextureManager* textureManager = NULL;
 	static const std::string playID;
-	std::vector<std::unique_ptr<Scene>> scenes;
+	std::vector<Scene*> scenes;
 };

@@ -1,88 +1,103 @@
 #pragma once
-#include "componentManager.h"
-#include "Object.h"
-#include <SDL.h>
+
+#include "ECS.h"
+
+#include "IDgenerator.h"
+#include <utility>
+#include <cstddef>
+#include <iostream>
+#include <bit>
+#include <new>
 #include <string>
-#include <cmath>
-#include <vector>
 
-
-struct ComponentCounter {
-    static int familyCounter;
+class ComponentBase
+{
+public:
+    virtual ~ComponentBase() {}
+    virtual void DestroyData(unsigned char* data) const = 0;
+    virtual void MoveData(unsigned char* source, unsigned char* destination) const = 0;
+    virtual void ConstructData(unsigned char* data) const = 0;
+    virtual std::size_t GetSize() const = 0;
 };
 
-template <typename ComponentType>
-struct Component {
-    static inline int family() {
-        static int family = ComponentCounter::familyCounter++;
-        return family;
-    }
+template<class C>
+class Component : public ComponentBase
+{
+public:
+    virtual void DestroyData(unsigned char* data) const override;
+
+    virtual void MoveData(unsigned char* source, unsigned char* destination) const override;
+
+    virtual void ConstructData(unsigned char* data) const override;
+
+    virtual std::size_t GetSize() const override;
+
+    static int GetTypeID();
 };
 
-template <typename C>
-static int GetComponentFamily() {
-    return Component<typename std::remove_const<C>::type>::family();
+template<class C>
+void Component<C>::DestroyData(unsigned char* data) const
+{
+    C* dataLocation = std::launder(reinterpret_cast<C*>(data));
+
+    dataLocation->~C();
 }
 
-struct Position : Component<Position> {
-    Position(int x, int y) : x(x), y(y) {};
-    int x;
-    int y;
+template<class C>
+void Component<C>::ConstructData(unsigned char* data) const
+{
+    new (&data[0]) C();
+}
+
+template<class C>
+void Component<C>::MoveData(unsigned char* source, unsigned char* destination) const
+{
+    new (&destination[0]) C(std::move(*std::bit_cast<C*>(source)));
+}
+
+template<class C>
+std::size_t Component<C>::GetSize() const
+{
+    return sizeof(C);
+}
+
+
+template<class C>
+int Component<C>::GetTypeID()
+{
+    return TypeIdGenerator<ComponentBase>::GetNewID<C>();
+}
+
+
+
+struct Randomness
+{
+    float a;
 };
 
-struct Motion : Component<Motion> {
-    Motion(int x, int y=0) : xVelocity(x), yVelocity(y) {};
-    int xVelocity;
-    int yVelocity;
+struct Position {
+    float  x;
+    float  y;
 };
 
-struct Layer : Component<Layer> {
-    int layerID;
-    Layer(int id) : layerID(id) {};
+struct Name {
+    std::string name{ "billy" };
 };
 
-//struct Grid : Component<Grid> {
-//    SDL_Rect grid;
-//    Grid(int x, int y) {
-//        grid.x = x;
-//        grid.y = y;
-//        grid.w = 100;
-//        grid.h = 100;
-//    };
-//};
-
-//struct Dynamic : Component<Dynamic> {
-//
-//};
-
-struct Size : Component<Size> {
-    int width, height;
-    Size(int width, int height)
-        : width(width), height(height) {}
+struct test1 {
+    std::string name1{ "billy" };
 };
 
-struct StaticSprite : Component<StaticSprite> {
-    char textureID[1024];
-    int currentRow;
-    int currentFrame;
-    StaticSprite(std::string texture = "none", int row=-1, int frame=-1) : currentRow(row), currentFrame(frame)
-    {
-        std::snprintf(textureID, sizeof(textureID), "%s", texture.c_str());
-    }
+struct test2 {
+    std::string name2{ "billy" };
 };
 
-struct BoundingBox : Component<BoundingBox> {
-    SDL_Rect grid;
-    BoundingBox(int x, int y, int w, int h) {
-        grid.x = x;
-        grid.y = y;
-        grid.w = w;
-        grid.h = h;
-    };
+struct tester {
+    std::string name3{ "billy" };
+    int i = 5;
+    int b = 50;
+};
 
-    BoundingBox& operator+=(const Motion& rhs) {
-        this->grid.x += rhs.xVelocity;
-        this->grid.y += rhs.yVelocity;
-        return *this;
-    }
+struct ID {
+    int id = 0;
 };

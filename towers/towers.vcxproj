@@ -142,7 +142,8 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ECS.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventBus.h" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -166,14 +167,18 @@
     <ClCompile Include="ui-tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archetype.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="ComponentHandler.h" />
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="ComponentMap.h" />
+    <ClInclude Include="ComponentMask.h" />
+    <ClInclude Include="ECS.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
     <ClInclude Include="GraphicSystem.h" />
+    <ClInclude Include="IDgenerator.h" />
     <ClInclude Include="MapSystem.h" />
     <ClInclude Include="PieceSystem.h" />
     <ClInclude Include="Grid.h" />
@@ -194,6 +199,8 @@
     <ClInclude Include="Invader.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Store.h" />
+    <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeIDGenerator.h" />
     <ClInclude Include="ui-tools.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ObjectHandler.h" />

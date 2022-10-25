@@ -1,4 +1,5 @@
 #include "ObjectManager.h"
+#include "ObjectMap.h"
 
 Object ObjectManager::createObject() {
 	lastObject++;
@@ -7,5 +8,6 @@ Object ObjectManager::createObject() {
 
 
 void ObjectManager::destroyObject(Object object) {
-//	lastObject--;
+	ObjectMap map;
+	map.remove(object);
 }
