@@ -11,9 +11,3 @@ Entity::Entity(ECS& ecs)
 Entity::~Entity() {
 
 }
-
-//template<class C>
-//C* Entity::Add(C&& c)
-//{
-//    return m_ecs.AddComponent<C>(m_id, std::forward<C>(c));
-//}

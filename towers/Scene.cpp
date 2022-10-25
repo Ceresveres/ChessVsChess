@@ -1,6 +1,5 @@
 #include "Scene.h"
-#include <iostream>
-#include <string>
+
 
 //const std::string Scene::s_sceneID = "Level_1";
 
@@ -8,7 +7,7 @@
 //{
 //}
 
-Scene::Scene() : entityComponentSystem() {};
+Scene::Scene() {};
 
 //void Scene::onCollisionEvent(CollisionEvent* collision) {
 //	std::cout << "it works\n";
@@ -22,9 +21,9 @@ Scene::Scene() : entityComponentSystem() {};
 
 
 void Scene::update(Uint32 delta) {
-	//for (auto& system : systems) {
-	//	system->update();
-	//}
+	const float elapsedMilliseconds = delta;
+	std::uint8_t t = 0;
+	entityComponentSystem.RunSystems(t, elapsedMilliseconds);
 }
 
 void Scene::draw() {
@@ -43,72 +42,83 @@ void Scene::init() {
 	auto textureManager = TextureManager::GetSingletonInstance();
 	textureManager->loadTexture("assets/Icon01.png", "Pieces");
 	textureManager->loadTexture("assets/tileset.png", "tileset");
-	ECS ecs;
+
 	entityComponentSystem.RegisterComponent<Position>();
 	entityComponentSystem.RegisterComponent<Randomness>();
 	entityComponentSystem.RegisterComponent<Name>();
+	entityComponentSystem.RegisterComponent<StaticSprite>();
+	entityComponentSystem.RegisterComponent<Size>();
+
 	Entity ent(entityComponentSystem);
-	//Entity entt(entityComponentSystem);
-	//Entity enttt(entityComponentSystem);
+	ent.Add<Position>({ 25, 225 });
+	ent.Add<Size>({ 50, 50 });
+	ent.Add<StaticSprite>({ "Pieces" });
+	auto comp = entityComponentSystem.GetComponent<Position>(ent.GetID());
 
-	////ecs.AddComponent<Position>(ent.GetID());
-	////ecs.AddComponent<Randomness>(ent.GetID());
-	//ent.Add<Position>({ 10, 10 });
-	//ent.Add<Randomness>({ 110 });
-	//ent.Add<Name>({ "Billy Bob" });
-	//ent.Add<test1>({ "Bilfly Bob" });
-	//ent.Add<test2>({ "Bilfly Bob" });
-	//ent.Add<test3>({ "Bilfly Bob" });
-	//entt.Add<test1>({ "Bilfly Bob" });
-	//entt.Add<Name>({ "Billy Bob" });
-	//enttt.Add<Name>({ "Billy Bob" });
+	//System<Position> tmpmovement(entityComponentSystem, 0);
+	//this->movement = &tmpmovement;
 
+	//movement->Action([](const float elapsedMilliseconds,
+	//	const std::vector<uint32_t>& entities,
+	//	Position* p
+	//	)
+	//	{
+	//		for (std::size_t i = 0; i < entities.size(); ++i)
+	//		{
+	//			std::cout << i << " Entity -----------------\n"
+	//				<< "P: (" << p[i].x << ',' << p[i].y << ")\n"
+	//				<< std::endl;
 
-	////ent.Add<Randomness>({10});
-	////ecs.RemoveComponent<Randomness>(ent.GetID());
-	//auto componentt = entityComponentSystem->GetComponent<Randomness>(ent.GetID());
-	//auto component = entityComponentSystem->GetComponent<Position>(ent.GetID());
-	//auto componenttt = entityComponentSystem->GetComponent<Name>(ent.GetID());
-
-	//entityComponentSystem->RemoveComponent<Name>(ent.GetID());
-	//// auto componentttt = ecs.GetComponent<Name>(ent.GetID());
-	//// ecs.RemoveComponent<Name>(ent.GetID());
-	//auto vec = entityComponentSystem->GetEntitiesWith<Name>();
-	//for (auto en : vec) {
-	//	entityComponentSystem->RemoveEntity(en);
-	//	//ecs.RemoveComponent<Position>(en);
-	//	std::cout << en;
-	//}
-	//auto vec2 = entityComponentSystem->GetEntitiesWith<Position>();
-	//for (auto en : vec2) {
-	//	std::cout << std::endl << en;
-	//}
-	//for (int i = 0; i < 9; i++) {
-	//	for (int j = 0; j < 5; j++) {
-	//		auto box = createObject();
-	//		box.addComponent(BoundingBox(i*100, j*100, 100, 100));
-	//		box.addComponent(Layer(1));
-	//		if ((i + j) % 2) {
-	//			box.addComponent(StaticSprite("tileset", 4, 1));
+	//			p[i].x += 1.f * (elapsedMilliseconds / 1000.f);
+	//			p[i].y += 1.f * (elapsedMilliseconds / 1000.f);
 	//		}
-	//		else {
-	//			box.addComponent(StaticSprite("tileset", 4, 7));
+	//	});
+
+	//System<Position, Size, StaticSprite> tmpdrawing(entityComponentSystem, 0);
+	//this->drawing = &tmpdrawing;
+	//drawing->Action([](const float elapsedMilliseconds,
+	//	const std::vector<uint32_t>& entities,
+	//	Position* p,
+	//	Size* s,
+	//	StaticSprite* st
+	//	)
+	//	{
+	//		for (std::size_t i = 0; i < entities.size(); ++i)
+	//		{
+	//			TextureManager::GetSingletonInstance()->draw(st[i].textureID, p[i].x, p[i].y, s[i].width, s[i].height);
+	//			std::cout << i << " Entity -----------------\n"
+	//				<< "P: (" << p[i].x << ',' << p[i].y << ")\n"
+	//				<< std::endl;
+
+	//			p[i].x += 1.f * (elapsedMilliseconds / 1000.f);
+	//			p[i].y += 1.f * (elapsedMilliseconds / 1000.f);
 	//		}
+	//	});
 
-	//	}
-	//}
+	newSystem<Position>(entityComponentSystem, 0);
+	setAction<Position>(1);
+	//std::shared_ptr<System<Position, Size, StaticSprite>> newdrawing;
+	//newdrawing->Action([](const float elapsedMilliseconds,
+	//	const std::vector<uint32_t>& entities,
+	//	Position* p,
+	//	Size* s,
+	//	StaticSprite* st
+	//	)
+	//	{
+	//		for (std::size_t i = 0; i < entities.size(); ++i)
+	//		{
+	//			TextureManager::GetSingletonInstance()->draw(st[i].textureID, p[i].x, p[i].y, s[i].width, s[i].height);
+	//			std::cout << i << " Entity -----------------\n"
+	//				<< "P: (" << p[i].x << ',' << p[i].y << ")\n"
+	//				<< std::endl;
 
-	//auto player = createObject();
-	//player.addComponent(Motion(1));
-	//player.addComponent(Layer(7));
-	//player.addComponent(StaticSprite("Pieces"));
-	//player.addComponent(BoundingBox(25, 225, 50, 50));
+	//			p[i].x += 1.f * (elapsedMilliseconds / 1000.f);
+	//			p[i].y += 1.f * (elapsedMilliseconds / 1000.f);
+	//		}
+	//	});
+	std::uint8_t t = 0;
+	entityComponentSystem.RunSystems(t, 1000);
 
-	//auto enemy = createObject();
-	//enemy.addComponent(Motion(-1));
-	//enemy.addComponent(Layer(4));
-	//enemy.addComponent(StaticSprite("Pieces"));
-	//enemy.addComponent(BoundingBox(625, 225, 50, 50));
 }
 
 //

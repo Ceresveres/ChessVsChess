@@ -62,7 +62,8 @@ void ECS::RegisterSystem(const std::uint8_t& layer, SystemBase* system)
 
 void ECS::RunSystems(const std::uint8_t& layer, const float elapsedMilliseconds)
 {
-    for (SystemBase* system : systems[layer])
+    //auto tes  = systems[layer];
+    for (auto* system : systems[layer])
     {
         const ComponentMask& key = system->GetMask();
 

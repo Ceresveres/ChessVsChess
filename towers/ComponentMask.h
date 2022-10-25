@@ -1,5 +1,5 @@
 #pragma once
-#include "component.h"
+#include "Component.h"
 
 struct ComponentMask {
     unsigned int mask = 0;

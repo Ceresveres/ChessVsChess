@@ -1,6 +1,6 @@
 #include <iostream>
 #include "InputHandler.h"
-#include "Game.h"
+//#include "Game.h"
 
 InputHandler* InputHandler::inputHandler = nullptr;
 

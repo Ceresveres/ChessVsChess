@@ -1,6 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <string>
 
 enum PieceType { PAWN, ROOK, KNIGHT, BISHOP, PEASANT, MAXPIECECOUNT
 };
@@ -18,14 +16,3 @@ const int SCREEN_HEIGHT = GRID_WIDTH * GRID_NUM_Y + (PIECE_CARD_HEIGHT);
 
 const int PIECE_CARD_WIDTH = SCREEN_WIDTH / MAXPIECECOUNT;
 
-//const int PIECE_CARD_WIDTH = WINDOW_WIDTH / 4;
-
-const int SLEEP_TIME = 100;
-
-void SetWindowSize(int cols, int lines);
-void HideCursor();
-void Goto_XY(const int x, const int y);
-//void PrintWithColor(const string& str, int colorID= FOREGROUND_INTENSITY);
-inline int RANDOM(int x) { return rand() % x; }
-
-enum EnemyType {BASIC, JUMPER, HEAVY, SHIELD};

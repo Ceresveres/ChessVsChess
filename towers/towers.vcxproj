@@ -141,55 +141,37 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EventBus.h" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
-    <ClCompile Include="GraphicSystem.cpp" />
-    <ClCompile Include="MapSystem.cpp" />
-    <ClCompile Include="PieceSystem.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Invader.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Store.cpp" />
-    <ClCompile Include="System.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="towers.cpp" />
-    <ClCompile Include="ui-tools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archetype.h" />
-    <ClInclude Include="CollisionSystem.h" />
-    <ClInclude Include="ComponentHandler.h" />
-    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="ComponentMask.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateMachine.h" />
-    <ClInclude Include="GraphicSystem.h" />
     <ClInclude Include="IDgenerator.h" />
-    <ClInclude Include="MapSystem.h" />
-    <ClInclude Include="PieceSystem.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="memberFunctionHandler.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SpatialHash.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Timer.h" />
@@ -197,14 +179,9 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Invader.h" />
-    <ClInclude Include="Piece.h" />
     <ClInclude Include="Store.h" />
-    <ClInclude Include="Type.h" />
-    <ClInclude Include="TypeIDGenerator.h" />
     <ClInclude Include="ui-tools.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="ObjectHandler.h" />
-    <ClInclude Include="ObjectMap.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\Icon01.png" />

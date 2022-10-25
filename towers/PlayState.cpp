@@ -26,6 +26,7 @@ bool PlayState::onEnter()
 	//auto objectManager = std::make_unique<ObjectManager>();
 	//auto scene = std::make_unique<Scene>(std::move(objectManager));
 	Scene* scene = new Scene();
+	scene->init();
 
 	//std::unique_ptr<System> map = std::make_unique<Map>();
 	//scene->addSystem(std::move(map));
@@ -36,7 +37,6 @@ bool PlayState::onEnter()
 	//std::unique_ptr<System> graphic = std::make_unique<GraphicSystem>();
 	//scene->addSystem(std::move(graphic));
 
-	scene->init();
 
 	scenes.push_back(scene);
 	return true;

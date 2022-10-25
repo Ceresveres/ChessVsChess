@@ -101,3 +101,12 @@ struct tester {
 struct ID {
     int id = 0;
 };
+
+struct Size {
+    int width;
+    int height;
+};
+
+struct StaticSprite {
+    char textureID[1024];
+};

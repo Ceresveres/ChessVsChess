@@ -1,116 +1,60 @@
 #pragma once
-#include <memory>
 
 #include "TextureManager.h"
 
+
 #include "ECS.h"
+#include "System.h"
 #include "Component.h"
 #include "Entity.h"
-
-#include <list>
-#include <string>
-
+#include <algorithm>
+#include <iostream>
 #include <vector>
-#include <SDL.h>
 
 class ECS;
 class Scene {
 public:
-	//explicit Scene(std::unique_ptr<ObjectManager> objectManager);
+	typedef std::unordered_map<int, SystemBase*>
+		SystemBaseSystemTypeBaseMap;
 
 	void init();
 	void update(Uint32 delta);
 	void draw();
 	Scene();
-	//ObjectHandler createObject();
-	//void destroyObject(Object object);
-	//void addSystem(std::unique_ptr<System> system);
-	//void updateEntityMask(Object const& object, ComponentMap oldMask);
-
-	//template <typename ComponentType>
-	//void destroyObject(Object object) {
-	//	for (auto& system : systems) {
-	//		system->unRegisterObject(object);
-	//	}
-	//	auto mask = objectMaps[object];
-	//	if (!objectMaps.contains(object))
-	//		return; // it doesn't exist
-	//}
-
-	//template <typename ComponentType>
-	//void addCustomComponentManager(std::unique_ptr<ComponentManager<ComponentType>> manager) {
-	//	int family = GetComponentFamily<ComponentType>();
-	//	if (family >= componentManagers.size()) {
-	//		componentManagers.resize(static_cast<std::vector<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>, std::allocator<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>>>::size_type>(family) + 1);
-	//	}
-	//	componentManagers[family] = manager;
-	//}
-
-	//template <typename ComponentType>
-	//void addComponent(Object const& object, ComponentType&& component) {
-	//	ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
-	//	manager->addComponent(object, component);
-
-	//	ComponentMap oldComponentMap = objectMaps[object];
-	//	objectMaps[object].addComponent<ComponentType>();
-
-	//	updateEntityMask(object, oldComponentMap);
-	//}
-
-	//template <typename ComponentType>
-	//void removeComponent(Object const& object) {
-	//	ComponentManager<ComponentType>* manager = getComponentManager<ComponentType>();
-	//	ComponentHandler<ComponentType> component = manager->lookup(object);
-	//	component.destroy();
-
-	//	ComponentMap oldComponentMap = objectMaps[object];
-	//	objectMaps[object].removeComponent<ComponentType>();
-
-	//	updateEntityMask(object, oldComponentMap);
-	//}
-
-	//template <typename ComponentType, typename... Args>
-	//void unpack(Object e, ComponentHandler<ComponentType>& handle, ComponentHandler<Args> &... args) {
-	//	typedef ComponentManager<ComponentType> ComponentManagerType;
-	//	auto mgr = getComponentManager<ComponentType>();
-	//	handle = ComponentHandler<ComponentType>(e, mgr->lookup(e), mgr);
-
-	//	unpack<Args...>(e, args...);
-	//}
-
-	//template <typename ComponentType>
-	//void unpack(Object e, ComponentHandler<ComponentType>& handle) {
-	//	typedef ComponentManager<ComponentType> ComponentManagerType;
-	//	auto mgr = getComponentManager<ComponentType>();
-	//	handle = ComponentHandler<ComponentType>(e, mgr->lookup(e), mgr);
-	//}
-
-	//std::unique_ptr<ObjectManager> objectManager;
-
 	ECS entityComponentSystem;
-	//std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
-	//std::vector<std::unique_ptr<System>> systems;
-	//std::map<Object, ComponentMap> objectMaps;
-	//std::shared_ptr<EventBus> eventBus = std::make_shared<EventBus>();
-	//void clean();
+	System<Position> *movement;
+	System<Position, Size, StaticSprite> *drawing;
 
-	//void onCollisionEvent(CollisionEvent* collision);
-	//void onSpawnEvent(SpawnEvent* spawn);
-	//std::shared_ptr<EventBus> getEventBus() { return eventBus; }
+	template<typename... Args>
+	void newSystem(ECS& ecs, int num);
 
-	//template <typename ComponentType>
-	//ComponentManager<ComponentType>* getComponentManager() {
-	//	int family = GetComponentFamily<ComponentType>();
+	SystemBaseSystemTypeBaseMap systemsMap;
 
-	//	if (family >= componentManagers.size()) {
-	//		componentManagers.resize(static_cast<std::vector<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>, std::allocator<std::unique_ptr<BaseComponentManager, std::default_delete<BaseComponentManager>>>>::size_type>(family) + 1);
-	//	}
-
-	//	if (!componentManagers[family]) {
-	//		componentManagers[family] = std::make_unique<ComponentManager<ComponentType>>();
-	//	}
-
-	//	return static_cast<ComponentManager<ComponentType> *>(componentManagers[family].get());
-	//}
+	template<class... Args>
+	void setAction(int a);
 };
 
+template<typename... Args>
+void Scene::newSystem(ECS& ecs, int num) {
+	systemsMap.emplace(1, new System<Args...>(ecs, num));
+}
+
+template<class... Args>
+void Scene::setAction(int a) {
+	System<Args...>* syst = dynamic_cast<System<Args...>*>(systemsMap[a]);
+	syst->Action([](const float elapsedMilliseconds,
+		const std::vector<uint32_t>& entities,
+		Position* p
+		)
+		{
+			for (std::size_t i = 0; i < entities.size(); ++i)
+			{
+				std::cout << i << " Entity -----------------\n"
+					<< "P: (" << p[i].x << ',' << p[i].y << ")\n"
+					<< std::endl;
+
+				p[i].x += 1.f * (elapsedMilliseconds / 1000.f);
+				p[i].y += 1.f * (elapsedMilliseconds / 1000.f);
+			}
+		});
+}

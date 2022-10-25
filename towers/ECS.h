@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "ComponentMask.h"
 #include "Component.h"
 #include "Archetype.h"
 #include "System.h"
@@ -14,6 +14,7 @@
 typedef std::vector<int> ArchetypeID;
 
 struct Archetype;
+struct ComponentMask;
 class ComponentBase;
 class ECS
 {

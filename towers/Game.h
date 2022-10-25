@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "GameState.h"
 #include "GameStateMachine.h"
-#include "Object.h"
 #include "PlayState.h"
 
 #include<list>
